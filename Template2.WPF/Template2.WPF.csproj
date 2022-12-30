@@ -7,4 +7,8 @@
   <ItemGroup>
     <PackageReference Include="Prism.Unity" Version="8.1.97" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Template2.Domain\Template2.Domain.csproj" />
+    <ProjectReference Include="..\Template2.Infrastructure\Template2.Infrastructure.csproj" />
+  </ItemGroup>
 </Project>
