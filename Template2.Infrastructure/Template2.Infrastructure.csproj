@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Template2.Domain\Template2.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.117" />
+  </ItemGroup>
+
 </Project>

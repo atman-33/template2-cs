@@ -1,7 +1,7 @@
 ﻿
 using Template2.Domain.Exceptions;
 
-namespace SliTemplate2deshow.Domain.Exceptions
+namespace Template2.Domain.Exceptions
 {
     public sealed class InputException : ExceptionBase
     {
