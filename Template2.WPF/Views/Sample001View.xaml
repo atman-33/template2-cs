@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="Template2.WPF.Views.Sample001View"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid Margin="{StaticResource gridMargin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.01*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="5">
+            <materialDesign:Card materialDesign:ElevationAssist.Elevation="Dp8"
+                                 HorizontalAlignment="Left">
+
+                <DataGrid Width="600"
+                          Height="800"
+                          ItemsSource="{Binding XXXEntities}"
+                          SelectedItem="{Binding XXXEntitiesSlectedItem}"
+                          VerticalAlignment="Top"
+                          HorizontalAlignment="Left"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True" Cursor="Hand"
+                          Margin="5">
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectedCellsChanged">
+                            <prism:InvokeCommandAction Command="{Binding XXXSelectedCellsChanged}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="サンプルコード"
+                                            Binding="{Binding XXX}"
+                                            Width="*">
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="サンプル名称"
+                                            Binding="{Binding XXX}"
+                                            Width="*">
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+            </materialDesign:Card>
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" Grid.Column="2" Margin="5">
+            <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
+                    Height="30"
+                    Width="100"
+                    Margin="0,0,0,10"
+                    Command="{Binding NewButton}"
+                        materialDesign:ButtonAssist.CornerRadius="15"
+                        ToolTip="新規登録"
+                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" HorizontalAlignment="Left" Cursor="Hand">
+                <TextBlock Text="新規登録" />
+            </Button>
+
+            <TextBox VerticalAlignment="Center"
+                                 materialDesign:HintAssist.Hint="サンプルコード"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 Text="{Binding XXXText}"
+                                 Width="300"
+                                 TextWrapping="Wrap" HorizontalAlignment="Left"
+                     IsEnabled="{Binding XXXIsEnabled}"
+                     Margin="0,0,0,30"/>
+
+            <TextBox VerticalAlignment="Center"
+                                 materialDesign:HintAssist.Hint="サンプル名称"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 Text="{Binding XXXText}"
+                                 Width="300"
+                                 TextWrapping="Wrap" HorizontalAlignment="Left"
+                     Margin="0,0,0,30"/>
+
+            <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
+                    Height="30"
+                    Width="100"
+                    Margin="0,0,0,20"
+                    Command="{Binding SaveButton}"
+                        materialDesign:ButtonAssist.CornerRadius="15"
+                        ToolTip="保存"
+                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" HorizontalAlignment="Left">
+                <TextBlock Text="保存" />
+            </Button>
+            <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                    Height="30"
+                    Width="100"
+                    Command="{Binding DeleteButton}"
+                        materialDesign:ButtonAssist.CornerRadius="15"
+                        ToolTip="削除"
+                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" HorizontalAlignment="Left">
+                <TextBlock Text="削除" />
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>
