@@ -1,7 +1,6 @@
 ﻿using System.Data.SQLite;
 using Template2.Domain.Entities;
 using Template2.Domain.Repositories;
-using Template2.Domain.SQLite;
 
 namespace Template2.Infrastructure.SQLite
 {
@@ -22,7 +21,7 @@ FROM
                 {
                     return new SampleMstEntity(
                         Convert.ToString(reader["sample_code"]),
-                        Convert.ToString(reader["sample_name"])
+Convert.ToString(reader["sample_name"])
                         );
                 });
         }
@@ -47,7 +46,7 @@ WHERE
             var args = new List<SQLiteParameter>
             {
                 new SQLiteParameter("@sample_code", entity.SampleCode.Value),
-                new SQLiteParameter("@sample_name", entity.SampleName.Value)
+new SQLiteParameter("@sample_name", entity.SampleName.Value)
             };
 
             SQLiteHelper.Execute(insert, update, args.ToArray());
@@ -63,8 +62,7 @@ DELETE FROM tmp_sample_mst WHERE sample_code = @sample_code
 
             var args = new List<SQLiteParameter>
             {
-                new SQLiteParameter("@sample_code", entity.SampleCode.Value),
-                new SQLiteParameter("@sample_name", entity.SampleName.Value)
+                new SQLiteParameter("@sample_code", entity.SampleCode.Value)
             };
 
             SQLiteHelper.Execute(delete, args.ToArray());

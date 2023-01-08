@@ -1,6 +1,7 @@
 ﻿using System.Data.SQLite;
+using Template2.Domain;
 
-namespace Template2.Domain.SQLite
+namespace Template2.Infrastructure.SQLite
 {
     //// 【SQLiteParameterの注意点】
     //// SQL文中のパラメータ記載方法 => @+文字列

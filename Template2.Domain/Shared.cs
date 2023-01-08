@@ -17,5 +17,10 @@ namespace Template2.Domain
         /// </summary>
         public static string? SQLiteConnectionString { get; } = ConfigurationManager.AppSettings["SQLiteConnectionString"];
 
+        public static string? OracleUser { get; } = ConfigurationManager.AppSettings["OracleUser"];
+        public static string? OraclePassword { get; } = ConfigurationManager.AppSettings["OraclePassword"];
+        public static string? OracleDataSource { get; } = ConfigurationManager.AppSettings["OracleDataSource"];
+
+
     }
 }
