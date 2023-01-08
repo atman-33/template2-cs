@@ -22,8 +22,8 @@
 
                 <DataGrid Width="600"
                           Height="800"
-                          ItemsSource="{Binding XXXEntities}"
-                          SelectedItem="{Binding XXXEntitiesSlectedItem}"
+                          ItemsSource="{Binding SampleMstEntities}"
+                          SelectedItem="{Binding SampleMstEntitiesSlectedItem}"
                           VerticalAlignment="Top"
                           HorizontalAlignment="Left"
                           AutoGenerateColumns="False"
@@ -32,17 +32,17 @@
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectedCellsChanged">
-                            <prism:InvokeCommandAction Command="{Binding XXXSelectedCellsChanged}"/>
+                            <prism:InvokeCommandAction Command="{Binding SampleMstEntitiesSelectedCellsChanged}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
 
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="サンプルコード"
-                                            Binding="{Binding XXX}"
+                                            Binding="{Binding SampleCode}"
                                             Width="*">
                         </DataGridTextColumn>
                         <DataGridTextColumn Header="サンプル名称"
-                                            Binding="{Binding XXX}"
+                                            Binding="{Binding SampleName}"
                                             Width="*">
                         </DataGridTextColumn>
                     </DataGrid.Columns>
@@ -59,23 +59,23 @@
                     Command="{Binding NewButton}"
                         materialDesign:ButtonAssist.CornerRadius="15"
                         ToolTip="新規登録"
-                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" HorizontalAlignment="Left" Cursor="Hand">
+                        HorizontalAlignment="Left" Cursor="Hand">
                 <TextBlock Text="新規登録" />
             </Button>
 
             <TextBox VerticalAlignment="Center"
                                  materialDesign:HintAssist.Hint="サンプルコード"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding XXXText}"
+                                 Text="{Binding SampleCodeText}"
                                  Width="300"
                                  TextWrapping="Wrap" HorizontalAlignment="Left"
-                     IsEnabled="{Binding XXXIsEnabled}"
+                     IsEnabled="{Binding SampleCodeIsEnabled}"
                      Margin="0,0,0,30"/>
 
             <TextBox VerticalAlignment="Center"
                                  materialDesign:HintAssist.Hint="サンプル名称"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding XXXText}"
+                                 Text="{Binding SampleNameText}"
                                  Width="300"
                                  TextWrapping="Wrap" HorizontalAlignment="Left"
                      Margin="0,0,0,30"/>
@@ -87,7 +87,7 @@
                     Command="{Binding SaveButton}"
                         materialDesign:ButtonAssist.CornerRadius="15"
                         ToolTip="保存"
-                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" HorizontalAlignment="Left">
+                        HorizontalAlignment="Left">
                 <TextBlock Text="保存" />
             </Button>
             <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
@@ -96,7 +96,7 @@
                     Command="{Binding DeleteButton}"
                         materialDesign:ButtonAssist.CornerRadius="15"
                         ToolTip="削除"
-                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" HorizontalAlignment="Left">
+                        HorizontalAlignment="Left">
                 <TextBlock Text="削除" />
             </Button>
         </StackPanel>
