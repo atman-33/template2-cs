@@ -114,6 +114,7 @@ namespace Template2.WPF.ViewModels
         private void NewButtonExecute()
         {
             SampleCodeIsEnabled = true;
+            SampleCodeText = String.Empty;
             SampleNameText = String.Empty;
         }
 
