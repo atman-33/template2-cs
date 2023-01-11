@@ -18,29 +18,46 @@
 
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="5" HorizontalAlignment="Left">
             <Button
-                  Style="{StaticResource MaterialDesignRaisedLightButton}"
+                  Style="{StaticResource MaterialDesignRaisedDarkButton}"
                   Width="100"
                   Content="テーブル変換"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="0" Margin="5">
-            <!-- マトリックステーブル -->
-            <DataGrid Width="400"
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="5" Orientation="Horizontal">
+            <materialDesign:Card materialDesign:ElevationAssist.Elevation="Dp8"
+                                 HorizontalAlignment="Left">
+
+                <!-- マトリックステーブル -->
+                <DataGrid Width="400"
                       Height="600"
                       ItemsSource="{Binding XXX}">
-            </DataGrid>
+                </DataGrid>
+            </materialDesign:Card>
+
+            <Label Content=">>>" Margin="5"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="5" HorizontalAlignment="Left">
+            <Button
+                  Style="{StaticResource MaterialDesignPaperDarkButton}"
+                  Width="100"
+                  Content="保存"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1" Margin="5">
-            <!-- ストレートテーブル -->
-            <DataGrid Width="400"
+            <materialDesign:Card materialDesign:ElevationAssist.Elevation="Dp8"
+                                 HorizontalAlignment="Left">
+
+                <!-- ストレートテーブル -->
+                <DataGrid Width="400"
                       Height="600">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="担当者" Binding="{Binding XXX}"/>
-                    <DataGridTextColumn Header="曜日番号" Binding="{Binding XXX}"/>
-                    <DataGridTextColumn Header="勤務時間" Binding="{Binding XXX}"/>
-                </DataGrid.Columns>
-            </DataGrid>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="担当者" Binding="{Binding XXX}"/>
+                        <DataGridTextColumn Header="曜日番号" Binding="{Binding XXX}"/>
+                        <DataGridTextColumn Header="勤務時間" Binding="{Binding XXX}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </materialDesign:Card>
         </StackPanel>
 
     </Grid>
