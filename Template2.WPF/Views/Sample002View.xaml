@@ -14,6 +14,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="5" HorizontalAlignment="Left">
@@ -34,17 +35,20 @@
                 </DataGrid>
             </materialDesign:Card>
 
-            <Label Content=">>>" Margin="5"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="0" Grid.Column="1" Margin="5" HorizontalAlignment="Left">
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="5" >
+            <Label Content=">>>"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" Grid.Column="2" Margin="5" HorizontalAlignment="Left">
             <Button
                   Style="{StaticResource MaterialDesignPaperDarkButton}"
                   Width="100"
                   Content="保存"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" Margin="5">
+        <StackPanel Grid.Row="1" Grid.Column="2" Margin="5">
             <materialDesign:Card materialDesign:ElevationAssist.Elevation="Dp8"
                                  HorizontalAlignment="Left">
 
