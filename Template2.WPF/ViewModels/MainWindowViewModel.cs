@@ -20,6 +20,7 @@ namespace Template2.WPF.ViewModels
 
             //// DelegateCommandメソッドを登録
             Sample001ViewButton = new DelegateCommand(Sample001ViewButtonExecute);
+            Sample002ViewButton = new DelegateCommand(Sample002ViewButtonExecute);
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
@@ -62,6 +63,19 @@ namespace Template2.WPF.ViewModels
 
             _regionManager.RequestNavigate("ContentRegion", nameof(Sample001View), p);
         }
+
+
+        public DelegateCommand Sample002ViewButton { get; }
+
+        private void Sample002ViewButtonExecute()
+        {
+            //// パラメータ渡し
+            var p = new NavigationParameters();
+            p.Add("MainWindow", this);
+
+            _regionManager.RequestNavigate("ContentRegion", nameof(Sample002View), p);
+        }
+
 
         #endregion
 

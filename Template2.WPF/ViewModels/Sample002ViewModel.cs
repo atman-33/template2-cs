@@ -55,7 +55,8 @@ namespace Template2.WPF.ViewModels
         #region //// 1. Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        private ObservableCollection<WorkingTimePlanMstEntity> _workingTimePlanMstEntities;
+        private ObservableCollection<WorkingTimePlanMstEntity> _workingTimePlanMstEntities
+            = new ObservableCollection<WorkingTimePlanMstEntity>();
         public ObservableCollection<WorkingTimePlanMstEntity> WorkingTimePlanMstEntities
         {
             get { return _workingTimePlanMstEntities; }
@@ -85,6 +86,9 @@ namespace Template2.WPF.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
+            //// 遷移前の画面からパラメータ受け取り
+            _mainWindowViewModel = navigationContext.Parameters.GetValue<MainWindowViewModel>("MainWindow");
+            _mainWindowViewModel.ViewOutline = "> サンプル002（テーブルをピボット変換）";
         }
 
         private void UpdateWorkingTimePlanMstEntities()

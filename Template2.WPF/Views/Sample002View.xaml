@@ -9,9 +9,11 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -37,7 +39,7 @@
 
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" Margin="5" >
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="5" HorizontalAlignment="Center">
             <Label Content=">>>"/>
         </StackPanel>
 
@@ -55,7 +57,8 @@
                 <!-- ストレートテーブル -->
                 <DataGrid Width="400"
                           Height="600"
-                          ItemsSource="{Binding WorkingTimePlanMstEntities}">
+                          ItemsSource="{Binding WorkingTimePlanMstEntities}"
+                          AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="作業者コード" Binding="{Binding WorkerCode}"/>
                         <DataGridTextColumn Header="曜日番号" Binding="{Binding Weekday}"/>
