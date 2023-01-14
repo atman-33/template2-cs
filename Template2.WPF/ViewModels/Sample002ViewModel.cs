@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using Template2.Domain.Entities;
+using Template2.Domain.Modules.Objects;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
 using Template2.WPF.Services;
@@ -31,7 +32,9 @@ namespace Template2.WPF.ViewModels
         /// <summary>
         /// WorkingTimePlanMstのViewModelEntity群（DataView変換を対応）
         /// </summary>
-        private Sample002ViewModelWorkingTimePlanMst _sample002ViewModelWorkingTimePlanMst;
+        //private Sample002ViewModelWorkingTimePlanMst _sample002ViewModelWorkingTimePlanMst;
+
+        private EntitiesDataTable _workingTimePlanMstEntitiesDataTable;
 
         /// <summary>
         /// コンストラクタ
@@ -107,16 +110,28 @@ namespace Template2.WPF.ViewModels
 
         private void UpdateWorkingTimePlanMstEntitiesDataView()
         {
-            var list = new List<WorkingTimePlanMstEntity>();
+            _workingTimePlanMstEntitiesDataTable = new EntitiesDataTable("作業者");
 
-            foreach (var entity in _workingTimePlanMstRepository.GetData())
-            {
-                list.Add(entity);
-            }
+            var list = new List<string>();
+            list.Add("001");
+            list.Add("002");
+            list.Add("003");
+            list.Add("004");
+            list.Add("005");
 
-            //// ストレートテーブルをマトリックステーブルに変換してDataViewに格納
-            _sample002ViewModelWorkingTimePlanMst = new Sample002ViewModelWorkingTimePlanMst(list);
-            WorkingTimePlanMstEntitiesDataView = _sample002ViewModelWorkingTimePlanMst.DataView;
+            _workingTimePlanMstEntitiesDataTable.SetColumns<float>(list);
+            WorkingTimePlanMstEntitiesDataView = _workingTimePlanMstEntitiesDataTable.DataView;
+
+            //var list = new List<WorkingTimePlanMstEntity>();
+
+            //foreach (var entity in _workingTimePlanMstRepository.GetData())
+            //{
+            //    list.Add(entity);
+            //}
+
+            ////// ストレートテーブルをマトリックステーブルに変換してDataViewに格納
+            //_sample002ViewModelWorkingTimePlanMst = new Sample002ViewModelWorkingTimePlanMst(list);
+            //WorkingTimePlanMstEntitiesDataView = _sample002ViewModelWorkingTimePlanMst.DataView;
         }
 
 
