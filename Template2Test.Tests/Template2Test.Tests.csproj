@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Template2.WPF\Template2.WPF.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
 </Project>

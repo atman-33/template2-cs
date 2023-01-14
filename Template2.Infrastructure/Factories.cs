@@ -18,8 +18,27 @@ namespace Template2.Infrastructure
                 return new SampleMstSQLite();
             }
 #endif
-
             return new SampleMstOracle();
+        }
+        public static IWorkerMstRepository CreateWorkerMst()
+        {
+#if DEBUG
+            if (Shared.IsFake)
+            {
+                return new WorkerMstSQLite();
+            }
+#endif
+            return new WorkerMstOracle();
+        }
+        public static IWorkingTimePlanMstRepository CreateWorkingTimePlanMst()
+        {
+#if DEBUG
+            if (Shared.IsFake)
+            {
+                return new WorkingTimePlanMstSQLite();
+            }
+#endif
+            return new WorkingTimePlanMstOracle();
         }
 
     }

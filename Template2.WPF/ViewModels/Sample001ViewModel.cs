@@ -2,9 +2,7 @@
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Template2.Domain.Entities;
 using Template2.Domain.Modules.Helpers;
 using Template2.Domain.Repositories;
@@ -20,13 +18,17 @@ namespace Template2.WPF.ViewModels
         /// </summary>
         private MainWindowViewModel _mainWindowViewModel;
 
-        //// メッセージボックス
+        /// <summary>
+        /// メッセージボックス
+        /// </summary>
         private IMessageService _messageService;
 
         //// 外部接触Repository
         private ISampleMstRepository _sampleMstRepository;
 
-
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
         public Sample001ViewModel()
             : this(Factories.CreateSampleMst())
         {
@@ -37,14 +39,14 @@ namespace Template2.WPF.ViewModels
             //// メッセージボックス
             _messageService = new MessageService();
 
+            //// Factories経由で作成したRepositoryを、プライベート変数に格納
+            _sampleMstRepository = sampleMstRepository;
+
             //// DelegateCommandメソッドを登録
             SampleMstEntitiesSelectedCellsChanged = new DelegateCommand(SampleMstEntitiesSelectedCellsChangedExecute);
             NewButton = new DelegateCommand(NewButtonExecute);
             SaveButton = new DelegateCommand(SaveButtonExecute);
             DeleteButton = new DelegateCommand(DeleteButtonExecute);
-
-            //// Factories経由で作成したRepositoryを、プライベート変数に格納
-            _sampleMstRepository = sampleMstRepository;
 
             //// Repositoryからデータ取得
             UpdateSampleMstEntities();
@@ -191,6 +193,7 @@ namespace Template2.WPF.ViewModels
                 SampleMstEntities.Add(new Sample001ViewModelSampleMst(entity));
             }
         }
+
 
         #endregion    
     }
