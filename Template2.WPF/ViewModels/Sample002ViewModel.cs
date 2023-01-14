@@ -9,6 +9,7 @@ using System.Linq;
 using Template2.Domain.Entities;
 using Template2.Domain.Modules.Objects;
 using Template2.Domain.Repositories;
+using Template2.Domain.ValueObjects;
 using Template2.Infrastructure;
 using Template2.WPF.Services;
 
@@ -32,9 +33,7 @@ namespace Template2.WPF.ViewModels
         /// <summary>
         /// WorkingTimePlanMstのViewModelEntity群（DataView変換を対応）
         /// </summary>
-        //private Sample002ViewModelWorkingTimePlanMst _sample002ViewModelWorkingTimePlanMst;
-
-        private EntitiesDataTable _workingTimePlanMstEntitiesDataTable;
+        private EntitiesDataTable<Weekday, string?> _workingTimePlanMstEntitiesDataTable;
 
         /// <summary>
         /// コンストラクタ
@@ -42,7 +41,6 @@ namespace Template2.WPF.ViewModels
         public Sample002ViewModel()
             : this(Factories.CreateWorkingTimePlanMst())
         {
-
         }
 
         public Sample002ViewModel(IWorkingTimePlanMstRepository workingTimePlanMstRepository)
@@ -54,10 +52,11 @@ namespace Template2.WPF.ViewModels
             _workingTimePlanMstRepository = workingTimePlanMstRepository;
 
             //// DelegateCommandメソッドを登録
+            UnpivotTableButton = new DelegateCommand(UnpivotTableButtonExecute);
+            SaveButton = new DelegateCommand(SaveButtonExecute);
 
             //// Repositoryからデータ取得
             UpdateWorkingTimePlanMstEntitiesDataView();
-
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
@@ -86,6 +85,43 @@ namespace Template2.WPF.ViewModels
         #region //// 2. Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
+        /// <summary>
+        /// テーブルをアンピボット変換
+        /// </summary>
+        public DelegateCommand UnpivotTableButton { get; }
+
+        private void UnpivotTableButtonExecute()
+        {
+            _workingTimePlanMstEntitiesDataTable.CanConvertFloat("float数値の入力に誤りがあります。");
+
+            WorkingTimePlanMstEntities = _workingTimePlanMstEntitiesDataTable.ToEntities(
+                (id, keyValuePair, columnValueObject) =>
+                {
+                    return new WorkingTimePlanMstEntity(id, columnValueObject.Value , Convert.ToSingle(keyValuePair.Value));
+                }
+                );
+        }
+
+        /// <summary>
+        /// テーブルのデータを保存
+        /// </summary>
+        public DelegateCommand SaveButton { get; }
+
+        private void SaveButtonExecute()
+        {
+            if (_messageService.Question("保存しますか？") != System.Windows.MessageBoxResult.OK)
+            {
+                return;
+            }
+
+            foreach (var entity in WorkingTimePlanMstEntities)
+            {
+                _workingTimePlanMstRepository.Save(entity);
+            }
+
+            _messageService.ShowDialog("保存しました。", "情報", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+        }
+
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
@@ -105,35 +141,47 @@ namespace Template2.WPF.ViewModels
         {
             //// 遷移前の画面からパラメータ受け取り
             _mainWindowViewModel = navigationContext.Parameters.GetValue<MainWindowViewModel>("MainWindow");
-            _mainWindowViewModel.ViewOutline = "> サンプル002（テーブルをピボット変換）";
+            _mainWindowViewModel.ViewOutline = "> サンプル002（テーブルをピボット/アンピボット変換）";
         }
 
+        /// <summary>
+        /// 勤務予定テーブル（マトリックステーブル）を更新
+        /// </summary>
         private void UpdateWorkingTimePlanMstEntitiesDataView()
         {
-            _workingTimePlanMstEntitiesDataTable = new EntitiesDataTable("作業者");
+            //// マトリックス表を生成
+            _workingTimePlanMstEntitiesDataTable = new EntitiesDataTable<Weekday, string?>("作業者コード");
 
-            var list = new List<string>();
-            list.Add("001");
-            list.Add("002");
-            list.Add("003");
-            list.Add("004");
-            list.Add("005");
+            var dictionary = new Dictionary<string, Weekday>();
+            dictionary.Add(Weekday.Sunday.DisplayValue, Weekday.Sunday);
+            dictionary.Add(Weekday.Monday.DisplayValue, Weekday.Monday);
+            dictionary.Add(Weekday.Tuesday.DisplayValue, Weekday.Tuesday);
+            dictionary.Add(Weekday.Wednesday.DisplayValue, Weekday.Wednesday);
+            dictionary.Add(Weekday.Thursday.DisplayValue, Weekday.Thursday);
+            dictionary.Add(Weekday.Friday.DisplayValue, Weekday.Friday);
+            dictionary.Add(Weekday.Saturday.DisplayValue, Weekday.Saturday);
 
-            _workingTimePlanMstEntitiesDataTable.SetColumns<float>(list);
+            //// カラムを設定
+            _workingTimePlanMstEntitiesDataTable.SetColumns(dictionary);
+
+            //// DBのデータを取得
+            var entities = new List<WorkingTimePlanMstEntity>();
+
+            foreach (var entity in _workingTimePlanMstRepository.GetDataWithWorkerName())
+            {
+                entities.Add(entity);
+            }
+
+            //// DBのデータを格納
+            _workingTimePlanMstEntitiesDataTable.SetData(entities,
+                entities.ToLookup(x => x.WorkerCode.Value),
+                getColumn => { return getColumn.Weekday.DisplayValue; },
+                getValue => { return getValue.WorkingTime.Value.ToString(); }
+                );
+
+            //// DataGridに反映
             WorkingTimePlanMstEntitiesDataView = _workingTimePlanMstEntitiesDataTable.DataView;
-
-            //var list = new List<WorkingTimePlanMstEntity>();
-
-            //foreach (var entity in _workingTimePlanMstRepository.GetData())
-            //{
-            //    list.Add(entity);
-            //}
-
-            ////// ストレートテーブルをマトリックステーブルに変換してDataViewに格納
-            //_sample002ViewModelWorkingTimePlanMst = new Sample002ViewModelWorkingTimePlanMst(list);
-            //WorkingTimePlanMstEntitiesDataView = _sample002ViewModelWorkingTimePlanMst.DataView;
         }
-
 
         #endregion
     }

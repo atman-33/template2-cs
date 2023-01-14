@@ -22,8 +22,8 @@ FROM
                 {
                     return new WorkingTimePlanMstEntity(
                         Convert.ToString(reader["worker_code"]),
-                        Convert.ToInt32(reader["weekday"]),
-                        reader["working_time"] != DBNull.Value ? Convert.ToSingle(reader["working_time"]) : null
+Convert.ToInt32(reader["weekday"]),
+reader["working_time"] != DBNull.Value ? Convert.ToSingle(reader["working_time"]) : null
                         );
                 });
         }
@@ -68,10 +68,10 @@ VALUES
             string update = @"
 UPDATE tmp_working_time_plan_mst
 SET 
-  weekday = @weekday,
   working_time = @working_time
 WHERE
   worker_code = @worker_code
+  AND weekday = @weekday
 ";
             var args = new List<SQLiteParameter>
             {
@@ -89,11 +89,13 @@ WHERE
         {
             string delete = @"
 DELETE FROM tmp_working_time_plan_mst WHERE worker_code = @worker_code
+  AND weekday = @weekday
 ";
 
             var args = new List<SQLiteParameter>
             {
-                new SQLiteParameter("@worker_code", entity.WorkerCode.Value)
+                new SQLiteParameter("@worker_code", entity.WorkerCode.Value),
+                new SQLiteParameter("@weekday", entity.Weekday.Value)
             };
 
             SQLiteHelper.Execute(delete, args.ToArray());

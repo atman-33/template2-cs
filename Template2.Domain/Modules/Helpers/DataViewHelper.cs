@@ -11,13 +11,13 @@ namespace Template2.Domain.Modules.Helpers
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TValueType"></typeparam>
-        /// <param name="rowName"></param>
+        /// <param name="idColumnName"></param>
         /// <param name="entitiesToLookup"></param>
         /// <param name="getColumn"></param>
         /// <param name="getValue"></param>
         /// <returns></returns>
         public static DataView CreatePivotTable<TEntity, TValueType>(
-            string rowName,
+            string idColumnName,
             ILookup<string, TEntity> entitiesToLookup,
             Func<TEntity, string> getColumn,
             Func<TEntity, TValueType> getValue)
@@ -45,7 +45,7 @@ namespace Template2.Domain.Modules.Helpers
 
             //// DataGridのItemsSourceとなるDataTableの準備(まずはカラム名をセット)
             var table = new DataTable();
-            table.Columns.Add(rowName);
+            table.Columns.Add(idColumnName);
             foreach (var c in columns)
             {
                 table.Columns.Add(c, typeof(TValueType));
@@ -63,16 +63,7 @@ namespace Template2.Domain.Modules.Helpers
                 //// カラム名に対応する値が存在する場合はセット
                 foreach (var columnName in table.Columns.Cast<DataColumn>().Skip(1).Select(c => c.ColumnName))
                 {
-                    if (typeof(TValueType) == typeof(string))
-                    {
-                        //// 文字列の場合
-                        row[idx++] = newVar.Values.ContainsKey(columnName) ? newVar.Values[columnName].ToString() : null;
-                    }
-                    else
-                    {
-                        //// 数値の場合
-                        row[idx++] = newVar.Values.ContainsKey(columnName) ? newVar.Values[columnName].ToString() : DBNull.Value;
-                    }
+                    row[idx++] = newVar.Values.ContainsKey(columnName) ? newVar.Values[columnName] : DBNull.Value;
                 }
 
                 //// 行データを追加
@@ -88,12 +79,12 @@ namespace Template2.Domain.Modules.Helpers
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TValueType"></typeparam>
         /// <param name="dataView"></param>
-        /// <param name="rowName"></param>
+        /// <param name="idColumnName"></param>
         /// <param name="createEntity"></param>
         /// <returns></returns>
         public static ObservableCollection<TEntity> ToEntities<TEntity, TValueType>(
             this DataView dataView,
-            string rowName,
+            string idColumnName,
             Func<string, KeyValuePair<string, string>, TEntity> createEntity)
         {
             //// <利用例>
@@ -112,7 +103,7 @@ namespace Template2.Domain.Modules.Helpers
             for (int rowIndex = 0; rowIndex < dataTable.Rows.Count; rowIndex++)
             {
                 //// ID列のデータ
-                string idValue = dataTable.Rows[rowIndex][rowName].ToString();
+                string idValue = dataTable.Rows[rowIndex][idColumnName].ToString();
 
                 var itemValues = new Dictionary<string, string>();
 
@@ -122,7 +113,7 @@ namespace Template2.Domain.Modules.Helpers
                     string colunIndexName = dataTable.Columns[columnIndex].ColumnName;
 
                     //// 行に対してユニークなIDを示すカラム名は、値を格納せずにループを飛ばす
-                    if (colunIndexName == rowName)
+                    if (colunIndexName == idColumnName)
                     {
                         continue;
                     }
