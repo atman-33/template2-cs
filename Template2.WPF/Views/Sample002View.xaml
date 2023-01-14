@@ -54,11 +54,12 @@
 
                 <!-- ストレートテーブル -->
                 <DataGrid Width="400"
-                      Height="600">
+                          Height="600"
+                          ItemsSource="{Binding WorkingTimePlanMstEntities}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="担当者" Binding="{Binding XXX}"/>
-                        <DataGridTextColumn Header="曜日番号" Binding="{Binding XXX}"/>
-                        <DataGridTextColumn Header="勤務時間" Binding="{Binding XXX}"/>
+                        <DataGridTextColumn Header="作業者コード" Binding="{Binding WorkerCode}"/>
+                        <DataGridTextColumn Header="曜日番号" Binding="{Binding Weekday}"/>
+                        <DataGridTextColumn Header="勤務時間" Binding="{Binding WorkingTime}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </materialDesign:Card>

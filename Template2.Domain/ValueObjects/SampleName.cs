@@ -1,6 +1,4 @@
-﻿using Template2.Domain.ValueObjects;
-
-namespace Template2.Domain.ValueObjects
+﻿namespace Template2.Domain.ValueObjects
 {
     public sealed class SampleName : ValueObject<SampleName>
     {

@@ -1,4 +1,4 @@
-namespace Template2Test.Tests
+namespace Template2Test.Tests.ViewModels
 {
     [TestClass]
     public class UnitTest1

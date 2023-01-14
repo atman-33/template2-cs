@@ -1,19 +1,19 @@
 ﻿namespace Template2.Domain.ValueObjects
 {
-    public sealed class SampleCode : ValueObject<SampleCode>
+    public sealed class Weekday : ValueObject<Weekday>
     {
         /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="value"></param>
-        public SampleCode(string value)
+        public Weekday(int value)
         {
             Value = value;
         }
 
-        public string Value { get; }
+        public int Value { get; }
 
-        protected override bool EqualsCore(SampleCode other)
+        protected override bool EqualsCore(Weekday other)
         {
             return Value == other.Value;
         }

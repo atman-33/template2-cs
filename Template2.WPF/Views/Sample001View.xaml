@@ -55,11 +55,11 @@
 
         <StackPanel Grid.Row="0" Grid.Column="2" Margin="5">
             <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="30"
+                    Height="40"
                     Width="100"
                     Margin="0,0,0,10"
                     Command="{Binding NewButton}"
-                        materialDesign:ButtonAssist.CornerRadius="15"
+                        materialDesign:ButtonAssist.CornerRadius="20"
                         ToolTip="新規登録"
                         HorizontalAlignment="Left" Cursor="Hand">
                 <TextBlock Text="新規登録" />
@@ -83,20 +83,20 @@
                      Margin="0,0,0,30"/>
 
             <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="30"
+                    Height="40"
                     Width="100"
                     Margin="0,0,0,20"
                     Command="{Binding SaveButton}"
-                        materialDesign:ButtonAssist.CornerRadius="15"
+                        materialDesign:ButtonAssist.CornerRadius="20"
                         ToolTip="保存"
                         HorizontalAlignment="Left">
                 <TextBlock Text="保存" />
             </Button>
             <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
-                    Height="30"
+                    Height="40"
                     Width="100"
                     Command="{Binding DeleteButton}"
-                        materialDesign:ButtonAssist.CornerRadius="15"
+                        materialDesign:ButtonAssist.CornerRadius="20"
                         ToolTip="削除"
                         HorizontalAlignment="Left">
                 <TextBlock Text="削除" />
