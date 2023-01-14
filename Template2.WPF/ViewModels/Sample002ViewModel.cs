@@ -4,6 +4,7 @@ using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using Template2.Domain.Entities;
 using Template2.Domain.Repositories;
@@ -28,6 +29,11 @@ namespace Template2.WPF.ViewModels
         private IWorkingTimePlanMstRepository _workingTimePlanMstRepository;
 
         /// <summary>
+        /// WorkingTimePlanMstのViewModelEntity群（DataView変換を対応）
+        /// </summary>
+        private Sample002ViewModelWorkingTimePlanMst _sample002ViewModelWorkingTimePlanMst;
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         public Sample002ViewModel()
@@ -47,13 +53,21 @@ namespace Template2.WPF.ViewModels
             //// DelegateCommandメソッドを登録
 
             //// Repositoryからデータ取得
-            UpdateWorkingTimePlanMstEntities();
+            UpdateWorkingTimePlanMstEntitiesDataView();
 
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// 1. Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        private DataView _workingTimePlanMstEntitiesDataView;
+        public DataView WorkingTimePlanMstEntitiesDataView
+        {
+            get { return _workingTimePlanMstEntitiesDataView; }
+            set { SetProperty(ref _workingTimePlanMstEntitiesDataView, value); }
+        }
+
 
         private ObservableCollection<WorkingTimePlanMstEntity> _workingTimePlanMstEntities
             = new ObservableCollection<WorkingTimePlanMstEntity>();
@@ -91,14 +105,18 @@ namespace Template2.WPF.ViewModels
             _mainWindowViewModel.ViewOutline = "> サンプル002（テーブルをピボット変換）";
         }
 
-        private void UpdateWorkingTimePlanMstEntities()
+        private void UpdateWorkingTimePlanMstEntitiesDataView()
         {
-            WorkingTimePlanMstEntities.Clear();
+            var list = new List<WorkingTimePlanMstEntity>();
 
             foreach (var entity in _workingTimePlanMstRepository.GetData())
             {
-                WorkingTimePlanMstEntities.Add(entity);
+                list.Add(entity);
             }
+
+            //// ストレートテーブルをマトリックステーブルに変換してDataViewに格納
+            _sample002ViewModelWorkingTimePlanMst = new Sample002ViewModelWorkingTimePlanMst(list);
+            WorkingTimePlanMstEntitiesDataView = _sample002ViewModelWorkingTimePlanMst.DataView;
         }
 
 

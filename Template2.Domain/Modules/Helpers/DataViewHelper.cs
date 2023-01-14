@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Data;
+using Template2.Domain.Entities;
 
 namespace Template2.Domain.Modules.Helpers
 {
@@ -21,18 +22,12 @@ namespace Template2.Domain.Modules.Helpers
             Func<TEntity, string> getColumn,
             Func<TEntity, TValueType> getValue)
         {
-            //// <利用例>
-            ////DataViewItemSource = DataViewHelper.CreatePivotTable<SampleItemTimeEntity, float>(
-            ////    "Name",
-            ////    sampleItemTimeEntities.ToLookup(o => o.SampleName.Value),
-            ////    (i) =>
-            ////    {
-            ////        return i.SampleItem.Value;
-            ////    },
-            ////    (i) =>
-            ////    {
-            ////        return i.SampleTime.Value;
-            ////    });
+            //// <呼び出し例>
+            //// DataView = DataViewHelper.CreatePivotTable<WorkingTimePlanMstEntity, float?>(
+            ////     "作業者",
+            ////     workingTimePlanMstEntities.ToLookup(o => o.WorkerCode.Value),
+            ////     getColumn => { return getColumn.Weekday.Value.ToString(); },
+            ////     getValue => { return getValue.WorkingTime.Value; });
 
             //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
             //// 以下をプロパティとして保持する匿名クラスに変換
@@ -46,12 +41,12 @@ namespace Template2.Domain.Modules.Helpers
             });
 
             //// DataGridのカラムに設定するカラム名を列挙
-            var colums = newVarsFromVars.SelectMany(cd => cd.Values).Select(ver => ver.Key).Distinct();
+            var columns = newVarsFromVars.SelectMany(cd => cd.Values).Select(ver => ver.Key).Distinct();
 
             //// DataGridのItemsSourceとなるDataTableの準備(まずはカラム名をセット)
             var table = new DataTable();
             table.Columns.Add(rowName);
-            foreach (var c in colums)
+            foreach (var c in columns)
             {
                 table.Columns.Add(c, typeof(TValueType));
             }

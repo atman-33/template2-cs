@@ -32,8 +32,10 @@
 
                 <!-- マトリックステーブル -->
                 <DataGrid Width="400"
-                      Height="600"
-                      ItemsSource="{Binding XXX}">
+                          Height="600"
+                          ItemsSource="{Binding WorkingTimePlanMstEntitiesDataView}"
+                          AutoGenerateColumns="True"
+                          IsReadOnly="False">
                 </DataGrid>
             </materialDesign:Card>
 
