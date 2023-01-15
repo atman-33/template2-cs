@@ -13,6 +13,9 @@ using Template2.Domain.ValueObjects;
 using Template2.Infrastructure;
 using Template2.WPF.Services;
 
+// ToDo: 作業者マスタから選択（コンボボックス）した作業者を、表に追加する機能（Sample04予定）
+// ToDo: 勤務予定時間の入力表には、作業者名称を表示（Sample04予定）
+
 namespace Template2.WPF.ViewModels
 {
     public class Sample003ViewModel : BindableBase, INavigationAware
@@ -150,7 +153,7 @@ namespace Template2.WPF.ViewModels
         private void UpdateWorkingTimePlanMstEntitiesDataView()
         {
             //// マトリックス表を生成
-            _workingTimePlanMstEntitiesDataTable = new EntitiesDataTable<Weekday, string?>("作業者コード");
+            _workingTimePlanMstEntitiesDataTable = new EntitiesDataTable<Weekday, string?>("作業者コード", false);
 
             var dictionary = new Dictionary<string, Weekday>();
             dictionary.Add(Weekday.Sunday.DisplayValue, Weekday.Sunday);

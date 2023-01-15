@@ -2,8 +2,99 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
-             prism:ViewModelLocator.AutoWireViewModel="True">
-    <Grid>
-            
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             Background="{StaticResource backColor}">
+
+    <Grid Margin="{StaticResource gridMargin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="5" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Button
+                Style="{StaticResource MaterialDesignPaperLightButton}"
+                Width="100"
+                Content="行追加"
+                Command="{Binding AddRowButton}" Cursor="Hand"
+                Margin="5"/>
+
+            <Button
+                Style="{StaticResource MaterialDesignPaperLightButton}"
+                Width="100"
+                Content="行削除"
+                Command="{Binding DeleteRowButton}" Cursor="Hand"
+                Margin="5"/>
+
+            <Button
+                Style="{StaticResource MaterialDesignPaperDarkButton}"
+                Width="100"
+                Content="保存"
+                Command="{Binding SaveButton}" Cursor="Hand"
+                Margin="5"/>
+
+            <TextBox
+                     materialDesign:HintAssist.Hint="選択中の作業者コード"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     Text="{Binding WorkerCodeText}"
+                     Width="300"
+                     TextWrapping="Wrap" HorizontalAlignment="Left"
+                     IsEnabled="False"
+                     Margin="5"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="5">
+            <materialDesign:Card materialDesign:ElevationAssist.Elevation="Dp8"
+                                 HorizontalAlignment="Left">
+
+                <!-- ObservableCollectionをBindした場合、CanUserAddRows="True"でも新規行は追加されない。 -->
+                <DataGrid Width="600"
+                          Height="800"
+                          ItemsSource="{Binding WorkerMstEntities}"
+                          SelectedItem="{Binding WorkerMstEntitiesSlectedItem}"
+                          VerticalAlignment="Top"
+                          HorizontalAlignment="Left"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="False"
+                          CanUserAddRows="False"
+                          Margin="5">
+
+                    <i:Interaction.Triggers>
+                        <!-- 選択が変更されてセル編集を開始した時にトリガー -->
+                        <i:EventTrigger EventName="SelectedCellsChanged">
+                            <prism:InvokeCommandAction Command="{Binding WorkerMstEntitiesSelectedCellsChanged}"/>
+                        </i:EventTrigger>
+                        
+                        <!-- 選択が変更されてセル編集を終了した時にトリガー -->
+                        <i:EventTrigger EventName="CurrentCellChanged">
+                            <prism:InvokeCommandAction Command="{Binding WorkerMstEntitiesCurrentCellChanged}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="作業者コード"
+                                            Binding="{Binding WorkerCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            Width="*">
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="作業者名称"
+                                            Binding="{Binding WorkerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            Width="*">
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+            </materialDesign:Card>
+        </StackPanel>
+
+
     </Grid>
+    
 </UserControl>

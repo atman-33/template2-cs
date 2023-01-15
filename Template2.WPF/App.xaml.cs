@@ -56,6 +56,7 @@ namespace Template2.WPF
             //// ex. containerRegistry.RegisterForNavigation<XXXView>();
             
             containerRegistry.RegisterForNavigation<Sample001View>();
+            containerRegistry.RegisterForNavigation<Sample002View>();
             containerRegistry.RegisterForNavigation<Sample003View>();
 
 

@@ -181,7 +181,6 @@ namespace Template2.WPF.ViewModels
             //// 遷移前の画面からパラメータ受け取り
             _mainWindowViewModel = navigationContext.Parameters.GetValue<MainWindowViewModel>("MainWindow");
             _mainWindowViewModel.ViewOutline = "> サンプル001（マスタテーブル編集）";
-
         }
 
         private void UpdateSampleMstEntities()
@@ -193,7 +192,6 @@ namespace Template2.WPF.ViewModels
                 SampleMstEntities.Add(new Sample001ViewModelSampleMst(entity));
             }
         }
-
 
         #endregion    
     }

@@ -13,8 +13,8 @@ namespace Template2.Domain.Entities
             WorkerName = new WorkerName(workerName);
         }
 
-        public WorkerCode WorkerCode { get; }
-        public WorkerName WorkerName { get; }
+        public WorkerCode WorkerCode { get; set; }
+        public WorkerName WorkerName { get; set; }
 
     }
 }

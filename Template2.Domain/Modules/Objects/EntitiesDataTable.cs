@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Data;
-using static System.Net.Mime.MediaTypeNames;
 using Template2.Domain.Exceptions;
 
 namespace Template2.Domain.Modules.Objects
@@ -17,11 +16,18 @@ namespace Template2.Domain.Modules.Objects
         /// コンストラクタ
         /// </summary>
         /// <param name="idColumnName">項目列（ID列）の見出し</param>
-        public EntitiesDataTable(string idColumnName)
+        /// <param name="idColumnReadOnly">項目列（ID列）を読取専用とするならtrue</param>
+        public EntitiesDataTable(string idColumnName, bool idColumnReadOnly)
         {
             _dataTable = new DataTable();
             _idColumnName = idColumnName;
             _dataTable.Columns.Add(idColumnName);
+
+            _dataTable.Columns[idColumnName].ReadOnly = idColumnReadOnly;
+
+            //// その他設定メモ
+            //// _dataTable.Columns[idColumnName].Unique = true;                        // ユニーク設定
+            //// _dataTable.Columns[idColumnName].ColumnMapping = MappingType.Hidden;   // 非表示設定のはずだが、Viewに反映されない
         }
 
         /// <summary>
