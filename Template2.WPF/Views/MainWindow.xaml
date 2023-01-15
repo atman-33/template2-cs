@@ -103,13 +103,13 @@
                                     Height="{StaticResource menuButtonHeight}"
                                     Style="{StaticResource MaterialDesignFlatButton}"
                                     Cursor="Hand" HorizontalAlignment="Center"
-                                    Command="{Binding Sample002ViewButton}">
+                                    Command="{Binding Sample003ViewButton}">
                                 <DockPanel>
                                     <StackPanel>
                                     <materialDesign:PackIcon Kind="TablePivot" VerticalAlignment="Bottom" HorizontalAlignment="Center"
                                                                  Width="{StaticResource menuIconSize}" 
                                                                  Height="{StaticResource menuIconSize}"/>
-                                        <TextBlock Text="サンプル2" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                        <TextBlock Text="サンプル3" VerticalAlignment="Center" HorizontalAlignment="Center"
                                                    FontSize="{StaticResource menuFontSize}"/>
                                     </StackPanel>
                                 </DockPanel>
