@@ -15,7 +15,7 @@
 
             <!-- 個別設定 -->
             <SolidColorBrush x:Key="backColor" Color="WhiteSmoke"/>
-            <Thickness x:Key="gridMargin">30,10,10,10</Thickness>
+            <Thickness x:Key="contentMargin">30,10,10,10</Thickness>
 
         </ResourceDictionary>
 
