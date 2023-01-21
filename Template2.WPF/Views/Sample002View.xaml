@@ -61,7 +61,7 @@
                           AutoGenerateColumns="False"
                           IsReadOnly="False"
                           CanUserAddRows="False"
-                          Margin="5">
+                          Margin="5" Cursor="Hand">
 
                 <i:Interaction.Triggers>
                     <!-- 選択が変更されてセル編集を開始した時にトリガー -->

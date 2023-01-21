@@ -59,7 +59,7 @@
         </materialDesign:Card>
 
         <StackPanel DockPanel.Dock="Right" Margin="30">
-            <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
+            <Button Style="{StaticResource MaterialDesignRaisedDarkButton}"
                     Height="40"
                     Width="100"
                     Margin="0,0,0,10"
@@ -87,7 +87,7 @@
                                  TextWrapping="Wrap" HorizontalAlignment="Left"
                      Margin="0,0,0,30"/>
 
-            <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
+            <Button Style="{StaticResource MaterialDesignRaisedDarkButton}"
                     Height="40"
                     Width="100"
                     Margin="0,0,0,20"
