@@ -35,7 +35,7 @@ namespace Template2.Domain.Modules.Helpers
             //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
             var newVarsFromVars = entitiesToLookup.Select(v => new
             {
-                ID = v.Key,
+                Id = v.Key,
                 Values = v.ToDictionary(i => getColumn(i), i => getValue(i))
             });
 
@@ -57,7 +57,7 @@ namespace Template2.Domain.Modules.Helpers
                 var row = table.NewRow();
 
                 //// IDカラムにIDを設定
-                row[idx++] = newVar.ID;
+                row[idx++] = newVar.Id;
 
                 //// カラム名に対応する値が存在する場合はセット
                 foreach (var columnName in table.Columns.Cast<DataColumn>().Skip(1).Select(c => c.ColumnName))

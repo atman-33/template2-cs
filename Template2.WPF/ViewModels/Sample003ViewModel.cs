@@ -32,6 +32,7 @@ namespace Template2.WPF.ViewModels
 
         //// 外部接触Repository
         private IWorkingTimePlanMstRepository _workingTimePlanMstRepository;
+        private IWorkerMstRepository _workerMstRepository;
 
         /// <summary>
         /// WorkingTimePlanMstのViewModelEntity群（DataView変換を対応）
@@ -42,17 +43,19 @@ namespace Template2.WPF.ViewModels
         /// コンストラクタ
         /// </summary>
         public Sample003ViewModel()
-            : this(Factories.CreateWorkingTimePlanMst())
+            : this(Factories.CreateWorkingTimePlanMst(), Factories.CreateWorkerMst())
         {
         }
 
-        public Sample003ViewModel(IWorkingTimePlanMstRepository workingTimePlanMstRepository)
+        public Sample003ViewModel(IWorkingTimePlanMstRepository workingTimePlanMstRepository,
+                                  IWorkerMstRepository workerMstRepository)
         {
             //// メッセージボックス
             _messageService = new MessageService();
 
             //// Factories経由で作成したRepositoryを、プライベート変数に格納
             _workingTimePlanMstRepository = workingTimePlanMstRepository;
+            _workerMstRepository = workerMstRepository;
 
             //// DelegateCommandメソッドを登録
             UnpivotTableButton = new DelegateCommand(UnpivotTableButtonExecute);
@@ -152,9 +155,13 @@ namespace Template2.WPF.ViewModels
         /// </summary>
         private void UpdateWorkingTimePlanMstEntitiesDataView()
         {
-            //// マトリックス表を生成
-            _workingTimePlanMstEntitiesDataTable = new EntitiesDataTable<Weekday, string?>("作業者コード", false);
+            //// 1. マトリックス表を生成
+            _workingTimePlanMstEntitiesDataTable = new EntitiesDataTable<Weekday, string?>("作業者コード", true);
 
+            //// 2. ID名称ヘッダーを設定
+            _workingTimePlanMstEntitiesDataTable.SetIdNameHeader("作業者名称", true);
+
+            //// 3. アイテム項目ヘッダーを設定
             var dictionary = new Dictionary<string, Weekday>();
             dictionary.Add(Weekday.Sunday.DisplayValue, Weekday.Sunday);
             dictionary.Add(Weekday.Monday.DisplayValue, Weekday.Monday);
@@ -164,25 +171,28 @@ namespace Template2.WPF.ViewModels
             dictionary.Add(Weekday.Friday.DisplayValue, Weekday.Friday);
             dictionary.Add(Weekday.Saturday.DisplayValue, Weekday.Saturday);
 
-            //// カラムを設定
-            _workingTimePlanMstEntitiesDataTable.SetColumns(dictionary);
+            _workingTimePlanMstEntitiesDataTable.SetItemHeaders(dictionary);
 
-            //// DBのデータを取得
-            var entities = new List<WorkingTimePlanMstEntity>();
-
-            foreach (var entity in _workingTimePlanMstRepository.GetDataWithWorkerName())
+            //// 4. IDとID名称カラムにデータを設定
+            foreach (var entity in _workerMstRepository.GetData())
             {
-                entities.Add(entity);
+                _workingTimePlanMstEntitiesDataTable.SetIdData(entity.WorkerCode.Value, entity.WorkerName.Value);
             }
 
-            //// DBのデータを格納
-            _workingTimePlanMstEntitiesDataTable.SetData(entities,
-                entities.ToLookup(x => x.WorkerCode.Value),
+            //// 5. アイテムカラムにデータを格納
+            var itemEntities = new List<WorkingTimePlanMstEntity>();
+            foreach (var entity in _workingTimePlanMstRepository.GetDataWithWorkerName())
+            {
+                itemEntities.Add(entity);
+            }
+
+            _workingTimePlanMstEntitiesDataTable.SetItemData(
+                itemEntities.ToLookup(x => x.WorkerCode.Value),
                 getColumn => { return getColumn.Weekday.DisplayValue; },
                 getValue => { return getValue.WorkingTime.Value.ToString(); }
                 );
 
-            //// DataGridに反映
+            //// 6. DataGridに反映
             WorkingTimePlanMstEntitiesDataView = _workingTimePlanMstEntitiesDataTable.DataView;
         }
 

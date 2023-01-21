@@ -29,7 +29,7 @@
                     EnableRowVirtualization="True"
                     VirtualizingPanel.IsVirtualizing="True"
                     VirtualizingPanel.VirtualizationMode="Recycling" 
-                          Width="600"
+                          Width="700"
                           MinHeight="400"
                           ItemsSource="{Binding WorkingTimePlanMstEntitiesDataView}"
                           AutoGenerateColumns="True"
