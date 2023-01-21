@@ -6,54 +6,59 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              Background="{StaticResource backColor}">
-    
-    <Grid Margin="{StaticResource gridMargin}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="0.01*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+    <UserControl.Resources>
+        <!-- x:Key なしのスタイルを定義することで、
+         TargetType で指定した型すべてにスタイルを適用する -->
+        <!--<Style TargetType="DataGrid">
+            <Setter Property="Background" Value="LightBlue" />
+            <Setter Property="Foreground" Value="Red" />
+        </Style>-->
+    </UserControl.Resources>
 
-        <StackPanel Grid.Row="0" Grid.Column="0" Margin="5">
-            <materialDesign:Card materialDesign:ElevationAssist.Elevation="Dp8"
-                                 HorizontalAlignment="Left">
+    <DockPanel LastChildFill="True" Margin="{StaticResource contentMargin}">
+        <materialDesign:Card DockPanel.Dock="Left" Margin="5"
+                                 materialDesign:ElevationAssist.Elevation="Dp2"
+                                 HorizontalAlignment="Left" Cursor="Hand">
 
-                <DataGrid Width="600"
-                          Height="800"
+            <DataGrid 
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                EnableColumnVirtualization="True"
+                EnableRowVirtualization="True"
+                VirtualizingPanel.IsVirtualizing="True"
+                VirtualizingPanel.VirtualizationMode="Recycling" 
+                          Width="600"
                           ItemsSource="{Binding SampleMstEntities}"
                           SelectedItem="{Binding SampleMstEntitiesSlectedItem}"
                           VerticalAlignment="Top"
                           HorizontalAlignment="Left"
                           AutoGenerateColumns="False"
-                          IsReadOnly="True" Cursor="Hand"
+                          IsReadOnly="True" 
+                          Cursor="Hand"
                           Margin="5">
 
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectedCellsChanged">
-                            <prism:InvokeCommandAction Command="{Binding SampleMstEntitiesSelectedCellsChanged}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectedCellsChanged">
+                        <prism:InvokeCommandAction Command="{Binding SampleMstEntitiesSelectedCellsChanged}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
 
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="サンプルコード"
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="サンプルコード"
                                             Binding="{Binding SampleCode}"
                                             Width="*">
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="サンプル名称"
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="サンプル名称"
                                             Binding="{Binding SampleName}"
                                             Width="*">
-                        </DataGridTextColumn>
-                    </DataGrid.Columns>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
 
-                </DataGrid>
-            </materialDesign:Card>
-        </StackPanel>
+            </DataGrid>
+        </materialDesign:Card>
 
-        <StackPanel Grid.Row="0" Grid.Column="2" Margin="5">
+        <StackPanel DockPanel.Dock="Right" Margin="30">
             <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
                     Height="40"
                     Width="100"
@@ -102,5 +107,5 @@
                 <TextBlock Text="削除" />
             </Button>
         </StackPanel>
-    </Grid>
+    </DockPanel>
 </UserControl>
