@@ -54,6 +54,7 @@
                     VirtualizingPanel.IsVirtualizing="True"
                     VirtualizingPanel.VirtualizationMode="Recycling" 
                           Width="600"
+                          MinHeight="400"
                           ItemsSource="{Binding WorkerMstEntities}"
                           SelectedItem="{Binding WorkerMstEntitiesSlectedItem}"
                           VerticalAlignment="Top"

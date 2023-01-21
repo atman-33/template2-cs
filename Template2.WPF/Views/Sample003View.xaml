@@ -30,6 +30,7 @@
                     VirtualizingPanel.IsVirtualizing="True"
                     VirtualizingPanel.VirtualizationMode="Recycling" 
                           Width="600"
+                          MinHeight="400"
                           ItemsSource="{Binding WorkingTimePlanMstEntitiesDataView}"
                           AutoGenerateColumns="True"
                           IsReadOnly="False" Cursor="Hand">
@@ -66,8 +67,9 @@
                         VirtualizingPanel.IsVirtualizing="True"
                         VirtualizingPanel.VirtualizationMode="Recycling" 
                           Width="400"
+                          MinHeight="400"
                           ItemsSource="{Binding WorkingTimePlanMstEntities}"
-                          AutoGenerateColumns="False">
+                          AutoGenerateColumns="False" Cursor="Hand">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="作業者コード" Binding="{Binding WorkerCode}"/>
                             <DataGridTextColumn Header="曜日番号" Binding="{Binding Weekday}"/>

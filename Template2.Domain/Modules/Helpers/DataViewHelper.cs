@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Data;
-using Template2.Domain.Entities;
 
 namespace Template2.Domain.Modules.Helpers
 {
@@ -11,13 +10,13 @@ namespace Template2.Domain.Modules.Helpers
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TValueType"></typeparam>
-        /// <param name="idColumnName"></param>
+        /// <param name="idHeader"></param>
         /// <param name="entitiesToLookup"></param>
         /// <param name="getColumn"></param>
         /// <param name="getValue"></param>
         /// <returns></returns>
         public static DataView CreatePivotTable<TEntity, TValueType>(
-            string idColumnName,
+            string idHeader,
             ILookup<string, TEntity> entitiesToLookup,
             Func<TEntity, string> getColumn,
             Func<TEntity, TValueType> getValue)
@@ -45,7 +44,7 @@ namespace Template2.Domain.Modules.Helpers
 
             //// DataGridのItemsSourceとなるDataTableの準備(まずはカラム名をセット)
             var table = new DataTable();
-            table.Columns.Add(idColumnName);
+            table.Columns.Add(idHeader);
             foreach (var c in columns)
             {
                 table.Columns.Add(c, typeof(TValueType));
@@ -79,12 +78,12 @@ namespace Template2.Domain.Modules.Helpers
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TValueType"></typeparam>
         /// <param name="dataView"></param>
-        /// <param name="idColumnName"></param>
+        /// <param name="idHeader"></param>
         /// <param name="createEntity"></param>
         /// <returns></returns>
         public static ObservableCollection<TEntity> ToEntities<TEntity, TValueType>(
             this DataView dataView,
-            string idColumnName,
+            string idHeader,
             Func<string, KeyValuePair<string, string>, TEntity> createEntity)
         {
             //// <利用例>
@@ -103,7 +102,7 @@ namespace Template2.Domain.Modules.Helpers
             for (int rowIndex = 0; rowIndex < dataTable.Rows.Count; rowIndex++)
             {
                 //// ID列のデータ
-                string idValue = dataTable.Rows[rowIndex][idColumnName].ToString();
+                string idValue = dataTable.Rows[rowIndex][idHeader].ToString();
 
                 var itemValues = new Dictionary<string, string>();
 
@@ -113,7 +112,7 @@ namespace Template2.Domain.Modules.Helpers
                     string colunIndexName = dataTable.Columns[columnIndex].ColumnName;
 
                     //// 行に対してユニークなIDを示すカラム名は、値を格納せずにループを飛ばす
-                    if (colunIndexName == idColumnName)
+                    if (colunIndexName == idHeader)
                     {
                         continue;
                     }
