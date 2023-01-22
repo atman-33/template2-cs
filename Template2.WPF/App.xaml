@@ -14,7 +14,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <!-- 個別設定 -->
-            <SolidColorBrush x:Key="backColor" Color="WhiteSmoke"/>
+            <SolidColorBrush x:Key="backgroundColor" Color="WhiteSmoke"/>
             <Thickness x:Key="contentMargin">30,10,10,10</Thickness>
 
         </ResourceDictionary>

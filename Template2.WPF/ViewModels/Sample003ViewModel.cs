@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
+using System.Windows.Controls;
 using Template2.Domain.Entities;
 using Template2.Domain.Modules.Objects;
 using Template2.Domain.Repositories;
@@ -60,6 +62,8 @@ namespace Template2.WPF.ViewModels
             //// DelegateCommandメソッドを登録
             UnpivotTableButton = new DelegateCommand(UnpivotTableButtonExecute);
             SaveButton = new DelegateCommand(SaveButtonExecute);
+            WorkingTimePlanMstEntitiesDataGridAutoGeneratingColumn 
+                = new DelegateCommand<DataGridAutoGeneratingColumnEventArgs>(WorkingTimePlanMstEntitiesDataGridAutoGeneratingColumnExecute);
 
             //// Repositoryからデータ取得
             UpdateWorkingTimePlanMstEntitiesDataView();
@@ -90,6 +94,44 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// 2. Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        /// <summary>
+        /// DataGridを生成する際の処理。IDカラムを非表示するために実装
+        /// </summary>
+        public DelegateCommand<DataGridAutoGeneratingColumnEventArgs> WorkingTimePlanMstEntitiesDataGridAutoGeneratingColumn { get; }
+
+        private void WorkingTimePlanMstEntitiesDataGridAutoGeneratingColumnExecute(DataGridAutoGeneratingColumnEventArgs e)
+        {
+            Debug.WriteLine(e.PropertyName);
+
+            if (e.PropertyName == _workingTimePlanMstEntitiesDataTable.IdHeader)
+            {
+                e.Column.Visibility = System.Windows.Visibility.Collapsed;
+            }
+
+            //// ヘッダーを定数値として扱えばswitch文でも対応可能
+            //switch (e.PropertyName)
+            //{
+            //    case "SampleId":
+            //        //e.Column.Visibility = Visibility.Collapsed;
+            //        break;
+
+            //    case "SampleText":
+            //        e.Column.Header = "サンプルテキスト";
+            //        break;
+
+            //    case "SampleValue":
+            //        e.Column.Header = "サンプル値";
+            //        break;
+
+            //    case "SampleDate":
+            //        e.Column.Header = "サンプル日付";
+            //        break;
+
+            //    default:
+            //        break;
+            //}
+        }
 
         /// <summary>
         /// テーブルをアンピボット変換

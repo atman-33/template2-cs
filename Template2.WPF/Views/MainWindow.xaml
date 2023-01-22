@@ -8,7 +8,7 @@
         xmlns:system="clr-namespace:System;assembly=netstandard"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
-        Background="{StaticResource backColor}">
+        Background="{StaticResource backgroundColor}">
 
     <Window.Resources>
         <system:Double x:Key="menuFontSize">12</system:Double>
@@ -27,7 +27,7 @@
                 <DockPanel VerticalAlignment="Center">
                     <StackPanel DockPanel.Dock="Right" VerticalAlignment="Center" Orientation="Horizontal">
 
-                        <Label Content="ver 0.3.1"
+                        <Label Content="ver 0.3.2"
                                    Foreground="White"
                                    FontSize="14" VerticalAlignment="Center" 
                                    VerticalContentAlignment="Center"/>

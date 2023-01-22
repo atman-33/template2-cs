@@ -4,7 +4,8 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             Background="{StaticResource backColor}">
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             Background="{StaticResource backgroundColor}">
 
     <DockPanel LastChildFill="True" Margin="{StaticResource contentMargin}">
 
@@ -22,7 +23,7 @@
                                  Margin="5">
 
                 <!-- マトリックステーブル -->
-                <DataGrid 
+                <DataGrid x:Name="WorkingTimePlanMstEntitiesDataGrid"
                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
                     ScrollViewer.VerticalScrollBarVisibility="Auto"
                     EnableColumnVirtualization="True"
@@ -34,6 +35,14 @@
                           ItemsSource="{Binding WorkingTimePlanMstEntitiesDataView}"
                           AutoGenerateColumns="True"
                           IsReadOnly="False" Cursor="Hand">
+                    
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="AutoGeneratingColumn"
+                                        SourceObject="{Binding ElementName=WorkingTimePlanMstEntitiesDataGrid}">
+                            <prism:InvokeCommandAction Command="{Binding WorkingTimePlanMstEntitiesDataGridAutoGeneratingColumn}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    
                 </DataGrid>
             </materialDesign:Card>
 

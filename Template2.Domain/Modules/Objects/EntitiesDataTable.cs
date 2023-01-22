@@ -9,9 +9,6 @@ namespace Template2.Domain.Modules.Objects
     {
         private DataTable _dataTable;
 
-        private string _idHeader = String.Empty;
-        private string _idNameHeader = String.Empty;
-
         private Dictionary<string, TItemHeaderValueObject> _itemHeaders = new Dictionary<string, TItemHeaderValueObject>();
 
         /// <summary>
@@ -22,7 +19,7 @@ namespace Template2.Domain.Modules.Objects
         public EntitiesDataTable(string idHeader, bool idReadOnly)
         {
             _dataTable = new DataTable();
-            _idHeader = idHeader;
+            IdHeader = idHeader;
             _dataTable.Columns.Add(idHeader);
 
             _dataTable.Columns[idHeader].ReadOnly = idReadOnly;
@@ -31,6 +28,9 @@ namespace Template2.Domain.Modules.Objects
             //// _dataTable.Columns[idColumnName].Unique = true;                        // ユニーク設定
             //// _dataTable.Columns[idColumnName].ColumnMapping = MappingType.Hidden;   // 非表示設定のはずだが、Viewに反映されない
         }
+
+        public string IdHeader { get; private set; } = String.Empty;
+        public string IdNameHeader { get; private set; } = String.Empty;
 
         /// <summary>
         /// DataView（DataGrid表示用）
@@ -50,7 +50,7 @@ namespace Template2.Domain.Modules.Objects
         public void SetIdNameHeader(string idNameHeader, bool idNameReadOnly)
         {
             _dataTable.Columns.Add(idNameHeader, typeof(string));
-            _idNameHeader = idNameHeader;
+            IdNameHeader = idNameHeader;
             _dataTable.Columns[idNameHeader].ReadOnly = idNameReadOnly;
         }
 
@@ -92,7 +92,7 @@ namespace Template2.Domain.Modules.Objects
             var row = _dataTable.NewRow();
 
             //// IDカラムにIDを設定
-            row[_idHeader] = id;
+            row[IdHeader] = id;
 
             //// 行データを追加
             _dataTable.Rows.Add(row);
@@ -108,10 +108,10 @@ namespace Template2.Domain.Modules.Objects
             var row = _dataTable.NewRow();
 
             //// IDカラムにIDを設定
-            row[_idHeader] = id;
+            row[IdHeader] = id;
 
             //// ID名称カラムにID名称を設定
-            row[_idNameHeader] = idName;
+            row[IdNameHeader] = idName;
 
             //// 行データを追加
             _dataTable.Rows.Add(row);
@@ -144,7 +144,7 @@ namespace Template2.Domain.Modules.Objects
                 for (rowIndex = 0; rowIndex < _dataTable.Rows.Count; rowIndex++)
                 {
                     //// ID列のデータ
-                    string idValue = _dataTable.Rows[rowIndex][_idHeader].ToString();
+                    string idValue = _dataTable.Rows[rowIndex][IdHeader].ToString();
 
                     if (newVar.Id == idValue)
                     {
@@ -161,7 +161,7 @@ namespace Template2.Domain.Modules.Objects
                 //// カラム名に対応する値が存在する場合はセット
                 foreach (var columnName in _dataTable.Columns.Cast<DataColumn>().Skip(1).Select(c => c.ColumnName))
                 {
-                    if (columnName == _idNameHeader)
+                    if (columnName == IdNameHeader)
                     {
                         continue;
                     }
@@ -229,7 +229,7 @@ namespace Template2.Domain.Modules.Objects
             for (int rowIndex = 0; rowIndex < _dataTable.Rows.Count; rowIndex++)
             {
                 //// ID列のデータ
-                string idValue = _dataTable.Rows[rowIndex][_idHeader].ToString();
+                string idValue = _dataTable.Rows[rowIndex][IdHeader].ToString();
 
                 var itemValues = new Dictionary<string, string>();
 
@@ -239,7 +239,7 @@ namespace Template2.Domain.Modules.Objects
                     string colunIndexName = _dataTable.Columns[columnIndex].ColumnName;
 
                     //// 行に対してユニークなIDを示すカラム名は、値を格納せずにループを飛ばす
-                    if (colunIndexName == _idHeader)
+                    if (colunIndexName == IdHeader)
                     {
                         continue;
                     }
@@ -288,7 +288,7 @@ namespace Template2.Domain.Modules.Objects
             for (int rowIndex = 0; rowIndex < _dataTable.Rows.Count; rowIndex++)
             {
                 //// ID列のデータ
-                string idValue = _dataTable.Rows[rowIndex][_idHeader].ToString();
+                string idValue = _dataTable.Rows[rowIndex][IdHeader].ToString();
 
                 var itemValues = new Dictionary<string, string>();
 
@@ -298,7 +298,7 @@ namespace Template2.Domain.Modules.Objects
                     string colmunIndexName = _dataTable.Columns[columnIndex].ColumnName;
 
                     //// IDもしくはID名称を示すカラム名は、ループを飛ばす
-                    if (colmunIndexName == _idHeader || colmunIndexName == _idNameHeader)
+                    if (colmunIndexName == IdHeader || colmunIndexName == IdNameHeader)
                     {
                         continue;
                     }
@@ -349,7 +349,7 @@ namespace Template2.Domain.Modules.Objects
                     string columnIndexName = _dataTable.Columns[columnIndex].ColumnName;
 
                     //// IDもしくはID名称を示すカラム名は、ループを飛ばす
-                    if (columnIndexName == _idHeader || columnIndexName == _idNameHeader)
+                    if (columnIndexName == IdHeader || columnIndexName == IdNameHeader)
                     {
                         continue;
                     }
@@ -390,7 +390,7 @@ namespace Template2.Domain.Modules.Objects
                     string columnIndexName = _dataTable.Columns[columnIndex].ColumnName;
 
                     //// IDもしくはID名称を示すカラム名は、ループを飛ばす
-                    if (columnIndexName == _idHeader || columnIndexName == _idNameHeader)
+                    if (columnIndexName == IdHeader || columnIndexName == IdNameHeader)
                     {
                         continue;
                     }
