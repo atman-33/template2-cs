@@ -27,7 +27,7 @@
                 <DockPanel VerticalAlignment="Center">
                     <StackPanel DockPanel.Dock="Right" VerticalAlignment="Center" Orientation="Horizontal">
 
-                        <Label Content="ver 0.3.2"
+                        <Label Content="ver 0.4.0"
                                    Foreground="White"
                                    FontSize="14" VerticalAlignment="Center" 
                                    VerticalContentAlignment="Center"/>
@@ -79,26 +79,26 @@
             <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}" 
                                        DockPanel.Dock="Left">
                 <materialDesign:DrawerHost.LeftDrawerContent>
-                        <StackPanel x:Name="MenuStackPanel"
+                    <StackPanel x:Name="MenuStackPanel"
                                     Margin="5"
                                     HorizontalAlignment="Center"
                                     Width="60">
 
-                            <Button Width="100"
+                        <Button Width="100"
                                     Height="{StaticResource menuButtonHeight}"
                                     Style="{StaticResource MaterialDesignFlatButton}"
                                     Cursor="Hand" HorizontalAlignment="Center"
                                     Command="{Binding Sample001ViewButton}">
-                                <DockPanel>
-                                    <StackPanel>
-                                        <materialDesign:PackIcon Kind="Table" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                            <DockPanel>
+                                <StackPanel>
+                                    <materialDesign:PackIcon Kind="Table" VerticalAlignment="Bottom" HorizontalAlignment="Center"
                                                                  Width="{StaticResource menuIconSize}" 
                                                                  Height="{StaticResource menuIconSize}"/>
-                                        <TextBlock Text="サンプル1" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                    <TextBlock Text="サンプル1" VerticalAlignment="Center" HorizontalAlignment="Center" 
                                                    FontSize="{StaticResource menuFontSize}"/>
-                                    </StackPanel>
-                                </DockPanel>
-                            </Button>
+                                </StackPanel>
+                            </DockPanel>
+                        </Button>
 
                         <Button Width="100"
                                     Height="{StaticResource menuButtonHeight}"
@@ -121,18 +121,34 @@
                                     Style="{StaticResource MaterialDesignFlatButton}"
                                     Cursor="Hand" HorizontalAlignment="Center"
                                     Command="{Binding Sample003ViewButton}">
-                                <DockPanel>
-                                    <StackPanel>
+                            <DockPanel>
+                                <StackPanel>
                                     <materialDesign:PackIcon Kind="TablePivot" VerticalAlignment="Bottom" HorizontalAlignment="Center"
                                                                  Width="{StaticResource menuIconSize}" 
                                                                  Height="{StaticResource menuIconSize}"/>
-                                        <TextBlock Text="サンプル3" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                    <TextBlock Text="サンプル3" VerticalAlignment="Center" HorizontalAlignment="Center"
                                                    FontSize="{StaticResource menuFontSize}"/>
-                                    </StackPanel>
-                                </DockPanel>
-                            </Button>
+                                </StackPanel>
+                            </DockPanel>
+                        </Button>
 
-                        </StackPanel>
+                        <Button Width="100"
+                                    Height="{StaticResource menuButtonHeight}"
+                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                    Cursor="Hand" HorizontalAlignment="Center"
+                                    Command="{Binding Sample004ViewButton}">
+                            <DockPanel>
+                                <StackPanel>
+                                    <materialDesign:PackIcon Kind="Multimedia" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                                                 Width="{StaticResource menuIconSize}" 
+                                                                 Height="{StaticResource menuIconSize}"/>
+                                    <TextBlock Text="サンプル4" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                   FontSize="{StaticResource menuFontSize}"/>
+                                </StackPanel>
+                            </DockPanel>
+                        </Button>
+
+                    </StackPanel>
                 </materialDesign:DrawerHost.LeftDrawerContent>
 
             </materialDesign:DrawerHost>
