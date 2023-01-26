@@ -21,6 +21,5 @@ namespace Template2.Domain
         public static string? OraclePassword { get; } = ConfigurationManager.AppSettings["OraclePassword"];
         public static string? OracleDataSource { get; } = ConfigurationManager.AppSettings["OracleDataSource"];
 
-
     }
 }

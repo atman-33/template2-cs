@@ -38,6 +38,7 @@
                       MinWidth="700"
                       ItemsSource="{Binding WorkingTimePlanMstEntitiesDataView}"
                       AutoGenerateColumns="True"
+                      CanUserAddRows="False"
                       IsReadOnly="False" Cursor="Hand">
 
                 <i:Interaction.Triggers>

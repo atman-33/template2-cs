@@ -20,18 +20,8 @@ using Template2.WPF.Services;
 
 namespace Template2.WPF.ViewModels
 {
-    public class Sample003ViewModel : BindableBase, INavigationAware
+    public class Sample003ViewModel : ViewModelBase
     {
-        /// <summary>
-        /// MainWindow
-        /// </summary>
-        private MainWindowViewModel _mainWindowViewModel;
-
-        /// <summary>
-        /// メッセージボックス
-        /// </summary>
-        private IMessageService _messageService;
-
         //// 外部接触Repository
         private IWorkingTimePlanMstRepository _workingTimePlanMstRepository;
         private IWorkerMstRepository _workerMstRepository;
@@ -176,22 +166,6 @@ namespace Template2.WPF.ViewModels
         #region //// 3. Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return false;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            //// 遷移前の画面からパラメータ受け取り
-            _mainWindowViewModel = navigationContext.Parameters.GetValue<MainWindowViewModel>("MainWindow");
-            _mainWindowViewModel.ViewOutline = "> サンプル003（テーブルをピボット/アンピボット変換）";
-        }
-
         /// <summary>
         /// 勤務予定テーブル（マトリックステーブル）を更新
         /// </summary>
@@ -236,6 +210,18 @@ namespace Template2.WPF.ViewModels
 
             //// 6. DataGridに反映
             WorkingTimePlanMstEntitiesDataView = _workingTimePlanMstEntitiesDataTable.DataView;
+        }
+
+        #endregion
+
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #region //// Screen transition
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            base.OnNavigatedTo(navigationContext);
+            _mainWindowViewModel.ViewOutline = "> サンプル003（テーブルをピボット/アンピボット変換）";
         }
 
         #endregion

@@ -1,31 +1,16 @@
 ﻿using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Regions;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Template2.Domain.Entities;
-using Template2.Domain.Modules.Helpers;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
 using Template2.WPF.Services;
-using static Unity.Storage.RegistrationSet;
 
 namespace Template2.WPF.ViewModels
 {
-    public class Sample002ViewModel : BindableBase, INavigationAware
+    public class Sample002ViewModel : ViewModelBase
     {
-        /// <summary>
-        /// MainWindow
-        /// </summary>
-        private MainWindowViewModel _mainWindowViewModel;
-
-        /// <summary>
-        /// メッセージボックス
-        /// </summary>
-        private IMessageService _messageService;
-
         //// 外部接触Repository
         private IWorkerMstRepository _workerMstRepository;
 
@@ -154,22 +139,6 @@ namespace Template2.WPF.ViewModels
         #region //// 3. Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return false;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            //// 遷移前の画面からパラメータ受け取り
-            _mainWindowViewModel = navigationContext.Parameters.GetValue<MainWindowViewModel>("MainWindow");
-            _mainWindowViewModel.ViewOutline = "> サンプル002（DataGridを直接編集）";
-        }
-
         private void UpdateWorkerMstEntities()
         {
             WorkerMstEntities.Clear();
@@ -188,5 +157,16 @@ namespace Template2.WPF.ViewModels
 
         #endregion
 
+
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #region //// Screen transition
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            base.OnNavigatedTo(navigationContext);
+            _mainWindowViewModel.ViewOutline = "> サンプル002（DataGridを直接編集）";
+        }
+
+        #endregion
     }
 }

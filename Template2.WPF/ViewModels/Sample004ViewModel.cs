@@ -4,18 +4,8 @@ using Template2.WPF.Services;
 
 namespace Template2.WPF.ViewModels
 {
-    public class Sample004ViewModel : BindableBase, INavigationAware
+    public class Sample004ViewModel : ViewModelBase
     {
-        /// <summary>
-        /// MainWindow
-        /// </summary>
-        private MainWindowViewModel _mainWindowViewModel;
-
-        /// <summary>
-        /// メッセージボックス
-        /// </summary>
-        private IMessageService _messageService;
-
         public Sample004ViewModel()
         {
 
@@ -37,19 +27,14 @@ namespace Template2.WPF.ViewModels
         #region //// 3. Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return false;
-        }
+        #endregion
 
-        public void OnNavigatedFrom(NavigationContext navigationContext)
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #region //// Screen transition
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            //// 遷移前の画面からパラメータ受け取り
-            _mainWindowViewModel = navigationContext.Parameters.GetValue<MainWindowViewModel>("MainWindow");
+            base.OnNavigatedTo(navigationContext);
             _mainWindowViewModel.ViewOutline = "> サンプル004（画像を表示するDataGrid）";
         }
 

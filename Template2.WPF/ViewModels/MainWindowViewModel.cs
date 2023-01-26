@@ -1,14 +1,12 @@
 ﻿using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Regions;
 using Template2.WPF.Views;
 
 namespace Template2.WPF.ViewModels
 {
-    public class MainWindowViewModel : BindableBase
+    public class MainWindowViewModel : ViewModelBase
     {
-        //// 画面遷移用
-        private IRegionManager _regionManager;
+        private NavigationParameters _parameters = new NavigationParameters();
 
         public MainWindowViewModel(IRegionManager regionManager)
         {
@@ -23,6 +21,9 @@ namespace Template2.WPF.ViewModels
             Sample002ViewButton = new DelegateCommand(Sample002ViewButtonExecute);
             Sample003ViewButton = new DelegateCommand(Sample003ViewButtonExecute);
             Sample004ViewButton = new DelegateCommand(Sample004ViewButtonExecute);
+
+            //// 自身をパラメータに格納
+            _parameters.Add(nameof(MainWindowViewModel), this);
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
@@ -59,44 +60,28 @@ namespace Template2.WPF.ViewModels
 
         private void Sample001ViewButtonExecute()
         {
-            //// パラメータ渡し
-            var p = new NavigationParameters();
-            p.Add("MainWindow", this);
-
-            _regionManager.RequestNavigate("ContentRegion", nameof(Sample001View), p);
+            _regionManager.RequestNavigate("ContentRegion", nameof(Sample001View), _parameters);
         }
 
         public DelegateCommand Sample002ViewButton { get; }
 
         private void Sample002ViewButtonExecute()
         {
-            //// パラメータ渡し
-            var p = new NavigationParameters();
-            p.Add("MainWindow", this);
-
-            _regionManager.RequestNavigate("ContentRegion", nameof(Sample002View), p);
+            _regionManager.RequestNavigate("ContentRegion", nameof(Sample002View), _parameters);
         }
 
         public DelegateCommand Sample003ViewButton { get; }
 
         private void Sample003ViewButtonExecute()
         {
-            //// パラメータ渡し
-            var p = new NavigationParameters();
-            p.Add("MainWindow", this);
-
-            _regionManager.RequestNavigate("ContentRegion", nameof(Sample003View), p);
+            _regionManager.RequestNavigate("ContentRegion", nameof(Sample003View), _parameters);
         }
 
         public DelegateCommand Sample004ViewButton { get; }
 
         private void Sample004ViewButtonExecute()
         {
-            //// パラメータ渡し
-            var p = new NavigationParameters();
-            p.Add("MainWindow", this);
-
-            _regionManager.RequestNavigate("ContentRegion", nameof(Sample004View), p);
+            _regionManager.RequestNavigate("ContentRegion", nameof(Sample004View), _parameters);
         }
 
 
@@ -108,5 +93,10 @@ namespace Template2.WPF.ViewModels
 
         #endregion
 
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #region //// Screen transition
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        #endregion
     }
 }

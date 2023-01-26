@@ -32,5 +32,11 @@ namespace Template2.WPF.ViewModels
 
     #endregion
 
+    //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+    #region //// Screen transition
+    //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+    #endregion
+
 }
 
