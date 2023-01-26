@@ -14,6 +14,8 @@
         <system:Double x:Key="menuFontSize">12</system:Double>
         <system:Double x:Key="menuIconSize">30</system:Double>
         <system:Double x:Key="menuButtonHeight">60</system:Double>
+        <Thickness x:Key="menuMargin">0,5,0,5</Thickness>
+
     </Window.Resources>
 
     <Grid>
@@ -84,6 +86,7 @@
                                     Width="60">
 
                         <Button Width="100"
+                                Margin="{StaticResource menuMargin}"
                                     Height="{StaticResource menuButtonHeight}"
                                     Style="{StaticResource MaterialDesignFlatButton}"
                                     Cursor="Hand" HorizontalAlignment="Center"
@@ -100,6 +103,7 @@
                         </Button>
 
                         <Button Width="100"
+                                Margin="{StaticResource menuMargin}"
                                     Height="{StaticResource menuButtonHeight}"
                                     Style="{StaticResource MaterialDesignFlatButton}"
                                     Cursor="Hand" HorizontalAlignment="Center"
@@ -116,6 +120,7 @@
                         </Button>
 
                         <Button Width="100"
+                                Margin="{StaticResource menuMargin}"
                                     Height="{StaticResource menuButtonHeight}"
                                     Style="{StaticResource MaterialDesignFlatButton}"
                                     Cursor="Hand" HorizontalAlignment="Center"
@@ -131,7 +136,10 @@
                             </DockPanel>
                         </Button>
 
+                        <Separator Margin="5"/>
+
                         <Button Width="100"
+                                Margin="{StaticResource menuMargin}"
                                     Height="{StaticResource menuButtonHeight}"
                                     Style="{StaticResource MaterialDesignFlatButton}"
                                     Cursor="Hand" HorizontalAlignment="Center"
@@ -152,16 +160,15 @@
 
             </materialDesign:DrawerHost>
 
-            <materialDesign:ColorZone DockPanel.Dock="Top" Background="Gainsboro" Height="30" Margin="0,0.5,0,0"
+            <materialDesign:ColorZone DockPanel.Dock="Top" Background="White" Height="30" Margin="0,0.5,0,0"
                                       Padding="10,0">
                 <Label Content="{Binding ViewOutline}"
                        VerticalAlignment="Center"/>
 
             </materialDesign:ColorZone>
 
-            <ScrollViewer HorizontalScrollBarVisibility="Auto">
-                <ContentControl prism:RegionManager.RegionName="ContentRegion" />
-            </ScrollViewer>
+            <ContentControl prism:RegionManager.RegionName="ContentRegion"
+                            DockPanel.Dock="Top"/>
 
         </DockPanel>
     </Grid>

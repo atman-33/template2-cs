@@ -15,8 +15,7 @@
             <Setter Property="Foreground" Value="Red" />
         </Style>-->
     </UserControl.Resources>
-             Background="{StaticResource backColor}">
-    
+
     <Grid Margin="{StaticResource gridMargin}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -24,46 +23,39 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="0.01*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="0" Grid.Column="0" Margin="5">
-            <materialDesign:Card materialDesign:ElevationAssist.Elevation="Dp8"
-                                 HorizontalAlignment="Left">
+        <materialDesign:Card Grid.Row="0" Grid.Column="0" Margin="5"
+                             Style="{StaticResource commonCard}"
+                             HorizontalAlignment="Left">
 
-                <DataGrid Width="600"
-                          Height="800"
-                          ItemsSource="{Binding SampleMstEntities}"
-                          SelectedItem="{Binding SampleMstEntitiesSlectedItem}"
-                          VerticalAlignment="Top"
-                          HorizontalAlignment="Left"
-                          AutoGenerateColumns="False"
-                          IsReadOnly="True" Cursor="Hand"
-                          Margin="5">
+            <DataGrid Style="{StaticResource commonDataGrid}"
+                      ItemsSource="{Binding SampleMstEntities}"
+                      SelectedItem="{Binding SampleMstEntitiesSlectedItem}"
+                      IsReadOnly="True" Cursor="Hand"
+                       Margin="5">
 
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectedCellsChanged">
-                            <prism:InvokeCommandAction Command="{Binding SampleMstEntitiesSelectedCellsChanged}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectedCellsChanged">
+                        <prism:InvokeCommandAction Command="{Binding SampleMstEntitiesSelectedCellsChanged}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
 
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="サンプルコード"
-                                            Binding="{Binding SampleCode}"
-                                            Width="*">
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="サンプル名称"
-                                            Binding="{Binding SampleName}"
-                                            Width="*">
-                        </DataGridTextColumn>
-                    </DataGrid.Columns>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="サンプルコード"
+                                            Binding="{Binding SampleCode}">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="サンプル名称"
+                                        Binding="{Binding SampleName}"
+                                        MinWidth="400">
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
 
-                </DataGrid>
-            </materialDesign:Card>
-        </StackPanel>
+            </DataGrid>
+        </materialDesign:Card>
 
-        <StackPanel Grid.Row="0" Grid.Column="2" Margin="5">
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="5">
             <Button Style="{StaticResource MaterialDesignRaisedDarkButton}"
                     Height="40"
                     Width="100"

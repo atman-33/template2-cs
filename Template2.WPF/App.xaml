@@ -7,17 +7,15 @@
     <Application.Resources>
         <ResourceDictionary>
 
-            <!-- マテリアルデザイン設定 -->
             <ResourceDictionary.MergedDictionaries>
+                <!-- マテリアルデザイン設定 -->
                 <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Indigo" SecondaryColor="Red" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+
+                <!-- スタイルファイル参照 -->
+                <ResourceDictionary Source="./Styles/StyleDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- 個別設定 -->
-            <SolidColorBrush x:Key="backgroundColor" Color="WhiteSmoke"/>
-            <Thickness x:Key="contentMargin">30,10,10,10</Thickness>
-
         </ResourceDictionary>
-
     </Application.Resources>
 </prism:PrismApplication>
