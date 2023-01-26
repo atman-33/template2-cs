@@ -189,7 +189,7 @@ namespace Template2.WPF.ViewModels
         {
             //// 遷移前の画面からパラメータ受け取り
             _mainWindowViewModel = navigationContext.Parameters.GetValue<MainWindowViewModel>("MainWindow");
-            _mainWindowViewModel.ViewOutline = "> サンプル002（テーブルをピボット/アンピボット変換）";
+            _mainWindowViewModel.ViewOutline = "> サンプル003（テーブルをピボット/アンピボット変換）";
         }
 
         /// <summary>

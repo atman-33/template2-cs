@@ -1,0 +1,139 @@
+﻿<UserControl x:Class="Template2.WPF.Views.Sample004View"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <UserControl.Resources>
+        <system:Double x:Key="IconSize">28</system:Double>
+    </UserControl.Resources>
+
+    <DockPanel LastChildFill="True" Margin="{StaticResource contentMargin}">
+
+        <DockPanel LastChildFill="True" DockPanel.Dock="Left">
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5">
+                <Button Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}"
+                        ToolTip="新規登録"
+                        Command="{Binding PageEditingViewButton}" Cursor="Hand">
+                    <materialDesign:PackIcon
+                            Width="{StaticResource IconSize}"
+                            Height="{StaticResource IconSize}"
+                            Kind="Pencil" />
+                </Button>
+                <Label VerticalAlignment="Center" Margin="5" FontSize="16" FontWeight="Bold">
+                    <TextBlock>☜ 新規登録はこちら</TextBlock>
+                </Label>
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Top"
+                    VerticalAlignment="Top">
+                <Separator Margin="5"/>
+
+                <Label Content="登録済みのページを編集する場合は、下記から選択して編集して下さい。"
+                       Margin="5"/>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Magnify" VerticalAlignment="Center" Margin="5"/>
+                    <TextBox VerticalAlignment="Center"
+                         Margin="5"
+                         Width="300"
+                             materialDesign:HintAssist.Hint="ページ名称を検索"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Left"
+                             Text="{Binding PageNameSearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="TextChanged">
+                                <prism:InvokeCommandAction Command="{Binding PageNameSearchingTextChanged}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+
+                    <Button materialDesign:ButtonAssist.CornerRadius="20"
+                            Margin="20"
+                            Width="150"
+                            Height="40"
+                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                            Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                            ToolTip="MaterialDesignRaisedDarkButton with Round Corners" 
+                            HorizontalContentAlignment="Center" 
+                            HorizontalAlignment="Left"
+                            Command="{Binding XXX}" Cursor="Hand">
+                        <TextBlock Text="選択ページを編集" />
+                    </Button>
+
+                </StackPanel>
+
+            </StackPanel>
+
+            <materialDesign:Card DockPanel.Dock="Bottom" 
+                                 materialDesign:ElevationAssist.Elevation="Dp2"
+                                 HorizontalAlignment="Left">
+                <DataGrid Width="600"
+                            Height="600"
+                            ItemsSource="{Binding PageMstEntities}"
+                            SelectedItem="{Binding PageMstEntitiesSlectedItem}"
+                            VerticalAlignment="Top"
+                            AutoGenerateColumns="False"
+                            IsReadOnly="True" Cursor="Hand">
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectedCellsChanged">
+                            <prism:InvokeCommandAction Command="{Binding PageMstEntitiesSelectedCellsChanged}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ページID"
+                                                    Binding="{Binding PageId}">
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="ページ名称"
+                                                    Binding="{Binding PageName}">
+                        </DataGridTextColumn>
+
+                        <!-- Memo:改行する際は「&#10;」を入力 -->
+                        <DataGridTextColumn Header="停止時間[sec]" Binding="{Binding SlideWaitingTime}">
+                        </DataGridTextColumn>
+
+                        <DataGridTemplateColumn Width="*">
+                            <DataGridTemplateColumn.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="説明"/>
+                                </StackPanel>
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate >
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50*"/>
+                                            <RowDefinition Height="1"/>
+                                            <RowDefinition Height="50*"/>
+                                            <RowDefinition Height="1"/>
+                                            <RowDefinition Height="50*"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Text="{Binding Note1}" Padding="2"/>
+                                        <Border Grid.Row="1" BorderThickness="0,0,0,1" BorderBrush="Gray"/>
+                                        <TextBlock Grid.Row="2" Text="{Binding Note2}" Padding="2"/>
+                                        <Border Grid.Row="3" BorderThickness="0,0,0,1" BorderBrush="Gray"/>
+                                        <TextBlock Grid.Row="4" Text="{Binding Note3}" Padding="2"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </materialDesign:Card>
+
+        </DockPanel>
+
+        <!-- 区切り線 -->
+        <DockPanel DockPanel.Dock="Right" Width="2" Background="LightGray" Margin="10">
+        </DockPanel>
+
+        <DockPanel DockPanel.Dock="Right">
+
+        </DockPanel>
+
+    </DockPanel>
+
+</UserControl>
