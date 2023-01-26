@@ -14,7 +14,6 @@
         <system:Double x:Key="menuFontSize">12</system:Double>
         <system:Double x:Key="menuIconSize">30</system:Double>
         <system:Double x:Key="menuButtonHeight">60</system:Double>
-
     </Window.Resources>
 
     <Grid>
@@ -160,7 +159,9 @@
 
             </materialDesign:ColorZone>
 
-            <ContentControl DockPanel.Dock="Bottom" prism:RegionManager.RegionName="ContentRegion"/>
+            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+            </ScrollViewer>
 
         </DockPanel>
     </Grid>

@@ -7,9 +7,19 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              Background="{StaticResource backgroundColor}">
 
-    <DockPanel LastChildFill="True" Margin="{StaticResource contentMargin}">
+    <Grid Margin="{StaticResource gridMargin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <StackPanel DockPanel.Dock="Top" Margin="5" Orientation="Horizontal" HorizontalAlignment="Left">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="5" Orientation="Horizontal" HorizontalAlignment="Left">
             <Button
                 Style="{StaticResource MaterialDesignPaperLightButton}"
                 Width="100"
@@ -41,9 +51,9 @@
                      Margin="5"/>
         </StackPanel>
 
-        <materialDesign:Card  DockPanel.Dock="Bottom" Margin="5"
-                                  materialDesign:ElevationAssist.Elevation="Dp2"
-                                  HorizontalAlignment="Left" Cursor="Hand">
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="5">
+            <materialDesign:Card materialDesign:ElevationAssist.Elevation="Dp8"
+                                 HorizontalAlignment="Left">
 
             <!-- ObservableCollectionをBindした場合、CanUserAddRows="True"でも新規行は追加されない。 -->
             <DataGrid 
@@ -64,33 +74,34 @@
                           CanUserAddRows="False"
                           Margin="5" Cursor="Hand">
 
-                <i:Interaction.Triggers>
-                    <!-- 選択が変更されてセル編集を開始した時にトリガー -->
-                    <i:EventTrigger EventName="SelectedCellsChanged">
-                        <prism:InvokeCommandAction Command="{Binding WorkerMstEntitiesSelectedCellsChanged}"/>
-                    </i:EventTrigger>
+                    <i:Interaction.Triggers>
+                        <!-- 選択が変更されてセル編集を開始した時にトリガー -->
+                        <i:EventTrigger EventName="SelectedCellsChanged">
+                            <prism:InvokeCommandAction Command="{Binding WorkerMstEntitiesSelectedCellsChanged}"/>
+                        </i:EventTrigger>
+                        
+                        <!-- 選択が変更されてセル編集を終了した時にトリガー -->
+                        <i:EventTrigger EventName="CurrentCellChanged">
+                            <prism:InvokeCommandAction Command="{Binding WorkerMstEntitiesCurrentCellChanged}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
 
-                    <!-- 選択が変更されてセル編集を終了した時にトリガー -->
-                    <i:EventTrigger EventName="CurrentCellChanged">
-                        <prism:InvokeCommandAction Command="{Binding WorkerMstEntitiesCurrentCellChanged}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="作業者コード"
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="作業者コード"
                                             Binding="{Binding WorkerCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             Width="*">
-                    </DataGridTextColumn>
-                    <DataGridTextColumn Header="作業者名称"
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="作業者名称"
                                             Binding="{Binding WorkerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             Width="*">
-                    </DataGridTextColumn>
-                </DataGrid.Columns>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
 
-            </DataGrid>
-        </materialDesign:Card>
+                </DataGrid>
+            </materialDesign:Card>
+        </StackPanel>
 
 
-    </DockPanel>
-
+    </Grid>
+    
 </UserControl>

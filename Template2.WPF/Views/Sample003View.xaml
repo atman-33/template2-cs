@@ -4,10 +4,15 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             Background="{StaticResource backgroundColor}">
-
-    <DockPanel LastChildFill="True" Margin="{StaticResource contentMargin}">
+             Background="{StaticResource backColor}">
+    
+    <Grid Margin="{StaticResource gridMargin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
         <DockPanel DockPanel.Dock="Left">
             <StackPanel DockPanel.Dock="Top" Margin="5" HorizontalAlignment="Left" Orientation="Horizontal">
