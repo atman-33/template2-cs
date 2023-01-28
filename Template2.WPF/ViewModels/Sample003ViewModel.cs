@@ -13,7 +13,6 @@ using Template2.Domain.Modules.Objects;
 using Template2.Domain.Repositories;
 using Template2.Domain.ValueObjects;
 using Template2.Infrastructure;
-using Template2.WPF.Services;
 
 // ToDo: 作業者マスタから選択（コンボボックス）した作業者を、表に追加する機能（Sample04予定）
 // ToDo: 勤務予定時間の入力表には、作業者名称を表示（Sample04予定）
@@ -42,9 +41,6 @@ namespace Template2.WPF.ViewModels
         public Sample003ViewModel(IWorkingTimePlanMstRepository workingTimePlanMstRepository,
                                   IWorkerMstRepository workerMstRepository)
         {
-            //// メッセージボックス
-            _messageService = new MessageService();
-
             //// Factories経由で作成したRepositoryを、プライベート変数に格納
             _workingTimePlanMstRepository = workingTimePlanMstRepository;
             _workerMstRepository = workerMstRepository;

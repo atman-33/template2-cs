@@ -4,8 +4,7 @@ using Template2.WPF.Services;
 
 namespace Template2.WPF.ViewModels
 {
-    [RegionMemberLifetime(KeepAlive = false)]
-    public class ViewModelBase : BindableBase, INavigationAware
+    public class ViewModelBase : BindableBase, INavigationAware, IRegionMemberLifetime
     {
         /// <summary>
         /// MainWindowViewModel
@@ -21,6 +20,17 @@ namespace Template2.WPF.ViewModels
         /// メッセージボックス
         /// </summary>
         protected IMessageService _messageService;
+
+        /// <summary>
+        /// ViewModel破棄に伴いメモリ開放する際はfalse
+        /// </summary>
+        public bool KeepAlive { get; set; } = false;
+
+        public ViewModelBase()
+        {
+            //// メッセージボックス
+            _messageService = new MessageService();
+        }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// Screen transition

@@ -26,9 +26,6 @@ namespace Template2.WPF.ViewModels
 
         public Sample001ViewModel(ISampleMstRepository sampleMstRepository)
         {
-            //// メッセージボックス
-            _messageService = new MessageService();
-
             //// Factories経由で作成したRepositoryを、プライベート変数に格納
             _sampleMstRepository = sampleMstRepository;
 
