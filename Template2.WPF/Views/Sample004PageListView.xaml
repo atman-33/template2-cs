@@ -28,7 +28,7 @@
         <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="5">
             <Button Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}"
                         ToolTip="新規登録"
-                        Command="{Binding PageEditingViewButton}" Cursor="Hand">
+                        Command="{Binding NewButton}" Cursor="Hand">
                 <materialDesign:PackIcon
                             Width="{StaticResource IconSize}"
                             Height="{StaticResource IconSize}"
@@ -50,12 +50,12 @@
                 <TextBox VerticalAlignment="Center"
                          Margin="5"
                          Width="300"
-                             materialDesign:HintAssist.Hint="ページ名称を検索"
-                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Left"
-                             Text="{Binding PageNameSearchingText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                         materialDesign:HintAssist.Hint="ページ名称を検索"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" HorizontalAlignment="Left"
+                         Text="{Binding SearchingPageNameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TextChanged">
-                            <prism:InvokeCommandAction Command="{Binding PageNameSearchingTextChanged}"/>
+                            <prism:InvokeCommandAction Command="{Binding SearchingPageNameTextChanged}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </TextBox>
@@ -64,12 +64,11 @@
                             Margin="20"
                             Width="150"
                             Height="40"
-                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignRaisedDarkButton}"
                             ToolTip="MaterialDesignRaisedDarkButton with Round Corners" 
                             HorizontalContentAlignment="Center" 
                             HorizontalAlignment="Left"
-                            Command="{Binding XXX}" Cursor="Hand">
+                            Command="{Binding EditButton}" Cursor="Hand">
                     <TextBlock Text="選択ページを編集" />
                 </Button>
 
@@ -133,14 +132,9 @@
             </DataGrid>
         </materialDesign:Card>
 
-
         <!-- 区切り線 -->
         <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Width="2" Background="LightGray" Margin="10">
         </StackPanel>
-
-        <DockPanel>
-
-        </DockPanel>
 
     </Grid>
 

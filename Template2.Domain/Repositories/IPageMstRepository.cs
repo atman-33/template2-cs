@@ -10,5 +10,7 @@ namespace Template2.Domain.Repositories
         void Save(PageMstEntity entity);
 
         void Delete(PageMstEntity entity);
+
+        int GetNextId();
     }
 }

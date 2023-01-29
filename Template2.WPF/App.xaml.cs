@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Threading;
 using Template2.Domain.Exceptions;
+using Template2.WPF.ViewModels;
 using Template2.WPF.Views;
 
 namespace Template2.WPF
@@ -59,12 +60,13 @@ namespace Template2.WPF
             containerRegistry.RegisterForNavigation<Sample002View>();
             containerRegistry.RegisterForNavigation<Sample003View>();
             containerRegistry.RegisterForNavigation<Sample004PageListView>();
-            containerRegistry.RegisterForNavigation<Sample004PageEditingView>();
             containerRegistry.RegisterForNavigation<Sample004PagePreviewView>();
 
 
             //// ダイアログ画面（別画面に表示） ※ViewModel に IDialogAware 実装が必要
             //// ex. containerRegistry.RegisterDialog<XXXView, XXXViewModel>();
+
+            containerRegistry.RegisterDialog<Sample004PageEditingView, Sample004PageEditingViewModel>();
 
         }
     }

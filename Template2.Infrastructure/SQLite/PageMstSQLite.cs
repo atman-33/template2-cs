@@ -1,6 +1,7 @@
 using System.Data.SQLite;
 using Template2.Domain.Entities;
 using Template2.Domain.Repositories;
+using Template2.Domain.ValueObjects;
 
 namespace Template2.Infrastructure.SQLite
 {
@@ -13,7 +14,7 @@ SELECT
   page_id,
   page_name,
   movie_link,
-  image_link,
+  image_folder_link,
   image_page_no,
   slide_waiting_time,
   note1,
@@ -30,7 +31,7 @@ FROM
                         Convert.ToInt32(reader["page_id"]),
 						Convert.ToString(reader["page_name"]),
 						reader["movie_link"] != DBNull.Value ? Convert.ToString(reader["movie_link"]) : null,
-						reader["image_link"] != DBNull.Value ? Convert.ToString(reader["image_link"]) : null,
+						reader["image_folder_link"] != DBNull.Value ? Convert.ToString(reader["image_folder_link"]) : null,
 						reader["image_page_no"] != DBNull.Value ? Convert.ToInt32(reader["image_page_no"]) : null,
 						Convert.ToSingle(reader["slide_waiting_time"]),
 						reader["note1"] != DBNull.Value ? Convert.ToString(reader["note1"]) : null,
@@ -47,7 +48,7 @@ INSERT INTO tmp_page_mst
  (page_id,
   page_name,
   movie_link,
-  image_link,
+  image_folder_link,
   image_page_no,
   slide_waiting_time,
   note1,
@@ -57,7 +58,7 @@ VALUES
  (@page_id,
   @page_name,
   @movie_link,
-  @image_link,
+  @image_folder_link,
   @image_page_no,
   @slide_waiting_time,
   @note1,
@@ -69,7 +70,7 @@ UPDATE tmp_page_mst
 SET 
   page_name = @page_name,
   movie_link = @movie_link,
-  image_link = @image_link,
+  image_folder_link = @image_folder_link,
   image_page_no = @image_page_no,
   slide_waiting_time = @slide_waiting_time,
   note1 = @note1,
@@ -83,7 +84,7 @@ WHERE
                 new SQLiteParameter("@page_id", entity.PageId.Value),
 				new SQLiteParameter("@page_name", entity.PageName.Value),
 				new SQLiteParameter("@movie_link", entity.MovieLink.Value),
-				new SQLiteParameter("@image_link", entity.ImageLink.Value),
+				new SQLiteParameter("@image_folder_link", entity.ImageFolderLink.Value),
 				new SQLiteParameter("@image_page_no", entity.ImagePageNo.Value),
 				new SQLiteParameter("@slide_waiting_time", entity.SlideWaitingTime.Value),
 				new SQLiteParameter("@note1", entity.Note1.Value),
@@ -93,8 +94,6 @@ WHERE
 
             SQLiteHelper.Execute(insert, update, args.ToArray());
         }
-
-
 
         public void Delete(PageMstEntity entity)
         {
@@ -108,6 +107,24 @@ DELETE FROM tmp_page_mst WHERE page_id = @page_id
             };
 
             SQLiteHelper.Execute(delete, args.ToArray());
+        }
+
+        public int GetNextId()
+        {
+            string sql = @"
+SELECT MAX(page_id) AS max_page_id FROM tmp_page_mst
+";
+
+            var vo =  SQLiteHelper.QuerySingle(
+                sql,
+                reader =>
+                {
+                    return new PageId(
+                        reader["max_page_id"] != DBNull.Value ? Convert.ToInt32(reader["max_page_id"]) : 0);
+                }, 
+                new PageId(0));
+
+            return vo.Value + 1;
         }
     }
 }

@@ -81,7 +81,7 @@ namespace Template2.WPF.ViewModels
 
         private void Sample004ViewButtonExecute()
         {
-            _regionManager.RequestNavigate("ContentRegion", nameof(Sample004View), _parameters);
+            _regionManager.RequestNavigate("ContentRegion", nameof(Sample004PageListView), _parameters);
         }
 
 

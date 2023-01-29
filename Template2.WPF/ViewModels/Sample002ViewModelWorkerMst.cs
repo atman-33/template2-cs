@@ -5,24 +5,22 @@ namespace Template2.WPF.ViewModels
 {
     public class Sample002ViewModelWorkerMst
     {
-        private WorkerMstEntity _entity;
-
         public Sample002ViewModelWorkerMst(WorkerMstEntity entity)
         {
-            _entity = entity;
+            Entity = entity;
         }
+
+        public WorkerMstEntity Entity { get; private set; }
 
         public string WorkerCode
         {
-            get { return _entity.WorkerCode.Value; }
-            set { _entity.WorkerCode = new WorkerCode(value); }
+            get { return Entity.WorkerCode.Value; }
+            set { Entity.WorkerCode = new WorkerCode(value); }
         }
         public string WorkerName
         {
-            get { return _entity.WorkerName.Value; }
-            set { _entity.WorkerName = new WorkerName(value); }
+            get { return Entity.WorkerName.Value; }
+            set { Entity.WorkerName = new WorkerName(value); }
         }
-
-        public WorkerMstEntity Entity { get { return _entity; } }
     }
 }

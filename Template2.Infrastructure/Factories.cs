@@ -40,6 +40,16 @@ namespace Template2.Infrastructure
 #endif
             return new WorkingTimePlanMstOracle();
         }
+        public static IPageMstRepository CreatePageMst()
+        {
+#if DEBUG
+            if (Shared.IsFake)
+            {
+                return new PageMstSQLite();
+            }
+#endif
+            return new PageMstOracle();
+        }
 
     }
 }
