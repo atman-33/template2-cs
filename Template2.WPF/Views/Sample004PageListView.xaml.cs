@@ -3,11 +3,11 @@
 namespace Template2.WPF.Views
 {
     /// <summary>
-    /// Interaction logic for Sample004View
+    /// Interaction logic for Sample004PageListView
     /// </summary>
-    public partial class Sample004View : UserControl
+    public partial class Sample004PageListView : UserControl
     {
-        public Sample004View()
+        public Sample004PageListView()
         {
             InitializeComponent();
         }

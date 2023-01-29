@@ -4,9 +4,9 @@ using Template2.WPF.Services;
 
 namespace Template2.WPF.ViewModels
 {
-    public class Sample004ViewModel : ViewModelBase
+    public class Sample004PageListViewModel : ViewModelBase
     {
-        public Sample004ViewModel()
+        public Sample004PageListViewModel()
         {
 
         }
