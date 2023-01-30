@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Data;
-using System.Reflection.PortableExecutable;
 using Template2.Domain.Exceptions;
 
 namespace Template2.Domain.Modules.Objects

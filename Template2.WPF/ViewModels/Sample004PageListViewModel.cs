@@ -45,10 +45,7 @@ namespace Template2.WPF.ViewModels
             EditButton = new DelegateCommand(EditButtonExecute);
 
             //// Repositoryからデータ取得
-            UpdatePageMstEntitiesOrigin();
-
-            //// Originに格納
-            PageMstEntities = _pageMstEntitiesOrigin;
+            UpdatePageMstEntities();
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
@@ -159,9 +156,7 @@ namespace Template2.WPF.ViewModels
                 //// 編集後のデータを追加もしくは更新
                 var entity = dialogResult.Parameters.GetValue<PageMstEntity>(nameof(PageMstEntity));
                 Sample004PageListViewModelPageMst.MergeViewModelEntity(ref _pageMstEntities, entity);
-
-                //// Originを更新
-                UpdatePageMstEntitiesOrigin();
+                Sample004PageListViewModelPageMst.MergeViewModelEntity(ref _pageMstEntitiesOrigin, entity);
             }
         }
 
@@ -170,14 +165,17 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// 3. Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        private void UpdatePageMstEntitiesOrigin()
+        private void UpdatePageMstEntities()
         {
-            _pageMstEntitiesOrigin.Clear();
+            _pageMstEntities.Clear();
 
             foreach (var entity in _pageMstRepository.GetData())
             {
-                _pageMstEntitiesOrigin.Add(new Sample004PageListViewModelPageMst(entity));
+                _pageMstEntities.Add(new Sample004PageListViewModelPageMst(entity));
             }
+
+            //// Originに退避
+            _pageMstEntitiesOrigin = _pageMstEntities;
         }
 
         private void PreviewPage()
