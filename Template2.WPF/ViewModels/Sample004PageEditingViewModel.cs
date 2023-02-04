@@ -9,7 +9,6 @@ using Template2.Domain;
 using Template2.Domain.Entities;
 using Template2.Domain.Modules.Helpers;
 using Template2.Domain.Repositories;
-using Template2.Domain.ValueObjects;
 using Template2.Infrastructure;
 using Template2.WPF.Views;
 
