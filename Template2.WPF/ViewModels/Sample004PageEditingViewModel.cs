@@ -1,17 +1,10 @@
-﻿using Microsoft.Win32;
-using Microsoft.WindowsAPICodePack.Dialogs;
+﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using Template2.Domain;
 using Template2.Domain.Entities;
 using Template2.Domain.Modules.Helpers;
@@ -45,7 +38,10 @@ namespace Template2.WPF.ViewModels
             _pageMstRepository = pageMstRepository;
 
             //// DelegateCommandメソッドを登録
+            CancelButton = new DelegateCommand(CancelButtonExecute);
             SaveButton = new DelegateCommand(SaveButtonExecute);
+            DeleteButton = new DelegateCommand(DeleteButtonExecute);
+
             PreviewButton = new DelegateCommand(PreviewButtonExecute);
             OpenMovieFileButton = new DelegateCommand(OpenMovieFileButtonExecute);
             OpenImageFileButton = new DelegateCommand(OpenImageFileButtonExecute);
@@ -245,6 +241,13 @@ namespace Template2.WPF.ViewModels
             _pagePreviewViewModel.PreviewImage();
         }
 
+        public DelegateCommand CancelButton { get; }
+        private void CancelButtonExecute()
+        {
+            RequestClose?.Invoke(new DialogResult(ButtonResult.Cancel));
+        }
+
+
         public DelegateCommand SaveButton { get; }
         private void SaveButtonExecute()
         {
@@ -289,6 +292,40 @@ namespace Template2.WPF.ViewModels
 
             RequestClose?.Invoke(new DialogResult(ButtonResult.OK, p));
         }
+
+        public DelegateCommand DeleteButton { get; }
+        private void DeleteButtonExecute()
+        {
+            if (IsNewPage)
+            {
+                return;
+            }
+
+            if (_messageService.Question("削除しますか？") != System.Windows.MessageBoxResult.OK)
+            {
+                return;
+            }
+
+            var entity = new PageMstEntity(
+                Convert.ToInt32(PageIdText),
+                PageNameText,
+                MovieLinkText,
+                ImageFolderLinkText,
+                ImagePageNoText,
+                (float)SlideWaitingTimeText,
+                NoteEntities[0].Note,
+                NoteEntities[1].Note,
+                NoteEntities[2].Note
+                );
+
+            _pageMstRepository.Delete(entity);
+            
+            var p = new DialogParameters();
+            p.Add(nameof(PageMstEntity), entity);
+
+            RequestClose?.Invoke(new DialogResult(ButtonResult.No, p));
+        }
+
 
         #endregion
 

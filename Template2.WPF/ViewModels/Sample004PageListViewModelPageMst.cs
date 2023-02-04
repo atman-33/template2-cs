@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using Template2.Domain.Entities;
 
 namespace Template2.WPF.ViewModels
@@ -41,6 +39,21 @@ namespace Template2.WPF.ViewModels
 
             //// コレクションに存在しないエンティティなら追加
             viewModelEntities.Add(new Sample004PageListViewModelPageMst(entity));
+        }
+
+        static public void RemoveViewModelEntity(ref ObservableCollection<Sample004PageListViewModelPageMst> viewModelEntities,
+                                                 PageMstEntity entity)
+        {
+            //// 既にKeyのエンティティが存在するなら除去
+            foreach (var viewModelEntity in viewModelEntities)
+            {
+                if (viewModelEntity.Entity.PageId.Value == entity.PageId.Value)
+                {
+                    var index = viewModelEntities.IndexOf(viewModelEntity);
+                    viewModelEntities.RemoveAt(index);
+                    return;
+                }
+            }
         }
     }
 }

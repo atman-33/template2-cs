@@ -1,12 +1,9 @@
 ﻿using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Regions;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -30,9 +27,6 @@ namespace Template2.WPF.ViewModels
             //// DelegateCommandメソッドを登録
             MoviePlayButton = new DelegateCommand(MoviePlayButtonExecute);
             MovieStopButton = new DelegateCommand(MovieStopButtonExecute);
-
-            //// 自身をSharedに格納
-            Shared.Sample004PagePreviewViewModel = this;
         }
 
         public PageMstEntity PreviewPageMstEntity { get; private set; }
@@ -95,6 +89,12 @@ namespace Template2.WPF.ViewModels
 
         public void PreviewMovie(string moviePath)
         {
+            if (File.Exists(moviePath) == false)
+            {
+                _movieMediaElement.Source = null;
+                return;
+            }
+
             _movieMediaElement.Source = new Uri(moviePath, UriKind.Relative);
             _movieMediaElement.Position = TimeSpan.Zero;
             _movieMediaElement.Visibility = System.Windows.Visibility.Visible;
@@ -148,7 +148,6 @@ namespace Template2.WPF.ViewModels
             ImageSource = bmpImage;
         }
 
-
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
@@ -161,6 +160,11 @@ namespace Template2.WPF.ViewModels
 
             //// プレビュー表示するエンティティを受け取り
             PreviewPageMstEntity = navigationContext.Parameters.GetValue<PageMstEntity>(nameof(PreviewPageMstEntity));
+
+            Debug.WriteLine("★Sample004PagePreviewViewModel:エンティティ格納完了");
+
+            //// 自身をSharedに格納
+            Shared.Sample004PagePreviewViewModel = this;
         }
 
         #endregion

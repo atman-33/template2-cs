@@ -21,7 +21,7 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="550"/>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="25"/>
             <ColumnDefinition MinWidth="400"/>
         </Grid.ColumnDefinitions>
@@ -183,29 +183,56 @@
         <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Left">
             <Button materialDesign:ButtonAssist.CornerRadius="20"
                             Margin="10"
-                            Width="150"
+                            Width="100"
                             Height="40"
-                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignOutlinedDarkButton}"
                             ToolTip="プレビュー" 
                             HorizontalContentAlignment="Center" 
-                            HorizontalAlignment="Right"
+                            HorizontalAlignment="Left"
                             Command="{Binding PreviewButton}" Cursor="Hand">
                 <TextBlock Text="プレビュー" />
             </Button>
 
-            <Button materialDesign:ButtonAssist.CornerRadius="20"
+            <StackPanel Orientation="Horizontal">
+
+                <Button materialDesign:ButtonAssist.CornerRadius="20"
                             Margin="10"
-                            Width="150"
+                            Width="100"
                             Height="40"
-                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}"
+                            ToolTip="キャンセル" 
+                            HorizontalContentAlignment="Center" 
+                            HorizontalAlignment="Right"
+                            Command="{Binding CancelButton}" Cursor="Hand">
+                    <TextBlock Text="キャンセル" />
+                </Button>
+
+                <Button materialDesign:ButtonAssist.CornerRadius="20"
+                            Margin="10"
+                            Width="100"
+                            Height="40"
                             Style="{StaticResource MaterialDesignRaisedDarkButton}"
                             ToolTip="保存" 
                             HorizontalContentAlignment="Center" 
                             HorizontalAlignment="Right"
-                            Command="{Binding SaveButton}">
-                <TextBlock Text="編集内容を保存" />
+                            Command="{Binding SaveButton}" Cursor="Hand">
+                    <TextBlock Text="保存" />
+                </Button>
+
+            </StackPanel>
+
+            <Button materialDesign:ButtonAssist.CornerRadius="20"
+                            Margin="10,40,10,10"
+                            Width="100"
+                            Height="40"
+                            Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                            ToolTip="削除" 
+                            HorizontalContentAlignment="Center" 
+                            HorizontalAlignment="Left"
+                            Command="{Binding DeleteButton}" Cursor="Hand">
+                <TextBlock Text="削除" />
             </Button>
+
         </StackPanel>
 
         <!-- 区切り線 -->

@@ -1,5 +1,6 @@
 ﻿using Prism.Mvvm;
 using Prism.Regions;
+using Prism.Services.Dialogs;
 using Template2.WPF.Services;
 
 namespace Template2.WPF.ViewModels
@@ -15,6 +16,11 @@ namespace Template2.WPF.ViewModels
         /// リージョンマネージャー（リージョン画面遷移に必要）
         /// </summary>
         protected IRegionManager _regionManager;
+
+        /// <summary>
+        /// ダイアログサービス（ダイアログ画面遷移に必要）
+        /// </summary>
+        protected IDialogService _dialogService;
 
         /// <summary>
         /// メッセージボックス

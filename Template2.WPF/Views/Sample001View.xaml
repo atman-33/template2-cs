@@ -100,7 +100,7 @@
                     Command="{Binding DeleteButton}"
                         materialDesign:ButtonAssist.CornerRadius="20"
                         ToolTip="削除"
-                        HorizontalAlignment="Left">
+                        HorizontalAlignment="Left" Cursor="Hand">
                 <TextBlock Text="削除" />
             </Button>
         </StackPanel>

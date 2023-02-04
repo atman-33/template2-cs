@@ -3,7 +3,9 @@ using Prism.Regions;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using Template2.Domain;
 using Template2.Domain.Entities;
 using Template2.Domain.Modules.Helpers;
 using Template2.Domain.Repositories;
@@ -16,10 +18,15 @@ namespace Template2.WPF.ViewModels
 {
     public class Sample004PageListViewModel : ViewModelBase
     {
-        private IDialogService _dialogService;
+        /// <summary>
+        /// ページプレビューを表示するContentRegion
+        /// </summary>
+        const string PagePreviewContentRegion = "PageListPagePreviewContentRegion";
 
         //// 外部接触Repository
         private IPageMstRepository _pageMstRepository;
+
+        private Sample004PagePreviewViewModel _pagePreviewViewModel;
 
         /// <summary>
         /// PageMstEntitiesのオリジン（未フィルターのコレクション）
@@ -27,9 +34,10 @@ namespace Template2.WPF.ViewModels
         private ObservableCollection<Sample004PageListViewModelPageMst> _pageMstEntitiesOrigin
             = new ObservableCollection<Sample004PageListViewModelPageMst>();
 
-        public Sample004PageListViewModel(IDialogService dialogService)
+        public Sample004PageListViewModel(IRegionManager regionManager, IDialogService dialogService)
             : this(Factories.CreatePageMst())
         {
+            _regionManager = regionManager;
             _dialogService = dialogService;
         }
 
@@ -150,13 +158,22 @@ namespace Template2.WPF.ViewModels
 
         private void Sample004PageEditingViewClose(IDialogResult dialogResult)
         {
-            //// OKが返された時のみ
+            //// OK => 保存 => 一覧に追加
             if (dialogResult.Result == ButtonResult.OK)
             {
                 //// 編集後のデータを追加もしくは更新
                 var entity = dialogResult.Parameters.GetValue<PageMstEntity>(nameof(PageMstEntity));
                 Sample004PageListViewModelPageMst.MergeViewModelEntity(ref _pageMstEntities, entity);
                 Sample004PageListViewModelPageMst.MergeViewModelEntity(ref _pageMstEntitiesOrigin, entity);
+            }
+
+            //// No => 削除 => 一覧から除去
+            if (dialogResult.Result == ButtonResult.No)
+            {
+                //// 編集後のデータを追加もしくは更新
+                var entity = dialogResult.Parameters.GetValue<PageMstEntity>(nameof(PageMstEntity));
+                Sample004PageListViewModelPageMst.RemoveViewModelEntity(ref _pageMstEntities, entity);
+                Sample004PageListViewModelPageMst.RemoveViewModelEntity(ref _pageMstEntitiesOrigin, entity);
             }
         }
 
@@ -180,8 +197,21 @@ namespace Template2.WPF.ViewModels
 
         private void PreviewPage()
         {
-            // ToDo: 未実装
-            // throw new NotImplementedException();
+            var p = new NavigationParameters();
+            p.Add(nameof(Sample004PagePreviewViewModel.PreviewPageMstEntity), PageMstEntitiesSlectedItem.Entity);
+
+            Debug.WriteLine("★Sample004PageListViewModel:プレビュー遷移処理開始");
+
+            _regionManager.RequestNavigate(PagePreviewContentRegion, nameof(Sample004PagePreviewView), p);
+            Debug.WriteLine("★Sample004PageListViewModel:プレビュー遷移処理完了");
+
+            _pagePreviewViewModel = Shared.Sample004PagePreviewViewModel as Sample004PagePreviewViewModel;
+
+            Debug.WriteLine("★Sample004PageListViewModel:動画、画像プレビュー更新開始");
+            //// 動画プレビュー更新
+            _pagePreviewViewModel.PreviewMovie();
+            //// 画像プレビュー更新
+            _pagePreviewViewModel.PreviewImage();
         }
 
         #endregion
