@@ -31,23 +31,23 @@
                              HorizontalAlignment="Left">
 
             <DataGrid Style="{StaticResource commonDataGrid}"
-                      ItemsSource="{Binding SampleMstEntities}"
-                      SelectedItem="{Binding SampleMstEntitiesSlectedItem}"
+                      ItemsSource="{Binding WorkerGroupMstEntities}"
+                      SelectedItem="{Binding WorkerGroupMstEntitiesSlectedItem}"
                       IsReadOnly="True" Cursor="Hand"
                        Margin="5">
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectedCellsChanged">
-                        <prism:InvokeCommandAction Command="{Binding SampleMstEntitiesSelectedCellsChanged}"/>
+                        <prism:InvokeCommandAction Command="{Binding WorkerGroupMstEntitiesSelectedCellsChanged}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="サンプルコード"
-                                            Binding="{Binding SampleCode}">
+                    <DataGridTextColumn Header="作業者グループコード"
+                                            Binding="{Binding WorkerGroupCode}">
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="サンプル名称"
-                                        Binding="{Binding SampleName}"
+                    <DataGridTextColumn Header="作業者グループ名称"
+                                        Binding="{Binding WorkerGroupName}"
                                         MinWidth="400">
                     </DataGridTextColumn>
                 </DataGrid.Columns>
@@ -68,18 +68,18 @@
             </Button>
 
             <TextBox VerticalAlignment="Center"
-                                 materialDesign:HintAssist.Hint="サンプルコード"
+                                 materialDesign:HintAssist.Hint="作業者グループコード"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding SampleCodeText}"
+                                 Text="{Binding WorkerGroupCodeText}"
                                  Width="300"
                                  TextWrapping="Wrap" HorizontalAlignment="Left"
-                     IsEnabled="{Binding SampleCodeIsEnabled}"
+                     IsEnabled="{Binding WorkerGroupCodeIsEnabled}"
                      Margin="0,0,0,30"/>
 
             <TextBox VerticalAlignment="Center"
-                                 materialDesign:HintAssist.Hint="サンプル名称"
+                                 materialDesign:HintAssist.Hint="作業者グループ名称"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding SampleNameText}"
+                                 Text="{Binding WorkerGroupNameText}"
                                  Width="300"
                                  TextWrapping="Wrap" HorizontalAlignment="Left"
                      Margin="0,0,0,30"/>

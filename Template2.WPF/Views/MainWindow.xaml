@@ -13,7 +13,7 @@
     <Window.Resources>
         <system:Double x:Key="menuFontSize">12</system:Double>
         <system:Double x:Key="menuIconSize">25</system:Double>
-        <system:Double x:Key="menuButtonHeight">60</system:Double>
+        <system:Double x:Key="menuButtonHeight">50</system:Double>
         <Thickness x:Key="menuMargin">0,5,0,5</Thickness>
 
     </Window.Resources>
