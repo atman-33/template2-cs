@@ -11,7 +11,8 @@ namespace Template2.Infrastructure.SQLite
             string sql = @"
 SELECT
   worker_code,
-  worker_name
+  worker_name,
+  worker_group_code
 FROM
   tmp_worker_mst
 ";
@@ -21,7 +22,8 @@ FROM
                 {
                     return new WorkerMstEntity(
                         Convert.ToString(reader["worker_code"]),
-                        Convert.ToString(reader["worker_name"])
+                        Convert.ToString(reader["worker_name"]),
+                        reader["worker_group_code"] != DBNull.Value ? Convert.ToString(reader["worker_group_code"]) : null
                         );
                 });
         }
@@ -31,22 +33,26 @@ FROM
             string insert = @"
 INSERT INTO tmp_worker_mst
  (worker_code,
-  worker_name)
+  worker_name,
+  worker_group_code)
 VALUES
  (@worker_code,
-  @worker_name)
+  @worker_name,
+  @worker_group_code)
 ";
             string update = @"
 UPDATE tmp_worker_mst
 SET 
-  worker_name = @worker_name
+  worker_name = @worker_name,
+  worker_group_code = @worker_group_code
 WHERE
   worker_code = @worker_code
 ";
             var args = new List<SQLiteParameter>
             {
                 new SQLiteParameter("@worker_code", entity.WorkerCode.Value),
-                new SQLiteParameter("@worker_name", entity.WorkerName.Value)
+                new SQLiteParameter("@worker_name", entity.WorkerName.Value),
+                new SQLiteParameter("@worker_group_code", entity.WorkerGroupCode.Value)
             };
 
             SQLiteHelper.Execute(insert, update, args.ToArray());

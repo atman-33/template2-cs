@@ -5,7 +5,9 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             Background="{StaticResource backgroundColor}">
+             Background="{StaticResource backgroundColor}"
+             xmlns:local="clr-namespace:Template2.WPF.Services"
+             >
 
     <Grid Margin="{StaticResource gridMargin}">
         <Grid.RowDefinitions>
@@ -77,14 +79,24 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 
+                <DataGrid.Resources>
+                    <!--DataGridのItemSourceとは別のアイテムをBindするために必要-->
+                    <local:BindingProxy x:Key="Proxy" Data="{Binding}"/>
+                </DataGrid.Resources>
+
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="作業者コード"
+                    <materialDesign:DataGridTextColumn Header="作業者コード"
                                             Binding="{Binding WorkerCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                    </DataGridTextColumn>
-                    <DataGridTextColumn Header="作業者名称"
-                                            Binding="{Binding WorkerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                            Width="300">
-                    </DataGridTextColumn>
+                    </materialDesign:DataGridTextColumn>
+                    <materialDesign:DataGridTextColumn Header="作業者名称"
+                                            Binding="{Binding WorkerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    </materialDesign:DataGridTextColumn>
+
+                    <materialDesign:DataGridComboBoxColumn Header="作業者グループ"
+                                                           SelectedValueBinding="{Binding WorkerGroupCode}"
+                                                           SelectedValuePath="WorkerGroupCode.Value"
+                                                           DisplayMemberPath="WorkerGroupName.Value"
+                                                           ItemsSourceBinding="{Binding Data.WorkerGroupMstEntities, Source={StaticResource Proxy}}"/>
                 </DataGrid.Columns>
 
             </DataGrid>
