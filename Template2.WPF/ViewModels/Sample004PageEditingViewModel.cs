@@ -2,6 +2,7 @@
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Regions;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -11,23 +12,32 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using Template2.Domain;
 using Template2.Domain.Entities;
 using Template2.Domain.Modules.Helpers;
 using Template2.Domain.Repositories;
+using Template2.Domain.ValueObjects;
 using Template2.Infrastructure;
+using Template2.WPF.Views;
 
 namespace Template2.WPF.ViewModels
 {
     public class Sample004PageEditingViewModel : ViewModelBase, IDialogAware
     {
+        /// <summary>
+        /// ページプレビューを表示するContentRegion
+        /// </summary>
+        const string PagePreviewContentRegion = "PageEditingPagePreviewContentRegion";
+
         //// 外部接触Repository
         private IPageMstRepository _pageMstRepository;
 
-        private MediaElement _movieMediaElement;
+        private Sample004PagePreviewViewModel _pagePreviewViewModel;
 
-        public Sample004PageEditingViewModel()
+        public Sample004PageEditingViewModel(IRegionManager regionManager)
             : this(Factories.CreatePageMst())
         {
+            MainRegionManager = regionManager;
         }
 
         public Sample004PageEditingViewModel(IPageMstRepository pageMstRepository)
@@ -35,9 +45,6 @@ namespace Template2.WPF.ViewModels
             _pageMstRepository = pageMstRepository;
 
             //// DelegateCommandメソッドを登録
-            MoviePlayButton = new DelegateCommand(MoviePlayButtonExecute);
-            MovieStopButton = new DelegateCommand(MovieStopButtonExecute);
-
             SaveButton = new DelegateCommand(SaveButtonExecute);
             PreviewButton = new DelegateCommand(PreviewButtonExecute);
             OpenMovieFileButton = new DelegateCommand(OpenMovieFileButtonExecute);
@@ -53,10 +60,6 @@ namespace Template2.WPF.ViewModels
             {
                 NoteEntities.Add(new NoteEntity(String.Empty));
             }
-
-            //// 動画エレメントを設定
-            _movieMediaElement = new MediaElement();
-            MovieItemsControl.Add(_movieMediaElement);
         }
 
         public string Title => "ページ編集";
@@ -119,42 +122,22 @@ namespace Template2.WPF.ViewModels
             set { SetProperty(ref _noteEntities, value); }
         }
 
-        private ObservableCollection<UIElement> _movieItemsControl = new ObservableCollection<UIElement>();
-        public ObservableCollection<UIElement> MovieItemsControl
+        /// <summary>
+        /// メイン画面のリージョンマネージャー
+        /// ※ダイアログ画面（子Window）からContentRegionを画面遷移する際は必要
+        /// </summary>
+        private IRegionManager _mainRegionManager;
+        public IRegionManager MainRegionManager
         {
-            get { return _movieItemsControl; }
-            set { SetProperty(ref _movieItemsControl, value); }
+            get { return _mainRegionManager; }
+            set { SetProperty(ref _mainRegionManager, value); }
         }
-
-        private BitmapImage _imageSource;
-        public BitmapImage ImageSource
-        {
-            get { return _imageSource; }
-            set { SetProperty(ref _imageSource, value); }
-        }
-
 
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// 2. Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-
-        public DelegateCommand MoviePlayButton { get; }
-        private void MoviePlayButtonExecute()
-        {
-            _movieMediaElement.Position = TimeSpan.Zero;
-            _movieMediaElement.Visibility = System.Windows.Visibility.Visible;
-            _movieMediaElement.LoadedBehavior = MediaState.Manual;
-
-            _movieMediaElement.Play();
-        }
-
-        public DelegateCommand MovieStopButton { get; }
-        private void MovieStopButtonExecute()
-        {
-            _movieMediaElement.Stop();
-        }
 
         public DelegateCommand OpenMovieFileButton { get; }
         private void OpenMovieFileButtonExecute()
@@ -179,7 +162,7 @@ namespace Template2.WPF.ViewModels
             }
 
             //// 動画プレビュー更新
-            PreviewMovie();
+            _pagePreviewViewModel.PreviewMovie(MovieLinkText);
         }
 
         public DelegateCommand OpenImageFileButton { get; }
@@ -202,8 +185,7 @@ namespace Template2.WPF.ViewModels
             //// ページNoを設定
             ImagePageNoText = 1;
 
-            //// 画像プレビュー更新
-            PreviewImage();
+            _pagePreviewViewModel.PreviewImage(ImageFolderLinkText, Convert.ToInt32(ImagePageNoText));
         }
         public DelegateCommand ImagePageNoDownButton { get; }
         private void ImagePageNoDownButtonExecute()
@@ -216,7 +198,7 @@ namespace Template2.WPF.ViewModels
             ImagePageNoText = ImagePageNoText - 1;
 
             //// 画像プレビュー更新
-            PreviewImage();
+            _pagePreviewViewModel.PreviewImage(ImageFolderLinkText, Convert.ToInt32(ImagePageNoText));
         }
         public DelegateCommand ImagePageNoUpButton { get; }
         private void ImagePageNoUpButtonExecute()
@@ -232,17 +214,35 @@ namespace Template2.WPF.ViewModels
             ImagePageNoText = ImagePageNoText + 1;
 
             //// 画像プレビュー更新
-            PreviewImage();
+            _pagePreviewViewModel.PreviewImage(ImageFolderLinkText, Convert.ToInt32(ImagePageNoText));
         }
 
         public DelegateCommand PreviewButton { get; }
         private void PreviewButtonExecute()
         {
-            //// 動画プレビュー更新
-            PreviewMovie();
+            var entity = new PageMstEntity(
+                0,                              //// プレビュー画面でありページIDは0で設定
+                PageNameText,
+                MovieLinkText,
+                ImageFolderLinkText,
+                ImagePageNoText,
+                (float)SlideWaitingTimeText,
+                NoteEntities[0].Note,
+                NoteEntities[1].Note,
+                NoteEntities[2].Note
+                );
 
+            var p = new NavigationParameters();
+            p.Add(nameof(Sample004PagePreviewViewModel.PreviewPageMstEntity), entity);
+
+            MainRegionManager.RequestNavigate(PagePreviewContentRegion, nameof(Sample004PagePreviewView), p);
+
+            _pagePreviewViewModel = Shared.Sample004PagePreviewViewModel as Sample004PagePreviewViewModel;
+
+            //// 動画プレビュー更新
+            _pagePreviewViewModel.PreviewMovie();
             //// 画像プレビュー更新
-            PreviewImage();
+            _pagePreviewViewModel.PreviewImage();
         }
 
         public DelegateCommand SaveButton { get; }
@@ -296,47 +296,6 @@ namespace Template2.WPF.ViewModels
         #region //// 3. Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        private void PreviewMovie()
-        {
-            if (MovieLinkText == null)
-            {
-                return;
-            }
-
-            _movieMediaElement.Source = new Uri(MovieLinkText, UriKind.Relative);
-            _movieMediaElement.Position = TimeSpan.Zero;
-            _movieMediaElement.Visibility = System.Windows.Visibility.Visible;
-            _movieMediaElement.LoadedBehavior = MediaState.Manual;
-
-            _movieMediaElement.Play();
-        }
-
-        private void PreviewImage()
-        {
-            string filePath = PageMstEntity.GetImageFilePath(ImageFolderLinkText, ImagePageNoText);
-            Console.WriteLine("画像ファイル：" + filePath);
-
-            if (File.Exists(filePath) == false)
-            {
-                ImageSource = null;
-                return;
-            }
-
-            BitmapImage bmpImage = new BitmapImage();
-            using (FileStream stream = File.OpenRead(filePath))
-            {
-                bmpImage.BeginInit();
-                bmpImage.StreamSource = stream;
-                bmpImage.DecodePixelWidth = 500;
-                bmpImage.CacheOption = BitmapCacheOption.OnLoad;
-                bmpImage.CreateOptions = BitmapCreateOptions.None;
-                bmpImage.EndInit();
-                bmpImage.Freeze();
-            }
-
-            ImageSource = bmpImage;
-        }
-
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
@@ -352,6 +311,8 @@ namespace Template2.WPF.ViewModels
 
         public void OnDialogClosed()
         {
+            //// 画面内のリージョンを除去しておかないとエラーが発生してしまう
+            MainRegionManager.Regions.Remove(PagePreviewContentRegion);
         }
 
         public void OnDialogOpened(IDialogParameters parameters)
@@ -380,6 +341,9 @@ namespace Template2.WPF.ViewModels
                 NoteEntities[0] = new NoteEntity(editingEntity.Note1.Value);
                 NoteEntities[1] = new NoteEntity(editingEntity.Note2.Value);
                 NoteEntities[2] = new NoteEntity(editingEntity.Note3.Value);
+
+                //// 編集モードはプレビュー表示
+                PreviewButtonExecute();
             }
         }
 

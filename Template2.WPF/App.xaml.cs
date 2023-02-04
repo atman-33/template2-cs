@@ -60,6 +60,7 @@ namespace Template2.WPF
             containerRegistry.RegisterForNavigation<Sample002View>();
             containerRegistry.RegisterForNavigation<Sample003View>();
             containerRegistry.RegisterForNavigation<Sample004PageListView>();
+            containerRegistry.RegisterForNavigation<Sample004PageEditingView>();
             containerRegistry.RegisterForNavigation<Sample004PagePreviewView>();
 
 
