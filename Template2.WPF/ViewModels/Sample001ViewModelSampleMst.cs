@@ -4,13 +4,13 @@ namespace Template2.WPF.ViewModels
 {
     public class Sample001ViewModelSampleMst
     {
-        public Sample001ViewModelSampleMst(SampleMstEntity entity)
+        public Sample001ViewModelSampleMst(WorkerGroupMstEntity entity)
         {
             Entity = entity;
         }
-        public SampleMstEntity Entity { get; private set; }
+        public WorkerGroupMstEntity Entity { get; private set; }
 
-        public string SampleCode => Entity.SampleCode.Value;
-        public string SampleName => Entity.SampleName.Value;
+        public string WorkerGroupCode => Entity.WorkerGroupCode.Value;
+        public string WorkerGroupName => Entity.WorkerGroupName.Value;
     }
 }

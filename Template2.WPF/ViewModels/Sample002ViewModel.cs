@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 using Template2.Domain.Entities;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
-using Template2.WPF.Services;
 
 namespace Template2.WPF.ViewModels
 {
@@ -13,16 +12,18 @@ namespace Template2.WPF.ViewModels
     {
         //// 外部接触Repository
         private IWorkerMstRepository _workerMstRepository;
+        private IWorkerGroupMstRepository _workerGroupMstRepository;
 
         public Sample002ViewModel()
-            : this(Factories.CreateWorkerMst())
+            : this(Factories.CreateWorkerMst(), Factories.CreateWorkerGroupMst())
         {
         }
 
-        public Sample002ViewModel(IWorkerMstRepository workerMstRepository)
+        public Sample002ViewModel(IWorkerMstRepository workerMstRepository, IWorkerGroupMstRepository workerGroupMstRepository)
         {
             //// Factories経由で作成したRepositoryを、プライベート変数に格納
             _workerMstRepository = workerMstRepository;
+            _workerGroupMstRepository = workerGroupMstRepository;
 
             //// DelegateCommandメソッドを登録
             AddRowButton = new DelegateCommand(AddRowButtonExecute);
@@ -33,6 +34,7 @@ namespace Template2.WPF.ViewModels
 
             //// Repositoryからデータ取得
             UpdateWorkerMstEntities();
+            UpdateWorkerGroupMstEntities();
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
@@ -61,6 +63,15 @@ namespace Template2.WPF.ViewModels
             set { SetProperty(ref _workerCodeText, value); }
         }
 
+        private ObservableCollection<WorkerGroupMstEntity> _workerGroupMstEntities
+            = new ObservableCollection<WorkerGroupMstEntity>();
+        public ObservableCollection<WorkerGroupMstEntity> WorkerGroupMstEntities
+        {
+            get { return _workerGroupMstEntities; }
+            set { SetProperty(ref _workerGroupMstEntities, value); }
+        }
+
+
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
@@ -71,7 +82,7 @@ namespace Template2.WPF.ViewModels
         private void AddRowButtonExecute()
         {
             WorkerMstEntities.Add(new Sample002ViewModelWorkerMst(
-                    new WorkerMstEntity(String.Empty, String.Empty)));
+                    new WorkerMstEntity(String.Empty, String.Empty, String.Empty)));
         }
 
         public DelegateCommand DeleteRowButton { get; }
@@ -104,8 +115,8 @@ namespace Template2.WPF.ViewModels
             {
                 var entity = new WorkerMstEntity(
                     viewModelEntity.Entity.WorkerCode.Value,
-                    viewModelEntity.Entity.WorkerName.Value
-                    );
+                    viewModelEntity.Entity.WorkerName.Value,
+                    viewModelEntity.Entity.WorkerGroupCode.Value);
                 _workerMstRepository.Save(entity);
             }
 
@@ -152,8 +163,17 @@ namespace Template2.WPF.ViewModels
             }
         }
 
-        #endregion
+        private void UpdateWorkerGroupMstEntities()
+        {
+            WorkerGroupMstEntities.Clear();
 
+            foreach (var entity in _workerGroupMstRepository.GetData())
+            {
+                WorkerGroupMstEntities.Add(entity);
+            }
+        }
+
+        #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// Screen transition

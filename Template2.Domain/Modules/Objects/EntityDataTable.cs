@@ -4,7 +4,7 @@ using Template2.Domain.Exceptions;
 
 namespace Template2.Domain.Modules.Objects
 {
-    public class EntitiesDataTable<TItemHeaderValueObject, TItemValueType>
+    public class EntityDataTable<TItemHeaderValueObject, TItemValueType>
     {
         private DataTable _dataTable;
 
@@ -15,7 +15,7 @@ namespace Template2.Domain.Modules.Objects
         /// </summary>
         /// <param name="idHeader">項目列（ID列）の見出し</param>
         /// <param name="idReadOnly">項目列（ID列）を読取専用とするならtrue</param>
-        public EntitiesDataTable(string idHeader, bool idReadOnly)
+        public EntityDataTable(string idHeader, bool idReadOnly)
         {
             _dataTable = new DataTable();
             IdHeader = idHeader;

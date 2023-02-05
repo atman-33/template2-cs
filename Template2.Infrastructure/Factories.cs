@@ -20,6 +20,17 @@ namespace Template2.Infrastructure
 #endif
             return new SampleMstOracle();
         }
+        public static IWorkerGroupMstRepository CreateWorkerGroupMst()
+        {
+#if DEBUG
+            if (Shared.IsFake)
+            {
+                return new WorkerGroupMstSQLite();
+            }
+#endif
+            return new WorkerGroupMstOracle();
+        }
+
         public static IWorkerMstRepository CreateWorkerMst()
         {
 #if DEBUG

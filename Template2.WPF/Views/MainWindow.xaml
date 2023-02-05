@@ -13,7 +13,7 @@
     <Window.Resources>
         <system:Double x:Key="menuFontSize">12</system:Double>
         <system:Double x:Key="menuIconSize">25</system:Double>
-        <system:Double x:Key="menuButtonHeight">60</system:Double>
+        <system:Double x:Key="menuButtonHeight">50</system:Double>
         <Thickness x:Key="menuMargin">0,5,0,5</Thickness>
 
     </Window.Resources>
@@ -28,7 +28,7 @@
                 <DockPanel VerticalAlignment="Center">
                     <StackPanel DockPanel.Dock="Right" VerticalAlignment="Center" Orientation="Horizontal">
 
-                        <Label Content="ver 0.4.1"
+                        <Label Content="ver 0.5.0"
                                    Foreground="White"
                                    FontSize="14" VerticalAlignment="Center" 
                                    VerticalContentAlignment="Center"/>
@@ -154,6 +154,24 @@
                                 </StackPanel>
                             </DockPanel>
                         </Button>
+
+                        <Button Width="100"
+                                Margin="{StaticResource menuMargin}"
+                                    Height="{StaticResource menuButtonHeight}"
+                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                    Cursor="Hand" HorizontalAlignment="Center"
+                                    Command="{Binding Sample005ViewButton}">
+                            <DockPanel>
+                                <StackPanel>
+                                    <materialDesign:PackIcon Kind="FileTree" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                                                 Width="{StaticResource menuIconSize}" 
+                                                                 Height="{StaticResource menuIconSize}"/>
+                                    <TextBlock Text="サンプル5" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                   FontSize="{StaticResource menuFontSize}"/>
+                                </StackPanel>
+                            </DockPanel>
+                        </Button>
+
 
                     </StackPanel>
                 </materialDesign:DrawerHost.LeftDrawerContent>

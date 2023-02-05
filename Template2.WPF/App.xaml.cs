@@ -60,7 +60,9 @@ namespace Template2.WPF
             containerRegistry.RegisterForNavigation<Sample002View>();
             containerRegistry.RegisterForNavigation<Sample003View>();
             containerRegistry.RegisterForNavigation<Sample004PageListView>();
+            containerRegistry.RegisterForNavigation<Sample004PageEditingView>();
             containerRegistry.RegisterForNavigation<Sample004PagePreviewView>();
+            containerRegistry.RegisterForNavigation<Sample005View>();
 
 
             //// ダイアログ画面（別画面に表示） ※ViewModel に IDialogAware 実装が必要

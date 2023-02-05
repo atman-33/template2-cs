@@ -22,7 +22,8 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="600"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="25"/>
+            <ColumnDefinition MinWidth="400"/>
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="5">
@@ -65,7 +66,7 @@
                             Width="150"
                             Height="40"
                             Style="{StaticResource MaterialDesignRaisedDarkButton}"
-                            ToolTip="MaterialDesignRaisedDarkButton with Round Corners" 
+                            ToolTip="編集" 
                             HorizontalContentAlignment="Center" 
                             HorizontalAlignment="Left"
                             Command="{Binding EditButton}" Cursor="Hand">
@@ -133,8 +134,11 @@
         </materialDesign:Card>
 
         <!-- 区切り線 -->
-        <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Width="2" Background="LightGray" Margin="10">
-        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Width="2" Background="LightGray" Margin="10"/>
+
+        <ScrollViewer Grid.Row="0" Grid.Column="2" Grid.RowSpan="3" Margin="10">
+            <ContentControl prism:RegionManager.RegionName="PageListPagePreviewContentRegion" HorizontalAlignment="Left"/>
+        </ScrollViewer>
 
     </Grid>
 

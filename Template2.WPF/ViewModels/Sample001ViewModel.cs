@@ -14,69 +14,69 @@ namespace Template2.WPF.ViewModels
     public class Sample001ViewModel : ViewModelBase
     {
         //// 外部接触Repository
-        private ISampleMstRepository _sampleMstRepository;
+        private IWorkerGroupMstRepository _sampleMstRepository;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public Sample001ViewModel()
-            : this(Factories.CreateSampleMst())
+            : this(Factories.CreateWorkerGroupMst())
         {
         }
 
-        public Sample001ViewModel(ISampleMstRepository sampleMstRepository)
+        public Sample001ViewModel(IWorkerGroupMstRepository workerGroupMstRepository)
         {
             //// Factories経由で作成したRepositoryを、プライベート変数に格納
-            _sampleMstRepository = sampleMstRepository;
+            _sampleMstRepository = workerGroupMstRepository;
 
             //// DelegateCommandメソッドを登録
-            SampleMstEntitiesSelectedCellsChanged = new DelegateCommand(SampleMstEntitiesSelectedCellsChangedExecute);
+            WorkerGroupMstEntitiesSelectedCellsChanged = new DelegateCommand(WorkerGroupMstEntitiesSelectedCellsChangedExecute);
             NewButton = new DelegateCommand(NewButtonExecute);
             SaveButton = new DelegateCommand(SaveButtonExecute);
             DeleteButton = new DelegateCommand(DeleteButtonExecute);
 
             //// Repositoryからデータ取得
-            UpdateSampleMstEntities();
+            UpdateWorkerGroupMstEntities();
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// 1. Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        private ObservableCollection<Sample001ViewModelSampleMst> _sampleMstEntities
+        private ObservableCollection<Sample001ViewModelSampleMst> _workerGroupMstEntities
             = new ObservableCollection<Sample001ViewModelSampleMst>();
-        public ObservableCollection<Sample001ViewModelSampleMst> SampleMstEntities
+        public ObservableCollection<Sample001ViewModelSampleMst> WorkerGroupMstEntities
         {
-            get { return _sampleMstEntities; }
-            set { SetProperty(ref _sampleMstEntities, value); }
+            get { return _workerGroupMstEntities; }
+            set { SetProperty(ref _workerGroupMstEntities, value); }
         }
 
-        private Sample001ViewModelSampleMst _sampleMstEntitiesSlectedItem;
-        public Sample001ViewModelSampleMst SampleMstEntitiesSlectedItem
+        private Sample001ViewModelSampleMst _workerGroupMstEntitiesSlectedItem;
+        public Sample001ViewModelSampleMst WorkerGroupMstEntitiesSlectedItem
         {
-            get { return _sampleMstEntitiesSlectedItem; }
-            set { SetProperty(ref _sampleMstEntitiesSlectedItem, value); }
+            get { return _workerGroupMstEntitiesSlectedItem; }
+            set { SetProperty(ref _workerGroupMstEntitiesSlectedItem, value); }
         }
 
-        private string _sampleCodeText;
-        public string SampleCodeText
+        private string _workerGroupCodeText;
+        public string WorkerGroupCodeText
         {
-            get { return _sampleCodeText; }
-            set { SetProperty(ref _sampleCodeText, value); }
+            get { return _workerGroupCodeText; }
+            set { SetProperty(ref _workerGroupCodeText, value); }
         }
 
-        private bool _sampleCodeIsEnabled = false;
-        public bool SampleCodeIsEnabled
+        private bool _workerGroupCodeIsEnabled = false;
+        public bool WorkerGroupCodeIsEnabled
         {
-            get { return _sampleCodeIsEnabled; }
-            set { SetProperty(ref _sampleCodeIsEnabled, value); }
+            get { return _workerGroupCodeIsEnabled; }
+            set { SetProperty(ref _workerGroupCodeIsEnabled, value); }
         }
 
-        private string _sampleNameText;
-        public string SampleNameText
+        private string _workerGroupNameText;
+        public string WorkerGroupNameText
         {
-            get { return _sampleNameText; }
-            set { SetProperty(ref _sampleNameText, value); }
+            get { return _workerGroupNameText; }
+            set { SetProperty(ref _workerGroupNameText, value); }
         }
 
         #endregion
@@ -85,66 +85,66 @@ namespace Template2.WPF.ViewModels
         #region //// 2. Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        public DelegateCommand SampleMstEntitiesSelectedCellsChanged { get; }
-        private void SampleMstEntitiesSelectedCellsChangedExecute()
+        public DelegateCommand WorkerGroupMstEntitiesSelectedCellsChanged { get; }
+        private void WorkerGroupMstEntitiesSelectedCellsChangedExecute()
         {
-            if (SampleMstEntitiesSlectedItem == null)
+            if (WorkerGroupMstEntitiesSlectedItem == null)
             {
                 return;
             }
 
-            SampleCodeText = SampleMstEntitiesSlectedItem.SampleCode;
-            SampleNameText = SampleMstEntitiesSlectedItem.SampleName;
+            WorkerGroupCodeText = WorkerGroupMstEntitiesSlectedItem.WorkerGroupCode;
+            WorkerGroupNameText = WorkerGroupMstEntitiesSlectedItem.WorkerGroupName;
 
-            SampleCodeIsEnabled = false;
+            WorkerGroupCodeIsEnabled = false;
         }
 
         public DelegateCommand NewButton { get; }
         private void NewButtonExecute()
         {
-            SampleCodeIsEnabled = true;
-            SampleCodeText = String.Empty;
-            SampleNameText = String.Empty;
+            WorkerGroupCodeIsEnabled = true;
+            WorkerGroupCodeText = String.Empty;
+            WorkerGroupNameText = String.Empty;
         }
 
         public DelegateCommand SaveButton { get; }
         private void SaveButtonExecute()
         {
-            Guard.IsNullOrEmpty(SampleNameText, "サンプル名称を入力してください。");
+            Guard.IsNullOrEmpty(WorkerGroupNameText, "サンプル名称を入力してください。");
 
             if (_messageService.Question("保存しますか？") != System.Windows.MessageBoxResult.OK)
             {
                 return;
             }
 
-            var entity = new SampleMstEntity(
-                SampleCodeText,
-                SampleNameText
+            var entity = new WorkerGroupMstEntity(
+                WorkerGroupCodeText,
+                WorkerGroupNameText
                 );
 
             _sampleMstRepository.Save(entity);
             _messageService.ShowDialog("保存しました。", "情報", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
 
-            UpdateSampleMstEntities();
+            UpdateWorkerGroupMstEntities();
         }
 
         public DelegateCommand DeleteButton { get; }
         private void DeleteButtonExecute()
         {
-            if (_messageService.Question("「" + SampleNameText + "」を削除しますか？") != System.Windows.MessageBoxResult.OK)
+            if (_messageService.Question("「" + WorkerGroupNameText + "」を削除しますか？") != System.Windows.MessageBoxResult.OK)
             {
                 return;
             }
 
-            var entity = new SampleMstEntity(
-                SampleCodeText,
-                SampleNameText
+            var entity = new WorkerGroupMstEntity(
+                WorkerGroupCodeText,
+                WorkerGroupNameText
                 );
 
             _sampleMstRepository.Delete(entity);
             _messageService.ShowDialog("削除しました。", "情報", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
 
-            UpdateSampleMstEntities();
+            UpdateWorkerGroupMstEntities();
         }
 
         #endregion
@@ -154,13 +154,13 @@ namespace Template2.WPF.ViewModels
         #region //// 3. Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        private void UpdateSampleMstEntities()
+        private void UpdateWorkerGroupMstEntities()
         {
-            SampleMstEntities.Clear();
+            WorkerGroupMstEntities.Clear();
 
             foreach (var entity in _sampleMstRepository.GetData())
             {
-                SampleMstEntities.Add(new Sample001ViewModelSampleMst(entity));
+                WorkerGroupMstEntities.Add(new Sample001ViewModelSampleMst(entity));
             }
         }
 

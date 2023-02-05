@@ -24,7 +24,7 @@ namespace Template2.WPF.ViewModels
         /// <summary>
         /// WorkingTimePlanMstのViewModelEntity群（DataView変換を対応）
         /// </summary>
-        private EntitiesDataTable<Weekday, string?> _workingTimePlanMstEntitiesDataTable;
+        private EntityDataTable<Weekday, string?> _workingTimePlanMstEntitiesDataTable;
 
         /// <summary>
         /// コンストラクタ
@@ -164,7 +164,7 @@ namespace Template2.WPF.ViewModels
         private void UpdateWorkingTimePlanMstEntitiesDataView()
         {
             //// 1. マトリックス表を生成
-            _workingTimePlanMstEntitiesDataTable = new EntitiesDataTable<Weekday, string?>("作業者コード", true);
+            _workingTimePlanMstEntitiesDataTable = new EntityDataTable<Weekday, string?>("作業者コード", true);
 
             //// 2. ID名称ヘッダーを設定
             _workingTimePlanMstEntitiesDataTable.SetIdNameHeader("作業者名称", true);

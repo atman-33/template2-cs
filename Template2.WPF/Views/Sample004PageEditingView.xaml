@@ -17,43 +17,43 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="0.5*"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="550"/>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="25"/>
+            <ColumnDefinition MinWidth="400"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical" Margin="10">
+        <ScrollViewer>
+            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical" Margin="10">
 
-            <TextBox MinWidth="500"
+                <TextBox MinWidth="500"
                              VerticalAlignment="Bottom"
                              materialDesign:HintAssist.Hint="ページID"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              Text="{Binding PageIdText}" 
                              IsEnabled="False">
 
-            </TextBox>
+                </TextBox>
 
-            <TextBox materialDesign:HintAssist.Hint="ページ名称"
+                <TextBox materialDesign:HintAssist.Hint="ページ名称"
                              Margin="{StaticResource inputTextBoxMargin}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}">
-                <TextBox.Text>
-                    <Binding Path="PageNameText"
+                    <TextBox.Text>
+                        <Binding Path="PageNameText"
                                      Mode="TwoWay"
                                      UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <services:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
+                            <Binding.ValidationRules>
+                                <services:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
 
-            <StackPanel Orientation="Horizontal">
-                <TextBox VerticalAlignment="Center"
+                <StackPanel Orientation="Horizontal">
+                    <TextBox VerticalAlignment="Center"
                                  materialDesign:HintAssist.Hint="動画リンク"
                                  Margin="{StaticResource inputTextBoxMargin}"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
@@ -61,16 +61,16 @@
                                  MinWidth="450"
                                  MaxWidth="450"
                                  TextWrapping="Wrap"/>
-                <Button Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                    <Button Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
                         Margin="20,0,0,0"
                         Command="{Binding OpenMovieFileButton}">
-                    <materialDesign:PackIcon Width="{StaticResource iconSize}"
+                        <materialDesign:PackIcon Width="{StaticResource iconSize}"
                                              Height="{StaticResource iconSize}"
                                              Kind="FolderOpen" />
-                </Button>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBox VerticalAlignment="Center"
+                    </Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox VerticalAlignment="Center"
                          materialDesign:HintAssist.Hint="画像リンク"
                          Margin="{StaticResource inputTextBoxMargin}"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
@@ -78,16 +78,16 @@
                          MinWidth="450"
                          MaxWidth="450"
                          TextWrapping="Wrap"/>
-                <Button Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                    <Button Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
                         Margin="20,0,0,0"
                         Command="{Binding OpenImageFileButton}">
-                    <materialDesign:PackIcon Width="{StaticResource iconSize}"
+                        <materialDesign:PackIcon Width="{StaticResource iconSize}"
                                              Height="{StaticResource iconSize}"
                                              Kind="FolderOpen" />
-                </Button>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBox VerticalAlignment="Center"
+                    </Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox VerticalAlignment="Center"
                             materialDesign:HintAssist.Hint="画像ページNo"
                             Margin="{StaticResource inputTextBoxMargin}"
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
@@ -95,59 +95,55 @@
                             Cursor="Hand"
                             MinWidth="300"
                             MaxWidth="300"/>
-                <Button Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                    <Button Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
                         Margin="20,0,0,0"
                         Command="{Binding ImagePageNoDownButton}">
-                    <materialDesign:PackIcon Width="{StaticResource iconSize}"
+                        <materialDesign:PackIcon Width="{StaticResource iconSize}"
                                              Height="{StaticResource iconSize}"
                                              Kind="ArrowDownBoldOutline" />
-                </Button>
-                <Button Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
                         Margin="20,0,0,0"
                         Command="{Binding ImagePageNoUpButton}">
-                    <materialDesign:PackIcon Width="{StaticResource iconSize}"
+                        <materialDesign:PackIcon Width="{StaticResource iconSize}"
                                              Height="{StaticResource iconSize}"
                                              Kind="ArrowUpBoldOutline" />
-                </Button>
+                    </Button>
 
-            </StackPanel>
-            <TextBox materialDesign:HintAssist.Hint="スライド停止時間[sec]"
+                </StackPanel>
+                <TextBox materialDesign:HintAssist.Hint="スライド停止時間[sec]"
                              Margin="{StaticResource inputTextBoxMargin}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}">
-                <TextBox.Text>
-                    <Binding Path="SlideWaitingTimeText"
+                    <TextBox.Text>
+                        <Binding Path="SlideWaitingTimeText"
                                      Mode="TwoWay"
                                      UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <services:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
+                            <Binding.ValidationRules>
+                                <services:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
 
 
-            <!--  Drag and Drop Popup  -->
-            <Popup x:Name="DraggingPopup"
+                <!--  Drag and Drop Popup  -->
+                <Popup x:Name="DraggingPopup"
                            AllowsTransparency="True"
                            IsHitTestVisible="False"
                            Placement="RelativePoint"
                            PlacementTarget="{Binding ElementName=NoteEntitiesDataGrid}">
-                <!--  Popup construction Use properties of DraggedObject inside for Binding  -->
-                <TextBlock VerticalAlignment="Center"
+                    <!--  Popup construction Use properties of DraggedObject inside for Binding  -->
+                    <TextBlock VerticalAlignment="Center"
                                    HorizontalAlignment="Left"
                                    FontSize="14"
                                    Foreground="Gray"
                                    Text="{Binding Path=Note}"/>
-            </Popup>
+                </Popup>
 
-            <Separator/>
-        </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="0" Margin="5">
-
-            <Label Content="表を並び替えする場合は、☞マークをドラッグして下さい"
+                <Label Content="表を並び替えする場合は、☞マークをドラッグして下さい"
                            Margin="0,30,5,5"/>
 
-            <DataGrid Name="NoteEntitiesDataGrid" 
+                <DataGrid Name="NoteEntitiesDataGrid" 
                                   ItemsSource="{Binding NoteEntities}"
                                   AutoGenerateColumns="False"
                                   IsReadOnly="False"
@@ -157,140 +153,95 @@
                                   AllowDrop="True"
                       RowHeight="60">
 
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="▲▼"
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="▲▼"
                                                 MinWidth="60"
                                                 MaxWidth="60"
                                                 IsReadOnly="True"
                                                 Binding="{Binding Hint}"
                                                 CanUserSort="False">
-                    </DataGridTextColumn>
+                        </DataGridTextColumn>
 
-                    <DataGridTextColumn Header="説明"
+                        <DataGridTextColumn Header="説明"
                                         MinWidth="300"
                                         Width="450"
                                                 Binding="{Binding Note}"
                                                 IsReadOnly="False"
                                                 CanUserSort="False">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="TextWrapping" Value="Wrap" />
-                                <Setter Property="Background" Value="LightYellow" />
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextWrapping" Value="Wrap" />
+                                    <Setter Property="Background" Value="LightYellow" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
 
-        </StackPanel>
-
-        <StackPanel Grid.Row="0" Grid.Column="1" Margin="10">
-            <GroupBox Header="動画リンク プレビュー"
-                      Style="{StaticResource MaterialDesignCardGroupBox}">
-                <GroupBox.HeaderTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Width="32"
-                                                             Height="24"
-                                                             VerticalAlignment="Center"
-                                                             Kind="Movie" />
-                            <TextBlock Margin="8,0,0,0"
-                                               VerticalAlignment="Center"
-                                               Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                               Text="{Binding}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </GroupBox.HeaderTemplate>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="200"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                    <!-- 動画表示 -->
-                    <ItemsControl ItemsSource="{Binding MovieItemsControl}"
-                                          Width="400"
-                                          Height="300" HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <StackPanel Grid.Row="1" Height="50" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Center">
-                        <Button   Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
-                                          Margin="10,0,10,0"
-                                          IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                                          Style="{StaticResource MaterialDesignIconButton}"
-                                          ToolTip="再生"
-                                          Command="{Binding MoviePlayButton}">
-                            <materialDesign:PackIcon Kind="Play" />
-                        </Button>
-                        <Button   Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
-                                          Margin="10,0,10,0"
-                                          IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                                          Style="{StaticResource MaterialDesignIconButton}"
-                                          ToolTip="停止"
-                                          Command="{Binding MovieStopButton}" Cursor="Hand">
-                            <materialDesign:PackIcon Kind="Stop" />
-                        </Button>
-                    </StackPanel>
-                </Grid>
-            </GroupBox>
-        </StackPanel>
-
-        <StackPanel Grid.Row="1" Grid.Column="1" Margin="10">
-            <GroupBox Header="画像リンク プレビュー"
-                      Style="{StaticResource MaterialDesignCardGroupBox}">
-                <GroupBox.HeaderTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Width="32"
-                                                             Height="24"
-                                                             VerticalAlignment="Center"
-                                                             Kind="ImageArea" />
-                            <TextBlock Margin="8,0,0,0"
-                                               VerticalAlignment="Center"
-                                               Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                               Text="{Binding}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </GroupBox.HeaderTemplate>
-                <Image HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Width="400"
-                               Height="300"
-                               Source="{Binding ImageSource}" />
-            </GroupBox>
-        </StackPanel>
-
-        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Left">
+            </StackPanel>
+        </ScrollViewer>
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Left">
             <Button materialDesign:ButtonAssist.CornerRadius="20"
                             Margin="10"
-                            Width="150"
+                            Width="100"
                             Height="40"
-                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignOutlinedDarkButton}"
-                            ToolTip="MaterialDesignRaisedDarkButton with Round Corners" 
+                            ToolTip="プレビュー" 
                             HorizontalContentAlignment="Center" 
-                            HorizontalAlignment="Right"
+                            HorizontalAlignment="Left"
                             Command="{Binding PreviewButton}" Cursor="Hand">
                 <TextBlock Text="プレビュー" />
             </Button>
 
-            <Button materialDesign:ButtonAssist.CornerRadius="20"
+            <StackPanel Orientation="Horizontal">
+
+                <Button materialDesign:ButtonAssist.CornerRadius="20"
                             Margin="10"
-                            Width="150"
+                            Width="100"
                             Height="40"
-                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                            Style="{StaticResource MaterialDesignRaisedDarkButton}"
-                            ToolTip="MaterialDesignRaisedDarkButton with Round Corners" 
+                            Style="{StaticResource MaterialDesignRaisedLightButton}"
+                            ToolTip="キャンセル" 
                             HorizontalContentAlignment="Center" 
                             HorizontalAlignment="Right"
-                            Command="{Binding SaveButton}">
-                <TextBlock Text="編集内容を保存" />
+                            Command="{Binding CancelButton}" Cursor="Hand">
+                    <TextBlock Text="キャンセル" />
+                </Button>
+
+                <Button materialDesign:ButtonAssist.CornerRadius="20"
+                            Margin="10"
+                            Width="100"
+                            Height="40"
+                            Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                            ToolTip="保存" 
+                            HorizontalContentAlignment="Center" 
+                            HorizontalAlignment="Right"
+                            Command="{Binding SaveButton}" Cursor="Hand">
+                    <TextBlock Text="保存" />
+                </Button>
+
+            </StackPanel>
+
+            <Button materialDesign:ButtonAssist.CornerRadius="20"
+                            Margin="10,40,10,10"
+                            Width="100"
+                            Height="40"
+                            Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                            ToolTip="削除" 
+                            HorizontalContentAlignment="Center" 
+                            HorizontalAlignment="Left"
+                            Command="{Binding DeleteButton}" Cursor="Hand">
+                <TextBlock Text="削除" />
             </Button>
+
         </StackPanel>
+
+        <!-- 区切り線 -->
+        <StackPanel Grid.Row="0" Grid.Column="2" Grid.RowSpan="3" Width="2" Background="LightGray" Margin="10"/>
+
+        <ScrollViewer Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Margin="10">
+            <ContentControl prism:RegionManager.RegionName="PageEditingPagePreviewContentRegion"
+                            prism:RegionManager.RegionManager="{Binding MainRegionManager}"/>
+        </ScrollViewer>
 
     </Grid>
 </UserControl>
