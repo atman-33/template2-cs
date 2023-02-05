@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="Template2.WPF.Views.Sample005View"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:domain="clr-namespace:Template2.Domain.Entities;assembly=Template2.Domain"
+             xmlns:services="clr-namespace:Template2.WPF.Services">
+
+    <Grid Margin="{StaticResource gridMargin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="5">
+
+            <!-- TreeViewは標準では選択アイテムをBindできないため、カスタムTreeViewを利用 -->
+            <services:BindableSelectedItemTreeView ItemsSource="{Binding WorkerGroupTreeView}"
+                                                   BindableSelectedItem="{Binding WorkerGroupTreeViewSelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   Style="{StaticResource MaterialDesignTreeView}">
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectedItemChanged">
+                        <prism:InvokeCommandAction Command="{Binding WorkerGroupTreeViewSelectedItemChanged}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate DataType="domain:WorkerGroupTreeViewData"
+                                              ItemsSource="{Binding Workers}">
+                        <TextBlock Text="{Binding Name}"/>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </services:BindableSelectedItemTreeView>
+
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="5">
+            <TextBox VerticalAlignment="Center"
+                     materialDesign:HintAssist.Hint="作業者グループコード"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     Text="{Binding WorkerGroupCodeText}"
+                     Width="300"
+                     TextWrapping="Wrap" HorizontalAlignment="Left"
+                     Margin="0,0,0,30"/>
+            
+            <TextBox VerticalAlignment="Center"
+                     materialDesign:HintAssist.Hint="作業者コード"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     Text="{Binding WorkerCodeText}"
+                     Width="300"
+                     TextWrapping="Wrap" HorizontalAlignment="Left"
+                     Margin="0,0,0,30" Cursor="Hand"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

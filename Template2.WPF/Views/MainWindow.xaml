@@ -155,6 +155,24 @@
                             </DockPanel>
                         </Button>
 
+                        <Button Width="100"
+                                Margin="{StaticResource menuMargin}"
+                                    Height="{StaticResource menuButtonHeight}"
+                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                    Cursor="Hand" HorizontalAlignment="Center"
+                                    Command="{Binding Sample005ViewButton}">
+                            <DockPanel>
+                                <StackPanel>
+                                    <materialDesign:PackIcon Kind="FileTree" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                                                 Width="{StaticResource menuIconSize}" 
+                                                                 Height="{StaticResource menuIconSize}"/>
+                                    <TextBlock Text="サンプル5" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                   FontSize="{StaticResource menuFontSize}"/>
+                                </StackPanel>
+                            </DockPanel>
+                        </Button>
+
+
                     </StackPanel>
                 </materialDesign:DrawerHost.LeftDrawerContent>
 
