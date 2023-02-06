@@ -30,6 +30,8 @@ namespace Template2.WPF.ViewModels
             : this(Factories.CreatePageMst())
         {
             MainRegionManager = regionManager;
+
+            //// 注意：コンストラクタ内でContentRegionをナビゲートしても反映されない
         }
 
         public Sample004PageEditingViewModel(IPageMstRepository pageMstRepository)
@@ -227,12 +229,8 @@ namespace Template2.WPF.ViewModels
                 NoteEntities[2].Note
                 );
 
-            var p = new NavigationParameters();
-            p.Add(nameof(Sample004PagePreviewViewModel.PreviewPageMstEntity), entity);
-
-            MainRegionManager.RequestNavigate(PagePreviewContentRegion, nameof(Sample004PagePreviewView), p);
-
-            _pagePreviewViewModel = Shared.Sample004PagePreviewViewModel as Sample004PagePreviewViewModel;
+            //// ページプレビューにエンティティをセット
+            _pagePreviewViewModel.PreviewPageMstEntity = entity;
 
             //// 動画プレビュー更新
             _pagePreviewViewModel.PreviewMovie();
@@ -353,6 +351,10 @@ namespace Template2.WPF.ViewModels
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
+            //// ページプレビューのContentRegionを表示
+            MainRegionManager.RequestNavigate(PagePreviewContentRegion, nameof(Sample004PagePreviewView));
+            _pagePreviewViewModel = Shared.Sample004PagePreviewViewModel as Sample004PagePreviewViewModel;
+
             //// 新規ページかどうか設定
             IsNewPage = parameters.GetValue<bool>(nameof(IsNewPage));
 

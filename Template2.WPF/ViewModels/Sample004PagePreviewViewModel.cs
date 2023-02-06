@@ -80,6 +80,7 @@ namespace Template2.WPF.ViewModels
         {
             if (PreviewPageMstEntity == null)
             {
+                _movieMediaElement.Source = null;
                 return;
             }
 
@@ -107,6 +108,7 @@ namespace Template2.WPF.ViewModels
         {
             if (PreviewPageMstEntity == null)
             {
+                ImageSource = null;
                 return;
             }
 

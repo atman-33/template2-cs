@@ -165,9 +165,12 @@ namespace Template2.WPF.ViewModels
                 var handedEntity = dialogResult.Parameters.GetValue<PageMstEntity>(nameof(PageMstEntity));
 
                 UpdatePageMstEntitiesOrigin();
-                var entity = _pageMstEntitiesOrigin.FirstOrDefault(x => x.Entity.PageId.Value == handedEntity.PageId.Value);
 
+                //// 更新したOriginから取得したエンティティで更新
+                var entity = _pageMstEntitiesOrigin.FirstOrDefault(x => x.Entity.PageId.Value == handedEntity.PageId.Value);
                 Sample004PageListViewModelPageMst.MergeViewModelEntity(ref _pageMstEntities, entity.Entity);
+                PageMstEntitiesSlectedItem = entity;
+                PreviewPage();
             }
 
             //// No => 削除 => 一覧から除去
@@ -177,9 +180,10 @@ namespace Template2.WPF.ViewModels
                 var handedEntity = dialogResult.Parameters.GetValue<PageMstEntity>(nameof(PageMstEntity));
 
                 UpdatePageMstEntitiesOrigin();
-                var entity = _pageMstEntitiesOrigin.FirstOrDefault(x => x.Entity.PageId.Value == handedEntity.PageId.Value);
 
-                Sample004PageListViewModelPageMst.RemoveViewModelEntity(ref _pageMstEntities, entity.Entity);
+                Sample004PageListViewModelPageMst.RemoveViewModelEntity(ref _pageMstEntities, handedEntity);
+                PageMstEntitiesSlectedItem = null;
+                PreviewPage();
             }
         }
 
@@ -213,8 +217,19 @@ namespace Template2.WPF.ViewModels
 
         private void PreviewPage()
         {
+            PageMstEntity entity;
+
+            if (PageMstEntitiesSlectedItem == null)
+            {
+                entity = null;
+            }
+            else
+            {
+                entity = PageMstEntitiesSlectedItem.Entity;
+            }
+
             var p = new NavigationParameters();
-            p.Add(nameof(Sample004PagePreviewViewModel.PreviewPageMstEntity), PageMstEntitiesSlectedItem.Entity);
+            p.Add(nameof(Sample004PagePreviewViewModel.PreviewPageMstEntity), entity);
 
             Debug.WriteLine("★Sample004PageListViewModel:プレビュー遷移処理開始");
 
