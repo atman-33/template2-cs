@@ -162,18 +162,24 @@ namespace Template2.WPF.ViewModels
             if (dialogResult.Result == ButtonResult.OK)
             {
                 //// 編集後のデータを追加もしくは更新
-                var entity = dialogResult.Parameters.GetValue<PageMstEntity>(nameof(PageMstEntity));
-                Sample004PageListViewModelPageMst.MergeViewModelEntity(ref _pageMstEntities, entity);
-                Sample004PageListViewModelPageMst.MergeViewModelEntity(ref _pageMstEntitiesOrigin, entity);
+                var handedEntity = dialogResult.Parameters.GetValue<PageMstEntity>(nameof(PageMstEntity));
+
+                UpdatePageMstEntitiesOrigin();
+                var entity = _pageMstEntitiesOrigin.FirstOrDefault(x => x.Entity.PageId.Value == handedEntity.PageId.Value);
+
+                Sample004PageListViewModelPageMst.MergeViewModelEntity(ref _pageMstEntities, entity.Entity);
             }
 
             //// No => 削除 => 一覧から除去
             if (dialogResult.Result == ButtonResult.No)
             {
                 //// 編集後のデータを追加もしくは更新
-                var entity = dialogResult.Parameters.GetValue<PageMstEntity>(nameof(PageMstEntity));
-                Sample004PageListViewModelPageMst.RemoveViewModelEntity(ref _pageMstEntities, entity);
-                Sample004PageListViewModelPageMst.RemoveViewModelEntity(ref _pageMstEntitiesOrigin, entity);
+                var handedEntity = dialogResult.Parameters.GetValue<PageMstEntity>(nameof(PageMstEntity));
+
+                UpdatePageMstEntitiesOrigin();
+                var entity = _pageMstEntitiesOrigin.FirstOrDefault(x => x.Entity.PageId.Value == handedEntity.PageId.Value);
+
+                Sample004PageListViewModelPageMst.RemoveViewModelEntity(ref _pageMstEntities, entity.Entity);
             }
         }
 
@@ -193,6 +199,16 @@ namespace Template2.WPF.ViewModels
 
             //// Originに退避
             _pageMstEntitiesOrigin = _pageMstEntities;
+        }
+
+        private void UpdatePageMstEntitiesOrigin()
+        {
+            _pageMstEntitiesOrigin.Clear();
+
+            foreach (var entity in _pageMstRepository.GetData())
+            {
+                _pageMstEntitiesOrigin.Add(new Sample004PageListViewModelPageMst(entity));
+            }
         }
 
         private void PreviewPage()

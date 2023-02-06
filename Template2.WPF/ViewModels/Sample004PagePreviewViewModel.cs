@@ -29,7 +29,7 @@ namespace Template2.WPF.ViewModels
             MovieStopButton = new DelegateCommand(MovieStopButtonExecute);
         }
 
-        public PageMstEntity PreviewPageMstEntity { get; private set; }
+        public PageMstEntity PreviewPageMstEntity { get; set; }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// 1. Property Data Binding
