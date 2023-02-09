@@ -34,7 +34,7 @@
                 <DockPanel VerticalAlignment="Center">
                     <StackPanel DockPanel.Dock="Right" VerticalAlignment="Center" Orientation="Horizontal">
 
-                        <Label Content="ver 0.5.1"
+                        <Label Content="ver 0.5.2"
                                    Foreground="White"
                                    FontSize="14" VerticalAlignment="Center" 
                                    VerticalContentAlignment="Center"/>

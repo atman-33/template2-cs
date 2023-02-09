@@ -130,13 +130,13 @@ namespace Template2.Infrastructure.Oracle
                     _transaction.Commit();
                     Close();
                 }
-                catch(DataException ex)
+                catch(DataException e)
                 {
                     _transaction.Rollback();
                     Close();
 
-                    Console.WriteLine(ex.ToString());
-                    throw new DataException(ex.Message, ex);
+                    Console.WriteLine(e.ToString());
+                    throw new DataException(e.Message, e);
                 }
             }
         }
@@ -168,13 +168,13 @@ namespace Template2.Infrastructure.Oracle
                     _transaction.Commit();
                     Close();
                 }
-                catch (DataException ex)
+                catch (DataException e)
                 {
                     _transaction.Rollback();
                     Close();
 
-                    Console.WriteLine(ex.ToString());
-                    throw new DataException(ex.Message, ex);
+                    Console.WriteLine(e.ToString());
+                    throw new DataException(e.Message, e);
                 }
             }
         }
@@ -188,10 +188,10 @@ namespace Template2.Infrastructure.Oracle
             {
                 _connection.Open();
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
 
-                throw new Exception(ex.Message, ex);
+                throw new Exception(e.Message, e);
             }
         }
 
