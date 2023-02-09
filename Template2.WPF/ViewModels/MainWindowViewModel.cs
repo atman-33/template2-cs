@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Regions;
+using Template2.Infrastructure;
 using Template2.WPF.Views;
 
 namespace Template2.WPF.ViewModels
@@ -17,6 +18,7 @@ namespace Template2.WPF.ViewModels
             //// ex. _regionManager.RegisterViewWithRegion("ContentRegion", nameof(HomeView));
 
             //// DelegateCommandメソッドを登録
+            WindowContentRendered = new DelegateCommand(WindowContentRenderedExecute);
             Sample001ViewButton = new DelegateCommand(Sample001ViewButtonExecute);
             Sample002ViewButton = new DelegateCommand(Sample002ViewButtonExecute);
             Sample003ViewButton = new DelegateCommand(Sample003ViewButtonExecute);
@@ -56,6 +58,19 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// 2. Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        public DelegateCommand WindowContentRendered { get; }
+
+        private void WindowContentRenderedExecute()
+        {
+            //// DB接続確認
+            Factories.Open();
+
+            //// ※注意：App.xaml.cs内のDispatcherUnhandledExceptionでは、
+            //// コンストラクタ内の例外処理はキャッチできない。
+            //// そのため、コンストラクタ内のDB接続処理はContentRenderedイベントで処理し、
+            //// DB接続エラーをキャッチする方が良い。
+        }
 
         public DelegateCommand Sample001ViewButton { get; }
 

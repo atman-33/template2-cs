@@ -102,6 +102,11 @@ namespace Template2.Infrastructure.Oracle
             string update,
             OracleParameter[] parameters)
         {
+            if (_connection == null)
+            {
+                return;
+            }
+
             Open();
             using (var command = new OracleCommand(update, _connection))
             {
@@ -131,6 +136,7 @@ namespace Template2.Infrastructure.Oracle
                     Close();
 
                     Console.WriteLine(ex.ToString());
+                    throw new DataException(ex.Message, ex);
                 }
             }
         }
@@ -139,6 +145,11 @@ namespace Template2.Infrastructure.Oracle
             string sql,
             OracleParameter[] parameters)
         {
+            if (_connection == null)
+            {
+                return;
+            }
+
             Open();
             using (var command = new OracleCommand(sql, _connection))
             {
@@ -163,11 +174,12 @@ namespace Template2.Infrastructure.Oracle
                     Close();
 
                     Console.WriteLine(ex.ToString());
+                    throw new DataException(ex.Message, ex);
                 }
             }
         }
 
-        private static void Open()
+        internal static void Open()
         {
             string connectionString = "User Id=" + User + ";Password=" + Password + ";Data Source=" + DataSource;
             _connection = new OracleConnection(connectionString);
@@ -176,9 +188,10 @@ namespace Template2.Infrastructure.Oracle
             {
                 _connection.Open();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new Exception(e.ToString());
+
+                throw new Exception(ex.Message, ex);
             }
         }
 
@@ -198,16 +211,31 @@ namespace Template2.Infrastructure.Oracle
 
         private static void BeginTransaction()
         {
+            if (_connection == null)
+            {
+                return;
+            }
+
             _transaction = _connection.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
         }
 
         private static void Commit()
         {
+            if (_transaction == null)
+            {
+                return;
+            }
+
             _transaction.Commit();
         }
 
         private static void Rollback()
         {
+            if (_transaction == null)
+            {
+                return;
+            }
+
             _transaction.Rollback();
         }
     }

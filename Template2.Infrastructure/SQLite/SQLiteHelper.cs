@@ -18,6 +18,24 @@ namespace Template2.Infrastructure.SQLite
         /// </summary>
         internal static string? DataSource { get; set; } = Shared.SQLiteConnectionString;
 
+        internal static void Open()
+        {
+            var sqlConnectionStringBuilder = new SQLiteConnectionStringBuilder { DataSource = SQLiteHelper.DataSource };
+            using (var connection = new SQLiteConnection(sqlConnectionStringBuilder.ToString()))
+            using (var command = new SQLiteCommand(connection))
+            {
+                try
+                {
+                    connection.Open();      //// SQLiteのDBに接続
+                }
+                catch (Exception ex)
+                {
+
+                    throw new Exception(ex.Message, ex);
+                }
+            }
+        }
+
         /// <summary>
         /// クエリを実行し、複数レコードを取得（パラメータ変換無し）
         /// </summary>

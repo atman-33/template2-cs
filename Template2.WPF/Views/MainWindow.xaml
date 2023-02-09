@@ -8,14 +8,20 @@
         xmlns:system="clr-namespace:System;assembly=netstandard"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
-        Background="{StaticResource backgroundColor}">
+        Background="{StaticResource backgroundColor}"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="ContentRendered">
+            <prism:InvokeCommandAction Command="{Binding WindowContentRendered}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <Window.Resources>
         <system:Double x:Key="menuFontSize">12</system:Double>
         <system:Double x:Key="menuIconSize">25</system:Double>
         <system:Double x:Key="menuButtonHeight">50</system:Double>
         <Thickness x:Key="menuMargin">0,5,0,5</Thickness>
-
     </Window.Resources>
 
     <Grid>

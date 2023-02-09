@@ -10,6 +10,16 @@ namespace Template2.Infrastructure
     /// </summary>
     public static class Factories
     {
+        public static void Open()
+        {
+#if DEBUG
+            if (Shared.IsFake)
+            {
+                SQLiteHelper.Open();
+            }
+#endif
+            OracleOdpHelper.Open();
+        }
         public static ISampleMstRepository CreateSampleMst()
         {
 #if DEBUG
