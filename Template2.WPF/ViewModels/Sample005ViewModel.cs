@@ -1,4 +1,5 @@
 ﻿using Prism.Commands;
+using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using Template2.Domain.Entities;
@@ -106,6 +107,11 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// Screen transition
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            base.OnNavigatedTo(navigationContext);
+            _mainWindowViewModel.ViewOutline = "> サンプル005（TreeViewと選択アイテムのバインド）";
+        }
 
         #endregion
     }

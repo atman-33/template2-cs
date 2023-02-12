@@ -5,7 +5,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             Background="{StaticResource backgroundColor}">
+             Background="{StaticResource backgroundColor}" Cursor="Hand">
 
     <UserControl.Resources>
         <!-- x:Key なしのスタイルを定義することで、
