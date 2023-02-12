@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Regions;
+using System;
 using Template2.Infrastructure;
 using Template2.WPF.Views;
 
@@ -53,6 +54,13 @@ namespace Template2.WPF.ViewModels
             set { SetProperty(ref _viewOutline, value); }
         }
 
+        private bool _dbConnectionIsChecked = false;
+        public bool DBConnectionIsChecked
+        {
+            get { return _dbConnectionIsChecked; }
+            set { SetProperty(ref _dbConnectionIsChecked, value); }
+        }
+
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
@@ -63,8 +71,17 @@ namespace Template2.WPF.ViewModels
 
         private void WindowContentRenderedExecute()
         {
-            //// DB接続確認
-            Factories.Open();
+            try
+            {
+                //// DB接続確認
+                Factories.Open();
+                DBConnectionIsChecked = true;
+            }
+            catch (Exception e)
+            {
+                DBConnectionIsChecked = false;
+                throw new Exception(e.Message, e) ;
+            }
 
             //// ※注意：App.xaml.cs内のDispatcherUnhandledExceptionでは、
             //// コンストラクタ内の例外処理はキャッチできない。
