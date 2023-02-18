@@ -70,6 +70,7 @@ namespace Template2.WPF
             //// ダイアログ画面（別画面に表示） ※ViewModel に IDialogAware 実装が必要
             //// ex. containerRegistry.RegisterDialog<XXXView, XXXViewModel>();
 
+            containerRegistry.RegisterDialog<Sample002View, Sample002ViewModel>();
             containerRegistry.RegisterDialog<Sample004PageEditingView, Sample004PageEditingViewModel>();
 
         }

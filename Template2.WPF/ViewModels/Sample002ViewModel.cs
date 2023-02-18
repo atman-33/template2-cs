@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Regions;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
 using Template2.Domain.Entities;
@@ -8,7 +9,7 @@ using Template2.Infrastructure;
 
 namespace Template2.WPF.ViewModels
 {
-    public class Sample002ViewModel : ViewModelBase
+    public class Sample002ViewModel : ViewModelBase, IDialogAware
     {
         //// 外部接触Repository
         private IWorkerMstRepository _workerMstRepository;
@@ -36,6 +37,8 @@ namespace Template2.WPF.ViewModels
             UpdateWorkerMstEntities();
             UpdateWorkerGroupMstEntities();
         }
+
+        public string Title => "Sample002View";
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// 1. Property Data Binding
@@ -65,6 +68,7 @@ namespace Template2.WPF.ViewModels
 
         private ObservableCollection<WorkerGroupMstEntity> _workerGroupMstEntities
             = new ObservableCollection<WorkerGroupMstEntity>();
+
         public ObservableCollection<WorkerGroupMstEntity> WorkerGroupMstEntities
         {
             get { return _workerGroupMstEntities; }
@@ -135,6 +139,7 @@ namespace Template2.WPF.ViewModels
         }
 
         public DelegateCommand WorkerMstEntitiesCurrentCellChanged { get; }
+
         private void WorkerMstEntitiesCurrentCellChangedExecute()
         {
             WorkerMstEntitiesSelectedCellsChangedExecute();
@@ -178,10 +183,27 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// Screen transition
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             base.OnNavigatedTo(navigationContext);
             _mainWindowViewModel.ViewOutline = "> サンプル002（DataGridを直接編集）";
+        }
+
+        public event Action<IDialogResult> RequestClose;
+
+        public bool CanCloseDialog()
+        {
+            return true;
+        }
+
+        public void OnDialogClosed()
+        {
+        }
+
+        public void OnDialogOpened(IDialogParameters parameters)
+        {
         }
 
         #endregion
