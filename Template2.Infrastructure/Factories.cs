@@ -72,5 +72,16 @@ namespace Template2.Infrastructure
             return new PageMstOracle();
         }
 
+        public static ITaskMstRepository CreateTaskMst()
+        {
+#if DEBUG
+            if (Shared.IsFake)
+            {
+                return new TaskMstSQLite();
+            }
+#endif
+            return new TaskMstOracle();
+        }
+
     }
 }
