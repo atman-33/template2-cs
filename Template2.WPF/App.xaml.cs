@@ -56,6 +56,7 @@ namespace Template2.WPF
             //// ナビゲーション画面 ※パラメータを引き渡す場合は、ViewModel に INavigationAware 実装が必要
             //// ex. containerRegistry.RegisterForNavigation<XXXView>();
             
+            containerRegistry.RegisterForNavigation<HomeView>();
             containerRegistry.RegisterForNavigation<Sample001View>();
             containerRegistry.RegisterForNavigation<Sample002View>();
             containerRegistry.RegisterForNavigation<Sample003View>();
@@ -64,6 +65,7 @@ namespace Template2.WPF
             containerRegistry.RegisterForNavigation<Sample004PagePreviewView>();
             containerRegistry.RegisterForNavigation<Sample005View>();
             containerRegistry.RegisterForNavigation<Sample006View>();
+            containerRegistry.RegisterForNavigation<Sample007View>();
 
             //// ダイアログ画面（別画面に表示） ※ViewModel に IDialogAware 実装が必要
             //// ex. containerRegistry.RegisterDialog<XXXView, XXXViewModel>();

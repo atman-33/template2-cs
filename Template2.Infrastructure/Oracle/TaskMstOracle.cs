@@ -11,7 +11,7 @@ namespace Template2.Infrastructure.Oracle
             string sql = @"
 SELECT
   task_id,
-  task,
+  task_item,
   task_dead_line,
   process_code,
   worker_code
@@ -24,7 +24,7 @@ FROM
                 {
                     return new TaskMstEntity(
                         Convert.ToInt32(reader["task_id"]),
-						reader["task"] != DBNull.Value ? Convert.ToString(reader["task"]) : null,
+						reader["task_item"] != DBNull.Value ? Convert.ToString(reader["task_item"]) : null,
 						reader["task_dead_line"] != DBNull.Value ? Convert.ToDateTime(reader["task_dead_line"]) : null,
 						reader["process_code"] != DBNull.Value ? Convert.ToString(reader["process_code"]) : null,
 						reader["worker_code"] != DBNull.Value ? Convert.ToString(reader["worker_code"]) : null
@@ -37,13 +37,13 @@ FROM
             string insert = @"
 INSERT INTO tmp_task_mst
  (task_id,
-  task,
+  task_item,
   task_dead_line,
   process_code,
   worker_code)
 VALUES
  (:task_id,
-  :task,
+  :task_item,
   :task_dead_line,
   :process_code,
   :worker_code)
@@ -51,7 +51,7 @@ VALUES
             string update = @"
 UPDATE tmp_task_mst
 SET 
-  task = :task,
+  task_item = :task_item,
   task_dead_line = :task_dead_line,
   process_code = :process_code,
   worker_code = :worker_code
@@ -61,7 +61,7 @@ WHERE
             var args = new List<OracleParameter>
             {
                 new OracleParameter(":task_id", entity.TaskId.Value),
-				new OracleParameter(":task", entity.Task.Value),
+				new OracleParameter(":task_item", entity.TaskItem.Value),
 				new OracleParameter(":task_dead_line", entity.TaskDeadLine.Value),
 				new OracleParameter(":process_code", entity.ProcessCode.Value),
 				new OracleParameter(":worker_code", entity.WorkerCode.Value)

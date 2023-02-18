@@ -1,19 +1,19 @@
 namespace Template2.Domain.ValueObjects
 {
-    public sealed class Task : ValueObject<Task>
+    public sealed class TaskItem : ValueObject<TaskItem>
     {
         /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name=""value""></param>
-        public Task(string? value)
+        public TaskItem(string? value)
         {
             Value = value;
         }
 
         public string? Value { get; }
 
-        protected override bool EqualsCore(Task other)
+        protected override bool EqualsCore(TaskItem other)
         {
             return Value == other.Value;
         }

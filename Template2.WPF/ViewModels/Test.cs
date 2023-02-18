@@ -11,9 +11,9 @@ namespace Template2.WPF.ViewModels
     /// <summary>
     /// ソースメモ用のクラス。本体アプリでは利用しない。
     /// </summary>
-    internal class Temp
+    internal class Test
     {
-        public Temp()
+        public Test()
         {
             XXX = new DelegateCommand(XXXExecute);
         }

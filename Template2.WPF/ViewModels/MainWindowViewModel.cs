@@ -20,12 +20,14 @@ namespace Template2.WPF.ViewModels
 
             //// DelegateCommandメソッドを登録
             WindowContentRendered = new DelegateCommand(WindowContentRenderedExecute);
+            HomeViewButton = new DelegateCommand(HomeViewButtonExecute);
             Sample001ViewButton = new DelegateCommand(Sample001ViewButtonExecute);
             Sample002ViewButton = new DelegateCommand(Sample002ViewButtonExecute);
             Sample003ViewButton = new DelegateCommand(Sample003ViewButtonExecute);
             Sample004ViewButton = new DelegateCommand(Sample004ViewButtonExecute);
             Sample005ViewButton = new DelegateCommand(Sample005ViewButtonExecute);
             Sample006ViewButton = new DelegateCommand(Sample006ViewButtonExecute);
+            Sample007ViewButton = new DelegateCommand(Sample007ViewButtonExecute);
 
             //// 自身をパラメータに格納
             _parameters.Add(nameof(MainWindowViewModel), this);
@@ -88,6 +90,15 @@ namespace Template2.WPF.ViewModels
             //// コンストラクタ内の例外処理はキャッチできない。
             //// そのため、コンストラクタ内のDB接続処理はContentRenderedイベントで処理し、
             //// DB接続エラーをキャッチする方が良い。
+
+            _regionManager.RequestNavigate("ContentRegion", nameof(HomeView), _parameters);
+        }
+
+        public DelegateCommand HomeViewButton { get; }
+
+        private void HomeViewButtonExecute()
+        {
+            _regionManager.RequestNavigate("ContentRegion", nameof(HomeView), _parameters);
         }
 
         public DelegateCommand Sample001ViewButton { get; }
@@ -130,6 +141,14 @@ namespace Template2.WPF.ViewModels
         {
             _regionManager.RequestNavigate("ContentRegion", nameof(Sample006View), _parameters);
         }
+
+        public DelegateCommand Sample007ViewButton { get; }
+
+        private void Sample007ViewButtonExecute()
+        {
+            _regionManager.RequestNavigate("ContentRegion", nameof(Sample007View), _parameters);
+        }
+
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 

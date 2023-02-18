@@ -1,0 +1,92 @@
+﻿<UserControl x:Class="Template2.WPF.Views.HomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:system="clr-namespace:System;assembly=netstandard"
+             Background="{StaticResource backgroundColor}" Cursor="Hand">
+
+    <UserControl.Resources>
+        <system:Double x:Key="buttonWidth">200</system:Double>
+        <Thickness x:Key="buttonMargin">0,10,0,10</Thickness>
+    </UserControl.Resources>
+
+    <Grid Margin="{StaticResource gridMargin}">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Cursor="Hand">
+            <DockPanel LastChildFill="False">
+
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                    <Button
+                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+                    Content="Sample001"
+                    Width="{StaticResource buttonWidth}"
+                    Command="{Binding Sample001ViewButton}" Cursor="Hand"/>
+                    <Label Content="・・・　読取専用のDataGrid編集" 
+                   VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                    <Button
+                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+                    Content="Sample002"
+                    Width="{StaticResource buttonWidth}"
+                    Command="{Binding Sample002ViewButton}" Cursor="Hand"/>
+                    <Label Content="・・・　読書可能なDataGrid編集 + DataGrid内のコンボボックス" 
+                   VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                    <Button
+                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+                    Content="Sample003"
+                    Width="{StaticResource buttonWidth}"
+                    Command="{Binding Sample003ViewButton}" Cursor="Hand"/>
+                    <Label Content="・・・　DataGridの縦横変換（Unpivot）" 
+                   VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                    <Button
+                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+                    Content="Sample004"
+                    Width="{StaticResource buttonWidth}"
+                    Command="{Binding Sample004ViewButton}" Cursor="Hand"/>
+                    <Label Content="・・・　画像/動画ファイル再生" 
+                   VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                    <Button
+                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+                    Content="Sample005"
+                    Width="{StaticResource buttonWidth}"
+                    Command="{Binding Sample005ViewButton}" Cursor="Hand"/>
+                    <Label Content="・・・　ツリービューの選択アイテムをバインド" 
+                   VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                    <Button
+                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+                    Content="Sample006"
+                    Width="{StaticResource buttonWidth}"
+                    Command="{Binding Sample006ViewButton}" Cursor="Hand"/>
+                    <Label Content="・・・　AWSサービス接続" 
+                   VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                    <Button
+                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+                    Content="Sample007"
+                    Width="{StaticResource buttonWidth}"
+                    Command="{Binding Sample007ViewButton}" Cursor="Hand"/>
+                    <Label Content="・・・　DataGrid自動更新" 
+                   VerticalAlignment="Center"/>
+                </StackPanel>
+
+            </DockPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
