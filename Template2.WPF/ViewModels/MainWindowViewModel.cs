@@ -1,6 +1,8 @@
 ﻿using Prism.Commands;
 using Prism.Regions;
 using System;
+using System.Threading.Tasks;
+using System.Windows;
 using Template2.Infrastructure;
 using Template2.WPF.Views;
 
@@ -39,6 +41,16 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         /// <summary>
+        /// ローディング中表示のVisibility
+        /// </summary>
+        private Visibility _loadingBarVisibility = Visibility.Visible;
+        public Visibility LoadingBarVisibility
+        {
+            get { return _loadingBarVisibility; }
+            set { SetProperty(ref _loadingBarVisibility, value); }
+        }
+
+        /// <summary>
         /// タイトル
         /// </summary>
         private string _title = "Prism Application";
@@ -73,24 +85,14 @@ namespace Template2.WPF.ViewModels
 
         public DelegateCommand WindowContentRendered { get; }
 
-        private void WindowContentRenderedExecute()
+        private async void WindowContentRenderedExecute()
         {
-            try
-            {
-                //// DB接続確認
-                Factories.Open();
-                DBConnectionIsChecked = true;
-            }
-            catch (Exception e)
-            {
-                DBConnectionIsChecked = false;
-                throw new Exception(e.Message, e) ;
-            }
-
             //// ※注意：App.xaml.cs内のDispatcherUnhandledExceptionでは、
             //// コンストラクタ内の例外処理はキャッチできない。
             //// そのため、コンストラクタ内のDB接続処理はContentRenderedイベントで処理し、
             //// DB接続エラーをキャッチする方が良い。
+
+            await Task.Run(() => DBConnectionCheck());
 
             _regionManager.RequestNavigate("ContentRegion", nameof(HomeView), _parameters);
         }
@@ -159,6 +161,26 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// 3. Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        private void DBConnectionCheck()
+        {
+            try
+            {
+                //// DB接続確認
+                Factories.Open();
+                DBConnectionIsChecked = true;
+            }
+            catch (Exception e)
+            {
+                DBConnectionIsChecked = false;
+
+                throw new Exception(e.Message, e);
+            }
+            finally
+            {
+                LoadingBarVisibility = Visibility.Hidden;
+            }
+        }
 
         #endregion
 

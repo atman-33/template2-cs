@@ -244,6 +244,12 @@
 
             </materialDesign:ColorZone>
 
+            <StackPanel Visibility="{Binding LoadingBarVisibility}"
+                        DockPanel.Dock="Top">
+                <Label Content="DB接続確認中..." Margin="10"/>
+                <ProgressBar IsIndeterminate="True"/>
+            </StackPanel>
+
             <ContentControl prism:RegionManager.RegionName="ContentRegion"
                             DockPanel.Dock="Top"/>
 

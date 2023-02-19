@@ -13,6 +13,7 @@
     </UserControl.Resources>
 
     <Grid Margin="{StaticResource gridMargin}">
+
         <ScrollViewer VerticalScrollBarVisibility="Auto" Cursor="Hand">
             <DockPanel LastChildFill="False">
 
