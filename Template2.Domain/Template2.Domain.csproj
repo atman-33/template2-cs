@@ -11,6 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Modules\Python\test.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Template2.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

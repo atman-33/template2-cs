@@ -52,7 +52,7 @@
                               IsChecked="{Binding DBConnectionIsChecked}"
                               IsEnabled="False" Cursor="Hand"/>
 
-                        <Label Content="ver 0.9.0"
+                        <Label Content="ver 1.0.0"
                                Margin="20,0,0,0"
                                    Foreground="White"
                                    FontSize="14" VerticalAlignment="Center" 
@@ -236,6 +236,20 @@
                                                                  Width="{StaticResource menuIconSize}" 
                                                                  Height="{StaticResource menuIconSize}"/>
                                         <TextBlock Text="サンプル9" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                   FontSize="{StaticResource menuFontSize}"/>
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+
+                            <Button Style="{StaticResource menuButtonStyle}"
+                                    Command="{Binding Sample010ViewButton}"
+                                DockPanel.Dock="Top" Cursor="Hand">
+                                <DockPanel>
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="LanguagePython" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                                                 Width="{StaticResource menuIconSize}" 
+                                                                 Height="{StaticResource menuIconSize}"/>
+                                        <TextBlock Text="サンプル10" VerticalAlignment="Center" HorizontalAlignment="Center"
                                                    FontSize="{StaticResource menuFontSize}"/>
                                     </StackPanel>
                                 </DockPanel>

@@ -16,6 +16,7 @@ namespace Template2.WPF.ViewModels
             Sample007ViewButton = new DelegateCommand(Sample007ViewButtonExecute);
             Sample008ViewButton = new DelegateCommand(Sample008ViewButtonExecute);
             Sample009ViewButton = new DelegateCommand(Sample009ViewButtonExecute);
+            Sample010ViewButton = new DelegateCommand(Sample010ViewButtonExecute);
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
@@ -85,6 +86,12 @@ namespace Template2.WPF.ViewModels
         private void Sample009ViewButtonExecute()
         {
             base._mainWindowViewModel.Sample009ViewButton.Execute();
+        }
+
+        public DelegateCommand Sample010ViewButton { get; }
+        private void Sample010ViewButtonExecute()
+        {
+            base._mainWindowViewModel.Sample010ViewButton.Execute();
         }
 
         #endregion
