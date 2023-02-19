@@ -59,11 +59,8 @@
                                    VerticalContentAlignment="Center"/>
 
                         <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" BorderBrush="Transparent">
-                            <ListBox>
-                                <ListBoxItem Content="Hello World" />
-                                <ListBoxItem Content="Nice Popup" />
-                                <ListBoxItem Content="Goodbye" />
-                            </ListBox>
+                            <Button Command="{Binding ExitButton}" Content="終了" 
+                                    Width="100"/>
                         </materialDesign:PopupBox>
 
                     </StackPanel>

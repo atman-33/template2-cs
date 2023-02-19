@@ -22,6 +22,9 @@ namespace Template2.WPF.ViewModels
 
             //// DelegateCommandメソッドを登録
             WindowContentRendered = new DelegateCommand(WindowContentRenderedExecute);
+
+            ExitButton = new DelegateCommand(ExitButtonExecute);
+
             HomeViewButton = new DelegateCommand(HomeViewButtonExecute);
             Sample001ViewButton = new DelegateCommand(Sample001ViewButtonExecute);
             Sample002ViewButton = new DelegateCommand(Sample002ViewButtonExecute);
@@ -98,8 +101,13 @@ namespace Template2.WPF.ViewModels
             _regionManager.RequestNavigate("ContentRegion", nameof(HomeView), _parameters);
         }
 
-        public DelegateCommand HomeViewButton { get; }
+        public DelegateCommand ExitButton { get; }
+        private void ExitButtonExecute()
+        {
+            Application.Current.Shutdown();
+        }
 
+        public DelegateCommand HomeViewButton { get; }
         private void HomeViewButtonExecute()
         {
             _regionManager.RequestNavigate("ContentRegion", nameof(HomeView), _parameters);
