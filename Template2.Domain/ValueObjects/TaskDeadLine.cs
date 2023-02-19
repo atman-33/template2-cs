@@ -1,3 +1,6 @@
+using System;
+using System.Diagnostics;
+
 namespace Template2.Domain.ValueObjects
 {
     public sealed class TaskDeadline : ValueObject<TaskDeadline>
@@ -30,7 +33,9 @@ namespace Template2.Domain.ValueObjects
 
         public override string ToString()
         {
-            if (Value == null)
+            Debug.WriteLine(Value);
+
+            if (Value == null || Value == new DateTime(0))
             {
                 return String.Empty;
             }

@@ -230,6 +230,19 @@
                                 </DockPanel>
                             </Button>
 
+                            <Button Style="{StaticResource menuButtonStyle}"
+                                    Command="{Binding Sample009ViewButton}"
+                                DockPanel.Dock="Top" Cursor="Hand">
+                                <DockPanel>
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="FileExcel" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                                                 Width="{StaticResource menuIconSize}" 
+                                                                 Height="{StaticResource menuIconSize}"/>
+                                        <TextBlock Text="サンプル9" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                   FontSize="{StaticResource menuFontSize}"/>
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
 
                         </DockPanel>
                     </ScrollViewer>

@@ -25,7 +25,7 @@ namespace Template2.Infrastruture.Excel
             return list.AsReadOnly();
         }
 
-        internal static DataTable GetExcelSheetDataToDataTable(string filePath, string sheetName, bool isFirstRowColumnName)
+        internal static DataTable? GetExcelSheetDataToDataTable(string filePath, string sheetName, bool isFirstRowHeader)
         {
             using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var streamReader = new StreamReader(stream))
@@ -58,7 +58,7 @@ namespace Template2.Infrastruture.Excel
                 reader.Close();
 
                 //// 先頭行がカラム名では無い場合、worksheetを返す
-                if (isFirstRowColumnName == false)
+                if (isFirstRowHeader == false)
                 {
                     return worksheet;
                 }

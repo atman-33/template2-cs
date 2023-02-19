@@ -97,6 +97,16 @@
                    VerticalAlignment="Center"/>
                 </StackPanel>
 
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                    <Button
+                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+                    Content="Sample009"
+                    Width="{StaticResource buttonWidth}"
+                    Command="{Binding Sample009ViewButton}" Cursor="Hand"/>
+                    <Label Content="・・・　Excel取り込み" 
+                   VerticalAlignment="Center"/>
+                </StackPanel>
+
             </DockPanel>
         </ScrollViewer>
     </Grid>

@@ -28,6 +28,7 @@ namespace Template2.WPF.ViewModels
             RemoveSelectedItemButton = new DelegateCommand(RemoveSelectedItemButtonExecute);
             RemoveAllItemsButton = new DelegateCommand(RemoveAllItemsButtonExecute);
 
+            //// サンプル用の初期値
             CsvFilePathText = @"C:\Repos\template2-cs\Fake\csv\TaskList.csv";
         }
 

@@ -16,6 +16,7 @@ namespace Template2.Infrastructure
             if (Shared.IsFake)
             {
                 SQLiteHelper.Open();
+                return;
             }
 #endif
             OracleOdpHelper.Open();
