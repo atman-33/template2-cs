@@ -12,22 +12,25 @@ namespace Template2.WPF
     /// </summary>
     public partial class App
     {
+        /// <summary>
+        /// ログ
+        /// </summary>
+        private static log4net.ILog _logger =
+            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public App()
         {
             //// 例外処理をキャッチする処理
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
-
         }
 
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            //// 下記処理を追加しても例外発生でアプリが中断する場合、例外停止箇所の例外の編集から中断しないよう設定を変更する
-
-            //_logger.Error(ex.Message, ex);              //// ログ出力
+            _logger.Error(e.Exception.Message, e.Exception);    //// ログ出力
 
             MessageBoxImage icon = MessageBoxImage.Error;
             string caption = "エラー";
-            var exceptionBase = e.Exception as ExceptionBase;    //// 型が異なる場合はnullが返る
+            var exceptionBase = e.Exception as ExceptionBase;   //// 型が異なる場合はnullが返る
             if (exceptionBase != null)
             {
                 if (exceptionBase.Kind == ExceptionBase.ExceptionKind.Info)
@@ -67,6 +70,7 @@ namespace Template2.WPF
             containerRegistry.RegisterForNavigation<Sample006View>();
             containerRegistry.RegisterForNavigation<Sample007View>();
             containerRegistry.RegisterForNavigation<Sample008View>();
+            containerRegistry.RegisterForNavigation<Sample009View>();
 
             //// ダイアログ画面（別画面に表示） ※ViewModel に IDialogAware 実装が必要
             //// ex. containerRegistry.RegisterDialog<XXXView, XXXViewModel>();
