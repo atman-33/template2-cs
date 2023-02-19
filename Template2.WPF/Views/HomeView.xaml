@@ -86,6 +86,16 @@
                    VerticalAlignment="Center"/>
                 </StackPanel>
 
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                    <Button
+                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+                    Content="Sample008"
+                    Width="{StaticResource buttonWidth}"
+                    Command="{Binding Sample008ViewButton}" Cursor="Hand"/>
+                    <Label Content="・・・　CSVファイル取り込み + ドラッグ＆ドロップでListView並び替え" 
+                   VerticalAlignment="Center"/>
+                </StackPanel>
+
             </DockPanel>
         </ScrollViewer>
     </Grid>

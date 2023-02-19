@@ -1,19 +1,19 @@
 namespace Template2.Domain.ValueObjects
 {
-    public sealed class TaskDeadLine : ValueObject<TaskDeadLine>
+    public sealed class TaskDeadline : ValueObject<TaskDeadline>
     {
         /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name=""value""></param>
-        public TaskDeadLine(DateTime? value)
+        public TaskDeadline(DateTime? value)
         {
             Value = value;
         }
 
         public DateTime? Value { get; }
 
-        protected override bool EqualsCore(TaskDeadLine other)
+        protected override bool EqualsCore(TaskDeadline other)
         {
             return Value == other.Value;
         }

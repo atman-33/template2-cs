@@ -1,6 +1,4 @@
 ﻿
-using Template2.Domain;
-
 namespace Template2.Infrastruture.Csv
 {
     internal static class CsvHelper
