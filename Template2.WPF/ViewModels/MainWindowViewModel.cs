@@ -1,6 +1,8 @@
 ﻿using Prism.Commands;
 using Prism.Regions;
 using System;
+using System.Threading.Tasks;
+using System.Windows;
 using Template2.Infrastructure;
 using Template2.WPF.Views;
 
@@ -20,6 +22,9 @@ namespace Template2.WPF.ViewModels
 
             //// DelegateCommandメソッドを登録
             WindowContentRendered = new DelegateCommand(WindowContentRenderedExecute);
+
+            ExitButton = new DelegateCommand(ExitButtonExecute);
+
             HomeViewButton = new DelegateCommand(HomeViewButtonExecute);
             Sample001ViewButton = new DelegateCommand(Sample001ViewButtonExecute);
             Sample002ViewButton = new DelegateCommand(Sample002ViewButtonExecute);
@@ -29,6 +34,7 @@ namespace Template2.WPF.ViewModels
             Sample006ViewButton = new DelegateCommand(Sample006ViewButtonExecute);
             Sample007ViewButton = new DelegateCommand(Sample007ViewButtonExecute);
             Sample008ViewButton = new DelegateCommand(Sample008ViewButtonExecute);
+            Sample009ViewButton = new DelegateCommand(Sample009ViewButtonExecute);
 
             //// 自身をパラメータに格納
             _parameters.Add(nameof(MainWindowViewModel), this);
@@ -37,6 +43,16 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// 1. Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        /// <summary>
+        /// ローディング中表示のVisibility
+        /// </summary>
+        private Visibility _loadingBarVisibility = Visibility.Visible;
+        public Visibility LoadingBarVisibility
+        {
+            get { return _loadingBarVisibility; }
+            set { SetProperty(ref _loadingBarVisibility, value); }
+        }
 
         /// <summary>
         /// タイトル
@@ -73,30 +89,25 @@ namespace Template2.WPF.ViewModels
 
         public DelegateCommand WindowContentRendered { get; }
 
-        private void WindowContentRenderedExecute()
+        private async void WindowContentRenderedExecute()
         {
-            try
-            {
-                //// DB接続確認
-                Factories.Open();
-                DBConnectionIsChecked = true;
-            }
-            catch (Exception e)
-            {
-                DBConnectionIsChecked = false;
-                throw new Exception(e.Message, e) ;
-            }
-
             //// ※注意：App.xaml.cs内のDispatcherUnhandledExceptionでは、
             //// コンストラクタ内の例外処理はキャッチできない。
             //// そのため、コンストラクタ内のDB接続処理はContentRenderedイベントで処理し、
             //// DB接続エラーをキャッチする方が良い。
 
+            await Task.Run(() => DBConnectionCheck());
+
             _regionManager.RequestNavigate("ContentRegion", nameof(HomeView), _parameters);
         }
 
-        public DelegateCommand HomeViewButton { get; }
+        public DelegateCommand ExitButton { get; }
+        private void ExitButtonExecute()
+        {
+            Application.Current.Shutdown();
+        }
 
+        public DelegateCommand HomeViewButton { get; }
         private void HomeViewButtonExecute()
         {
             _regionManager.RequestNavigate("ContentRegion", nameof(HomeView), _parameters);
@@ -154,11 +165,37 @@ namespace Template2.WPF.ViewModels
             _regionManager.RequestNavigate("ContentRegion", nameof(Sample008View), _parameters);
         }
 
+        public DelegateCommand Sample009ViewButton { get; }
+        private void Sample009ViewButtonExecute()
+        {
+            _regionManager.RequestNavigate("ContentRegion", nameof(Sample009View), _parameters);
+        }
+
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// 3. Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        private void DBConnectionCheck()
+        {
+            try
+            {
+                //// DB接続確認
+                Factories.Open();
+                DBConnectionIsChecked = true;
+            }
+            catch (Exception e)
+            {
+                DBConnectionIsChecked = false;
+
+                throw new Exception(e.Message, e);
+            }
+            finally
+            {
+                LoadingBarVisibility = Visibility.Hidden;
+            }
+        }
 
         #endregion
 

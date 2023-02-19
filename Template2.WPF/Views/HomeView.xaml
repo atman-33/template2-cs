@@ -13,6 +13,7 @@
     </UserControl.Resources>
 
     <Grid Margin="{StaticResource gridMargin}">
+
         <ScrollViewer VerticalScrollBarVisibility="Auto" Cursor="Hand">
             <DockPanel LastChildFill="False">
 
@@ -93,6 +94,16 @@
                     Width="{StaticResource buttonWidth}"
                     Command="{Binding Sample008ViewButton}" Cursor="Hand"/>
                     <Label Content="・・・　CSVファイル取り込み + ドラッグ＆ドロップでListView並び替え" 
+                   VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                    <Button
+                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+                    Content="Sample009"
+                    Width="{StaticResource buttonWidth}"
+                    Command="{Binding Sample009ViewButton}" Cursor="Hand"/>
+                    <Label Content="・・・　Excel取り込み" 
                    VerticalAlignment="Center"/>
                 </StackPanel>
 

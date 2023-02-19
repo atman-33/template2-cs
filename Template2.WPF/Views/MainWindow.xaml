@@ -52,18 +52,15 @@
                               IsChecked="{Binding DBConnectionIsChecked}"
                               IsEnabled="False" Cursor="Hand"/>
 
-                        <Label Content="ver 0.8.0"
+                        <Label Content="ver 0.9.0"
                                Margin="20,0,0,0"
                                    Foreground="White"
                                    FontSize="14" VerticalAlignment="Center" 
                                    VerticalContentAlignment="Center"/>
 
                         <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" BorderBrush="Transparent">
-                            <ListBox>
-                                <ListBoxItem Content="Hello World" />
-                                <ListBoxItem Content="Nice Popup" />
-                                <ListBoxItem Content="Goodbye" />
-                            </ListBox>
+                            <Button Command="{Binding ExitButton}" Content="終了" 
+                                    Width="100"/>
                         </materialDesign:PopupBox>
 
                     </StackPanel>
@@ -230,6 +227,19 @@
                                 </DockPanel>
                             </Button>
 
+                            <Button Style="{StaticResource menuButtonStyle}"
+                                    Command="{Binding Sample009ViewButton}"
+                                DockPanel.Dock="Top" Cursor="Hand">
+                                <DockPanel>
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="FileExcel" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                                                 Width="{StaticResource menuIconSize}" 
+                                                                 Height="{StaticResource menuIconSize}"/>
+                                        <TextBlock Text="サンプル9" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                   FontSize="{StaticResource menuFontSize}"/>
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
 
                         </DockPanel>
                     </ScrollViewer>
@@ -243,6 +253,12 @@
                        VerticalAlignment="Center"/>
 
             </materialDesign:ColorZone>
+
+            <StackPanel Visibility="{Binding LoadingBarVisibility}"
+                        DockPanel.Dock="Top">
+                <Label Content="DB接続確認中..." Margin="10"/>
+                <ProgressBar IsIndeterminate="True"/>
+            </StackPanel>
 
             <ContentControl prism:RegionManager.RegionName="ContentRegion"
                             DockPanel.Dock="Top"/>
