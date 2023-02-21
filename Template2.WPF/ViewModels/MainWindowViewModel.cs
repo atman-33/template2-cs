@@ -200,7 +200,7 @@ namespace Template2.WPF.ViewModels
             }
             finally
             {
-                LoadingBarVisibility = Visibility.Hidden;
+                LoadingBarVisibility = Visibility.Collapsed;
             }
         }
 
