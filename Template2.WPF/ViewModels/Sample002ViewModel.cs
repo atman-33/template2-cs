@@ -3,6 +3,7 @@ using Prism.Regions;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
+using System.Windows;
 using Template2.Domain.Entities;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
@@ -30,6 +31,8 @@ namespace Template2.WPF.ViewModels
             AddRowButton = new DelegateCommand(AddRowButtonExecute);
             DeleteRowButton = new DelegateCommand(DeleteRowButtonExecute);
             SaveButton = new DelegateCommand(SaveButtonExecute);
+            ChangeWorkerNameVisibilityButton = new DelegateCommand(ChangeWorkerNameVisibilityButtonExecute);
+
             WorkerMstEntitiesSelectedCellsChanged = new DelegateCommand(WorkerMstEntitiesSelectedCellsChangedExecute);
             WorkerMstEntitiesCurrentCellChanged = new DelegateCommand(WorkerMstEntitiesCurrentCellChangedExecute);
 
@@ -75,6 +78,12 @@ namespace Template2.WPF.ViewModels
             set { SetProperty(ref _workerGroupMstEntities, value); }
         }
 
+        private Visibility _workerNameVisibility = Visibility.Visible;
+        public Visibility WorkerNameVisibility
+        {
+            get { return _workerNameVisibility; }
+            set { SetProperty(ref _workerNameVisibility, value); }
+        }
 
         #endregion
 
@@ -125,6 +134,19 @@ namespace Template2.WPF.ViewModels
             }
 
             _messageService.ShowDialog("保存しました。", "情報", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+        }
+
+        public DelegateCommand ChangeWorkerNameVisibilityButton { get; }
+        private void ChangeWorkerNameVisibilityButtonExecute()
+        {
+            if (WorkerNameVisibility == Visibility.Visible)
+            {
+                WorkerNameVisibility = Visibility.Collapsed;
+            }
+            else
+            {
+                WorkerNameVisibility = Visibility.Visible;
+            }
         }
 
         public DelegateCommand WorkerMstEntitiesSelectedCellsChanged { get; }

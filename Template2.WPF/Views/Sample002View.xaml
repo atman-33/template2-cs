@@ -6,12 +6,13 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              Background="{StaticResource backgroundColor}"
-             xmlns:local="clr-namespace:Template2.WPF.Services"
+             xmlns:services="clr-namespace:Template2.WPF.Services"
              >
 
     <Grid Margin="{StaticResource gridMargin}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="70"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -53,7 +54,16 @@
                      Margin="5"/>
         </StackPanel>
 
-        <materialDesign:Card Grid.Row="1" Grid.Column="0" Margin="5" 
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="5" Orientation="Horizontal" >
+
+            <Button
+                Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                Content="作業者名称：表示⇔非表示"
+                Command="{Binding ChangeWorkerNameVisibilityButton}" Cursor="Hand"
+                Margin="5"/>
+        </StackPanel>
+
+        <materialDesign:Card Grid.Row="2" Grid.Column="0" Margin="5" 
                              Style="{StaticResource commonCard}"
                                  HorizontalAlignment="Left">
 
@@ -81,15 +91,17 @@
 
                 <DataGrid.Resources>
                     <!--DataGridのItemSourceとは別のアイテムをBindするために必要-->
-                    <local:BindingProxy x:Key="Proxy" Data="{Binding}"/>
+                    <services:BindingProxy x:Key="Proxy" Data="{Binding}"/>
                 </DataGrid.Resources>
 
                 <DataGrid.Columns>
                     <materialDesign:DataGridTextColumn Header="作業者コード"
-                                            Binding="{Binding WorkerCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                       Binding="{Binding WorkerCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     </materialDesign:DataGridTextColumn>
+                    <!-- カラムのVisibilityは、BindingProxyクラスを利用してViewModelのプロパティを参照する必要有り -->
                     <materialDesign:DataGridTextColumn Header="作業者名称"
-                                            Binding="{Binding WorkerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                       Binding="{Binding WorkerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                       Visibility="{Binding Data.WorkerNameVisibility, Source={StaticResource Proxy}}">
                     </materialDesign:DataGridTextColumn>
 
                     <materialDesign:DataGridComboBoxColumn Header="作業者グループ"
