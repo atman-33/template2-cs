@@ -52,7 +52,7 @@
                               IsChecked="{Binding DBConnectionIsChecked}"
                               IsEnabled="False" Cursor="Hand"/>
 
-                        <Label Content="ver 1.0.2"
+                        <Label Content="ver 1.1.0"
                                Margin="20,0,0,0"
                                    Foreground="White"
                                    FontSize="14" VerticalAlignment="Center" 
