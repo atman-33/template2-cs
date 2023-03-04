@@ -1,10 +1,4 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using Template2.Domain.Entities;
+﻿using System.Collections.ObjectModel;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
 
@@ -32,9 +26,9 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// 1. Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        private ObservableCollection<WorkerGroupMstEntity> _workerGroupMstEntities
-            = new ObservableCollection<WorkerGroupMstEntity>();
-        public ObservableCollection<WorkerGroupMstEntity> WorkerGroupMstEntities
+        private ObservableCollection<Sample011ViewModelWorkerGroupMst> _workerGroupMstEntities
+            = new ObservableCollection<Sample011ViewModelWorkerGroupMst>();
+        public ObservableCollection<Sample011ViewModelWorkerGroupMst> WorkerGroupMstEntities
         {
             get { return _workerGroupMstEntities; }
             set { SetProperty(ref _workerGroupMstEntities, value); }
@@ -57,7 +51,7 @@ namespace Template2.WPF.ViewModels
 
             foreach (var entity in _sampleMstRepository.GetData())
             {
-                WorkerGroupMstEntities.Add(entity);
+                WorkerGroupMstEntities.Add(new Sample011ViewModelWorkerGroupMst(entity));
             }
         }
 

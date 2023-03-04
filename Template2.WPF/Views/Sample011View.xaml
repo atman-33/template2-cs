@@ -20,7 +20,7 @@
                     Placement="RelativePoint"
                     PlacementTarget="{Binding ElementName=WorkerGroupMstEntitiesName}">
                 <!--  Popup construction Use properties of DraggedObject inside for Binding  -->
-                <TextBlock Text="{Binding Path=WorkerGroupName.Value}"/>
+                <TextBlock Text="{Binding Path=WorkerGroupName}"/>
             </Popup>
             
             <materialDesign:Card Grid.Row="0" Grid.Column="0" Margin="5"
@@ -29,7 +29,7 @@
 
                 <DataGrid Style="{StaticResource commonDataGrid}"
                           ItemsSource="{Binding WorkerGroupMstEntities}"
-                          IsReadOnly="True" Cursor="Hand"
+                          Cursor="Hand"
                           Margin="5"
                           
                           x:Name="WorkerGroupMstEntitiesName"
@@ -40,11 +40,13 @@
 
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="作業者グループコード"
-                                            Binding="{Binding WorkerGroupCode.Value}">
+                                            Binding="{Binding WorkerGroupCode}"
+                                            IsReadOnly="True">
                         </DataGridTextColumn>
                         <DataGridTextColumn Header="作業者グループ名称"
-                                            Binding="{Binding WorkerGroupName.Value}"
-                                            MinWidth="400">
+                                            Binding="{Binding WorkerGroupName}"
+                                            MinWidth="400"
+                                            IsReadOnly="True">
                         </DataGridTextColumn>
                     </DataGrid.Columns>
 

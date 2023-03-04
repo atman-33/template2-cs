@@ -120,7 +120,7 @@
                 <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
                     <Button
                     Style="{StaticResource MaterialDesignOutlinedDarkButton}"
-                    Content="Sample010"
+                    Content="Sample011"
                     Width="{StaticResource buttonWidth}"
                     Command="{Binding Sample011ViewButton}" Cursor="Hand"/>
                     <Label Content="・・・　ドラッグ＆ドロップでDataGrid並び替え" 

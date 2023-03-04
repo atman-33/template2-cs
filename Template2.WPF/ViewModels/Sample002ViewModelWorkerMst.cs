@@ -17,6 +17,7 @@ namespace Template2.WPF.ViewModels
             get { return Entity.WorkerCode.Value; }
             set { Entity.WorkerCode = new WorkerCode(value); }
         }
+
         public string WorkerName
         {
             get { return Entity.WorkerName.Value; }

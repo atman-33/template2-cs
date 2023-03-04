@@ -99,6 +99,7 @@ namespace Template2.WPF.ViewModels
             //// DB接続エラーをキャッチする方が良い。
 
             await Task.Run(() => DBConnectionCheck());
+            await Task.Delay(1000);
 
             _regionManager.RequestNavigate("ContentRegion", nameof(HomeView), _parameters);
         }
