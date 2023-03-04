@@ -117,6 +117,16 @@
                    VerticalAlignment="Center"/>
                 </StackPanel>
 
+                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                    <Button
+                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
+                    Content="Sample010"
+                    Width="{StaticResource buttonWidth}"
+                    Command="{Binding Sample011ViewButton}" Cursor="Hand"/>
+                    <Label Content="・・・　ドラッグ＆ドロップでDataGrid並び替え" 
+                   VerticalAlignment="Center"/>
+                </StackPanel>
+
             </DockPanel>
         </ScrollViewer>
     </Grid>

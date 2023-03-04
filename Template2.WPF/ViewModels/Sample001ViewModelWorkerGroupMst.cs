@@ -2,9 +2,9 @@
 
 namespace Template2.WPF.ViewModels
 {
-    public class Sample001ViewModelSampleMst
+    public class Sample001ViewModelWorkerGroupMst
     {
-        public Sample001ViewModelSampleMst(WorkerGroupMstEntity entity)
+        public Sample001ViewModelWorkerGroupMst(WorkerGroupMstEntity entity)
         {
             Entity = entity;
         }

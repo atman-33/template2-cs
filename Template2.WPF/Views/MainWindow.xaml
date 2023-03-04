@@ -131,7 +131,7 @@
                                     DockPanel.Dock="Top">
                                 <DockPanel>
                                     <StackPanel>
-                                        <materialDesign:PackIcon Kind="TablePlus" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                        <materialDesign:PackIcon Kind="TableEdit" VerticalAlignment="Bottom" HorizontalAlignment="Center"
                                                                  Width="{StaticResource menuIconSize}" 
                                                                  Height="{StaticResource menuIconSize}"/>
                                         <TextBlock Text="サンプル2" VerticalAlignment="Center" HorizontalAlignment="Center"
@@ -250,6 +250,20 @@
                                                                  Width="{StaticResource menuIconSize}" 
                                                                  Height="{StaticResource menuIconSize}"/>
                                         <TextBlock Text="サンプル10" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                   FontSize="{StaticResource menuFontSize}"/>
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+
+                            <Button Style="{StaticResource menuButtonStyle}"
+                                    Command="{Binding Sample011ViewButton}"
+                                DockPanel.Dock="Top" Cursor="Hand">
+                                <DockPanel>
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="TableArrowDown" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                                                                 Width="{StaticResource menuIconSize}" 
+                                                                 Height="{StaticResource menuIconSize}"/>
+                                        <TextBlock Text="サンプル11" VerticalAlignment="Center" HorizontalAlignment="Center"
                                                    FontSize="{StaticResource menuFontSize}"/>
                                     </StackPanel>
                                 </DockPanel>

@@ -43,16 +43,16 @@ namespace Template2.WPF.ViewModels
         #region //// 1. Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        private ObservableCollection<Sample001ViewModelSampleMst> _workerGroupMstEntities
-            = new ObservableCollection<Sample001ViewModelSampleMst>();
-        public ObservableCollection<Sample001ViewModelSampleMst> WorkerGroupMstEntities
+        private ObservableCollection<Sample001ViewModelWorkerGroupMst> _workerGroupMstEntities
+            = new ObservableCollection<Sample001ViewModelWorkerGroupMst>();
+        public ObservableCollection<Sample001ViewModelWorkerGroupMst> WorkerGroupMstEntities
         {
             get { return _workerGroupMstEntities; }
             set { SetProperty(ref _workerGroupMstEntities, value); }
         }
 
-        private Sample001ViewModelSampleMst _workerGroupMstEntitiesSlectedItem;
-        public Sample001ViewModelSampleMst WorkerGroupMstEntitiesSlectedItem
+        private Sample001ViewModelWorkerGroupMst _workerGroupMstEntitiesSlectedItem;
+        public Sample001ViewModelWorkerGroupMst WorkerGroupMstEntitiesSlectedItem
         {
             get { return _workerGroupMstEntitiesSlectedItem; }
             set { SetProperty(ref _workerGroupMstEntitiesSlectedItem, value); }
@@ -160,7 +160,7 @@ namespace Template2.WPF.ViewModels
 
             foreach (var entity in _sampleMstRepository.GetData())
             {
-                WorkerGroupMstEntities.Add(new Sample001ViewModelSampleMst(entity));
+                WorkerGroupMstEntities.Add(new Sample001ViewModelWorkerGroupMst(entity));
             }
         }
 
