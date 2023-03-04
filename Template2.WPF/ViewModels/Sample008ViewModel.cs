@@ -29,7 +29,7 @@ namespace Template2.WPF.ViewModels
             RemoveAllItemsButton = new DelegateCommand(RemoveAllItemsButtonExecute);
 
             //// サンプル用の初期値
-            CsvFilePathText = @"C:\Repos\template2-cs\Fake\csv\TaskList.csv";
+            CsvFilePathText = @"C:\Repos\template2-wpf-cs\Fake\csv\TaskList.csv";
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 

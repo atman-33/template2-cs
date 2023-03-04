@@ -28,7 +28,7 @@ namespace Template2.WPF.ViewModels
             ImportExcelButton = new DelegateCommand(ImportExcelButtonExecute);
 
             //// サンプル用の初期値
-            ExcelFilePathText = @"C:\Repos\template2-cs\Fake\excel\TaskList.xlsx";
+            ExcelFilePathText = @"C:\Repos\template2-wpf-cs\Fake\excel\TaskList.xlsx";
             ExcelSheetNameText = @"Sheet1";
         }
 
