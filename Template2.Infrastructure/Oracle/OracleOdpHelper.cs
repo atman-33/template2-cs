@@ -102,15 +102,10 @@ namespace Template2.Infrastructure.Oracle
             string update,
             OracleParameter[] parameters)
         {
-            if (_connection == null)
-            {
-                return;
-            }
-
             Open();
             using (var command = new OracleCommand(update, _connection))
             {
-                _transaction = _connection.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
+                _transaction = _connection?.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
                 command.Transaction = _transaction;
 
                 command.BindByName = true;
@@ -145,15 +140,10 @@ namespace Template2.Infrastructure.Oracle
             string sql,
             OracleParameter[] parameters)
         {
-            if (_connection == null)
-            {
-                return;
-            }
-
             Open();
             using (var command = new OracleCommand(sql, _connection))
             {
-                _transaction = _connection.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
+                _transaction = _connection?.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
                 command.Transaction = _transaction;
 
                 try
@@ -211,32 +201,17 @@ namespace Template2.Infrastructure.Oracle
 
         private static void BeginTransaction()
         {
-            if (_connection == null)
-            {
-                return;
-            }
-
-            _transaction = _connection.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
+            _transaction = _connection?.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
         }
 
         private static void Commit()
         {
-            if (_transaction == null)
-            {
-                return;
-            }
-
-            _transaction.Commit();
+            _transaction?.Commit();
         }
 
         private static void Rollback()
         {
-            if (_transaction == null)
-            {
-                return;
-            }
-
-            _transaction.Rollback();
+            _transaction?.Rollback();
         }
     }
 }
