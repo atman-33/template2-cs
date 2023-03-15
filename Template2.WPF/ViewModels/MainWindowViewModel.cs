@@ -200,16 +200,13 @@ namespace Template2.WPF.ViewModels
                 //// DB接続確認
                 Factories.Open();
                 DBConnectionIsChecked = true;
+                LoadingBarVisibility = Visibility.Collapsed;
             }
             catch (Exception e)
             {
                 DBConnectionIsChecked = false;
 
                 throw new Exception(e.Message, e);
-            }
-            finally
-            {
-                LoadingBarVisibility = Visibility.Collapsed;
             }
         }
 

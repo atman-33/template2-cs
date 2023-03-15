@@ -132,13 +132,17 @@
                 </DockPanel>
             </materialDesign:ColorZone>
 
-            <materialDesign:DrawerHost DockPanel.Dock="Left" IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+            <materialDesign:DrawerHost
+                BorderBrush="DarkGray"
+                BorderThickness="1"
+                DockPanel.Dock="Left"
+                IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
                 <materialDesign:DrawerHost.LeftDrawerContent>
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <DockPanel
                             x:Name="MenuPanel"
                             Width="60"
-                            Margin="5"
+                            Margin="0"
                             HorizontalAlignment="Center"
                             LastChildFill="False">
 
@@ -397,8 +401,8 @@
             </materialDesign:ColorZone>
 
             <StackPanel DockPanel.Dock="Top" Visibility="{Binding LoadingBarVisibility}">
-                <Label Margin="10" Content="DB接続確認中..." />
                 <ProgressBar IsIndeterminate="True" />
+                <Label Margin="10" Content="DB接続確認中..." />
             </StackPanel>
 
             <ContentControl prism:RegionManager.RegionName="ContentRegion" DockPanel.Dock="Top" />

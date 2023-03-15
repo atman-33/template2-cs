@@ -1,12 +1,15 @@
-﻿using Prism.Commands;
+﻿using MS.WindowsAPICodePack.Internal;
+using Prism.Commands;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using Template2.Domain;
 using Template2.Domain.Entities;
 
@@ -15,6 +18,12 @@ namespace Template2.WPF.ViewModels
     public class Sample004PagePreviewViewModel : ViewModelBase
     {
         private MediaElement _movieMediaElement;
+
+        /// <summary>
+        /// 動画読み込み確認タイマー
+        /// </summary>
+        private DispatcherTimer _movieLodingCheckTimer;
+
 
         public Sample004PagePreviewViewModel()
         {
@@ -49,19 +58,35 @@ namespace Template2.WPF.ViewModels
             set { SetProperty(ref _imageSource, value); }
         }
 
+        /// <summary>
+        /// ローディング中表示のVisibility
+        /// </summary>
+        private Visibility _loadingBarVisibility = Visibility.Hidden;
+        public Visibility LoadingBarVisibility
+        {
+            get { return _loadingBarVisibility; }
+            set { SetProperty(ref _loadingBarVisibility, value); }
+        }
+
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// 2. Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         public DelegateCommand MoviePlayButton { get; }
-        private void MoviePlayButtonExecute()
+        private async void MoviePlayButtonExecute()
         {
+            LoadingBarVisibility = Visibility.Visible;
+
+            await Task.Delay(2000);
+
             _movieMediaElement.Position = TimeSpan.Zero;
-            _movieMediaElement.Visibility = System.Windows.Visibility.Visible;
-            _movieMediaElement.LoadedBehavior = MediaState.Manual;
 
             _movieMediaElement.Play();
+
+            //// LoadingBarVisibilityはUIスレッド上で操作が必要なため、Invokeで実行
+            Application.Current.Dispatcher.Invoke(
+                (Action)delegate () { CheckLoading(); });
         }
 
         public DelegateCommand MovieStopButton { get; }
@@ -75,6 +100,25 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// 3. Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        /// <summary>
+        /// 動画のローディング中を監視
+        /// </summary>
+        private async void CheckLoading()
+        {
+            for (int i = 0; i < 10000; i++)
+            {
+                if (_movieMediaElement.IsLoaded)
+                {
+                    // Debug.WriteLine($"動画ローディング確認中...{_movieMediaElement.IsLoaded}");
+
+                    LoadingBarVisibility = Visibility.Hidden;
+                    return;
+                }
+
+                await Task.Delay(50);
+            }
+        }
 
         public void PreviewMovie()
         {
@@ -97,11 +141,12 @@ namespace Template2.WPF.ViewModels
             }
 
             _movieMediaElement.Source = new Uri(moviePath, UriKind.Relative);
+
             _movieMediaElement.Position = TimeSpan.Zero;
             _movieMediaElement.Visibility = System.Windows.Visibility.Visible;
             _movieMediaElement.LoadedBehavior = MediaState.Manual;
 
-            _movieMediaElement.Play();
+            MoviePlayButtonExecute();
         }
 
         public void PreviewImage()
