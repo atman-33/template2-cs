@@ -381,6 +381,7 @@ namespace Template2.WPF.ViewModels
                 NoteEntities[2] = new NoteEntity(editingEntity.Note3.Value);
 
                 //// 編集モードはプレビュー表示
+                _pagePreviewViewModel.ShowPreviewImmediately = true;
                 PreviewButtonExecute();
             }
         }

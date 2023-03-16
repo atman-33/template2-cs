@@ -48,6 +48,7 @@ namespace Template2.WPF.ViewModels
 
             //// DelegateCommandメソッドを登録
             NewButton = new DelegateCommand(NewButtonExecute);
+            ViewLoaded = new DelegateCommand(ViewLoadedExecute);
             SearchingPageNameTextChanged = new DelegateCommand(SearchingPageNameTextChangedExecute);
             PageMstEntitiesSelectedCellsChanged = new DelegateCommand(PageMstEntitiesSelectedCellsChangedExecute);
             EditButton = new DelegateCommand(EditButtonExecute);
@@ -97,8 +98,15 @@ namespace Template2.WPF.ViewModels
         #region //// 2. Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
+        public DelegateCommand ViewLoaded { get; }
+
+        private void ViewLoadedExecute()
+        {
+            _regionManager.RequestNavigate(PagePreviewContentRegion, nameof(Sample004PagePreviewView));
+        }
+
         /// <summary>
-        /// ページ編集画面を表示
+        /// ページ編集画面を表示（新規）
         /// </summary>
         public DelegateCommand NewButton { get; }
 
@@ -149,9 +157,11 @@ namespace Template2.WPF.ViewModels
         {
             Guard.IsNull(PageMstEntitiesSlectedItem, "編集するページを選択してください。");
 
-            var p = new DialogParameters();
-            p.Add(nameof(Sample004PageEditingViewModel.IsNewPage), false);
-            p.Add(nameof(this.PageMstEntitiesSlectedItem), PageMstEntitiesSlectedItem);
+            var p = new DialogParameters
+            {
+                { nameof(Sample004PageEditingViewModel.IsNewPage), false },
+                { nameof(this.PageMstEntitiesSlectedItem), PageMstEntitiesSlectedItem }
+            };
 
             _dialogService.ShowDialog(nameof(Sample004PageEditingView), p, Sample004PageEditingViewClose);
         }
@@ -228,8 +238,10 @@ namespace Template2.WPF.ViewModels
                 entity = PageMstEntitiesSlectedItem.Entity;
             }
 
-            var p = new NavigationParameters();
-            p.Add(nameof(Sample004PagePreviewViewModel.PreviewPageMstEntity), entity);
+            var p = new NavigationParameters
+            {
+                { nameof(Sample004PagePreviewViewModel.PreviewPageMstEntity), entity }
+            };
 
             Debug.WriteLine("★Sample004PageListViewModel:プレビュー遷移処理開始");
 

@@ -12,13 +12,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Template2.Domain;
 using Template2.Domain.Entities;
+using Template2.WPF.Services;
 
 namespace Template2.WPF.ViewModels
 {
     public class Sample004PagePreviewViewModel : ViewModelBase
     {
-        private MediaElement _movieMediaElement;
-
         /// <summary>
         /// 動画読み込み確認タイマー
         /// </summary>
@@ -29,26 +28,31 @@ namespace Template2.WPF.ViewModels
         {
             Debug.WriteLine("★Sample004PagePreviewViewModel:コンストラクタ処理開始");
 
-            //// 動画エレメントを設定
-            _movieMediaElement = new MediaElement();
-            MovieItemsControl.Add(_movieMediaElement);
-
             //// DelegateCommandメソッドを登録
+            MediaServiceLoaded = new DelegateCommand<IMediaService>(MediaServiceLoadedExecute);
+            MovieMediaOpened = new DelegateCommand(MovieMediaOpenedExecute);
             MoviePlayButton = new DelegateCommand(MoviePlayButtonExecute);
             MovieStopButton = new DelegateCommand(MovieStopButtonExecute);
         }
 
+        public IMediaService MediaService {get; private set;}
+
         public PageMstEntity PreviewPageMstEntity { get; set; }
+
+        /// <summary>
+        /// MediaService読み込み後にプレビューを表示させる時はTrue
+        /// </summary>
+        public bool ShowPreviewImmediately { get; set; } = false;
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// 1. Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        private ObservableCollection<UIElement> _movieItemsControl = new ObservableCollection<UIElement>();
-        public ObservableCollection<UIElement> MovieItemsControl
+        private Uri _movieSource;
+        public Uri MovieSource
         {
-            get { return _movieItemsControl; }
-            set { SetProperty(ref _movieItemsControl, value); }
+            get { return _movieSource; }
+            set { SetProperty(ref _movieSource, value); }
         }
 
         private BitmapImage _imageSource;
@@ -73,26 +77,47 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// 2. Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        public DelegateCommand MoviePlayButton { get; }
-        private async void MoviePlayButtonExecute()
+
+        public DelegateCommand<IMediaService> MediaServiceLoaded { get; }
+        private void MediaServiceLoadedExecute(IMediaService mediaService)
         {
-            LoadingBarVisibility = Visibility.Visible;
+            this.MediaService = mediaService;
 
-            await Task.Delay(2000);
+            if (ShowPreviewImmediately)
+            {
+                PreviewMovie();
+                PreviewImage();
+            }
+        }
 
-            _movieMediaElement.Position = TimeSpan.Zero;
+        public DelegateCommand MovieMediaOpened { get; }
+        private void MovieMediaOpenedExecute()
+        {
+            LoadingBarVisibility = Visibility.Collapsed;
+        }
 
-            _movieMediaElement.Play();
+        public DelegateCommand MoviePlayButton { get; }
+        private void MoviePlayButtonExecute()
+        {
+            if (MediaService == null)
+            {
+                LoadingBarVisibility = Visibility.Collapsed;
+                return;
+            }
 
-            //// LoadingBarVisibilityはUIスレッド上で操作が必要なため、Invokeで実行
-            Application.Current.Dispatcher.Invoke(
-                (Action)delegate () { CheckLoading(); });
+            MediaService.Play();
         }
 
         public DelegateCommand MovieStopButton { get; }
         private void MovieStopButtonExecute()
         {
-            _movieMediaElement.Stop();
+            if (MediaService == null)
+            {
+                LoadingBarVisibility = Visibility.Collapsed;
+                return;
+            }
+
+            MediaService.Stop();
         }
 
         #endregion
@@ -101,30 +126,11 @@ namespace Template2.WPF.ViewModels
         #region //// 3. Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        /// <summary>
-        /// 動画のローディング中を監視
-        /// </summary>
-        private async void CheckLoading()
-        {
-            for (int i = 0; i < 10000; i++)
-            {
-                if (_movieMediaElement.IsLoaded)
-                {
-                    // Debug.WriteLine($"動画ローディング確認中...{_movieMediaElement.IsLoaded}");
-
-                    LoadingBarVisibility = Visibility.Hidden;
-                    return;
-                }
-
-                await Task.Delay(50);
-            }
-        }
-
         public void PreviewMovie()
         {
             if (PreviewPageMstEntity == null)
             {
-                _movieMediaElement.Source = null;
+                MovieSource = null;
                 return;
             }
 
@@ -136,16 +142,20 @@ namespace Template2.WPF.ViewModels
         {
             if (File.Exists(moviePath) == false)
             {
-                _movieMediaElement.Source = null;
+                MovieSource = null;
+                LoadingBarVisibility = Visibility.Collapsed;
                 return;
             }
 
-            _movieMediaElement.Source = new Uri(moviePath, UriKind.Relative);
+            if (MediaService != null)
+            {
+                if (!MediaService.IsPlaying())
+                {
+                    LoadingBarVisibility = Visibility.Visible;
+                }
+            }
 
-            _movieMediaElement.Position = TimeSpan.Zero;
-            _movieMediaElement.Visibility = System.Windows.Visibility.Visible;
-            _movieMediaElement.LoadedBehavior = MediaState.Manual;
-
+            MovieSource = new Uri(moviePath, UriKind.Relative);
             MoviePlayButtonExecute();
         }
 
