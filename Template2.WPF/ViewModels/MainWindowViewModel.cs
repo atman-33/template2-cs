@@ -98,8 +98,8 @@ namespace Template2.WPF.ViewModels
             //// そのため、コンストラクタ内のDB接続処理はContentRenderedイベントで処理し、
             //// DB接続エラーをキャッチする方が良い。
 
+            await Task.Delay(500);
             await Task.Run(() => DBConnectionCheck());
-            await Task.Delay(1000);
 
             _regionManager.RequestNavigate("ContentRegion", nameof(HomeView), _parameters);
         }
