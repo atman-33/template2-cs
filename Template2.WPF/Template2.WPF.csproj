@@ -9,7 +9,7 @@
     <PackageReference Include="log4net" Version="2.0.15" />
     <PackageReference Include="MaterialDesignThemes" Version="4.7.0" />
     <PackageReference Include="Prism.Unity" Version="8.1.97" />
-    <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" />
+    <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Template2.Domain\Template2.Domain.csproj" />
