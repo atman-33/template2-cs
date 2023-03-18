@@ -1,5 +1,5 @@
 ﻿using Prism.Commands;
-using Prism.Regions;
+using Prism.Events;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
@@ -7,18 +7,23 @@ using System.Windows;
 using Template2.Domain.Entities;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
+using Template2.WPF.Events;
 
 namespace Template2.WPF.ViewModels
 {
-    public class Sample002ViewModel : ViewModelBase, IDialogAware
+    //ToDo: テスト可能なメッセージボックスを実装
+
+    public class Sample002ViewModel : ViewModelBase, IDialogAware   //// 別ViewModelからダイアログ表示させるためIDialogAware実装
     {
         //// 外部接触Repository
         private IWorkerMstRepository _workerMstRepository;
         private IWorkerGroupMstRepository _workerGroupMstRepository;
 
-        public Sample002ViewModel()
+        public Sample002ViewModel(IEventAggregator eventAggregator)
             : this(Factories.CreateWorkerMst(), Factories.CreateWorkerGroupMst())
         {
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル002（DataGridを直接編集）");
         }
 
         public Sample002ViewModel(IWorkerMstRepository workerMstRepository, IWorkerGroupMstRepository workerGroupMstRepository)
@@ -44,7 +49,25 @@ namespace Template2.WPF.ViewModels
         public string Title => "Sample002View";
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 1. Property Data Binding
+        #region //// Screen transition
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        public bool CanCloseDialog()
+        {
+            return true;
+        }
+
+        public void OnDialogClosed()
+        {
+        }
+
+        public void OnDialogOpened(IDialogParameters parameters)
+        {
+        }
+
+        #endregion
+
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         private ObservableCollection<Sample002ViewModelWorkerMst> _workerMstEntities
@@ -79,6 +102,9 @@ namespace Template2.WPF.ViewModels
         }
 
         private Visibility _workerNameVisibility = Visibility.Visible;
+
+        public event Action<IDialogResult> RequestClose;
+
         public Visibility WorkerNameVisibility
         {
             get { return _workerNameVisibility; }
@@ -88,7 +114,7 @@ namespace Template2.WPF.ViewModels
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 2. Event Binding (DelegateCommand)
+        #region //// Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         public DelegateCommand AddRowButton { get; }
@@ -161,7 +187,6 @@ namespace Template2.WPF.ViewModels
         }
 
         public DelegateCommand WorkerMstEntitiesCurrentCellChanged { get; }
-
         private void WorkerMstEntitiesCurrentCellChangedExecute()
         {
             WorkerMstEntitiesSelectedCellsChangedExecute();
@@ -171,7 +196,7 @@ namespace Template2.WPF.ViewModels
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 3. Others
+        #region //// Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         private void UpdateWorkerMstEntities()
@@ -202,32 +227,5 @@ namespace Template2.WPF.ViewModels
 
         #endregion
 
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// Screen transition
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-
-
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            base.OnNavigatedTo(navigationContext);
-            _mainWindowViewModel.ViewOutline = "> サンプル002（DataGridを直接編集）";
-        }
-
-        public event Action<IDialogResult> RequestClose;
-
-        public bool CanCloseDialog()
-        {
-            return true;
-        }
-
-        public void OnDialogClosed()
-        {
-        }
-
-        public void OnDialogOpened(IDialogParameters parameters)
-        {
-        }
-
-        #endregion
     }
 }

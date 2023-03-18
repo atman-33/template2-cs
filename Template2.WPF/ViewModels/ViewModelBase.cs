@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Events;
+using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using Template2.WPF.Services;
@@ -8,11 +9,6 @@ namespace Template2.WPF.ViewModels
     public class ViewModelBase : BindableBase, INavigationAware, IRegionMemberLifetime
     {
         /// <summary>
-        /// MainWindowViewModel
-        /// </summary>
-        protected MainWindowViewModel _mainWindowViewModel;
-
-        /// <summary>
         /// リージョンマネージャー（リージョン画面遷移に必要）
         /// </summary>
         protected IRegionManager _regionManager;
@@ -21,6 +17,11 @@ namespace Template2.WPF.ViewModels
         /// ダイアログサービス（ダイアログ画面遷移に必要）
         /// </summary>
         protected IDialogService _dialogService;
+
+        /// <summary>
+        /// イベントアグリゲーター
+        /// </summary>
+        protected IEventAggregator _eventAggregator;
 
         /// <summary>
         /// メッセージボックス
@@ -34,8 +35,6 @@ namespace Template2.WPF.ViewModels
 
         public ViewModelBase()
         {
-            //// メッセージボックス
-            _messageService = new MessageService();
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
@@ -54,8 +53,6 @@ namespace Template2.WPF.ViewModels
 
         public virtual void OnNavigatedTo(NavigationContext navigationContext)
         {
-            //// MainWindowViewModelを受け取り
-            _mainWindowViewModel = navigationContext.Parameters.GetValue<MainWindowViewModel>(nameof(MainWindowViewModel));
         }
 
         #endregion

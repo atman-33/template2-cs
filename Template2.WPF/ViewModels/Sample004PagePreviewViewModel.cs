@@ -1,5 +1,4 @@
-﻿using MS.WindowsAPICodePack.Internal;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
@@ -45,7 +44,26 @@ namespace Template2.WPF.ViewModels
         public bool ShowPreviewImmediately { get; set; } = false;
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 1. Property Data Binding
+        #region //// Screen transition
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            Debug.WriteLine("★Sample004PagePreviewViewModel:OnNavigatedTo開始");
+
+            //// プレビュー表示するエンティティを受け取り
+            PreviewPageMstEntity = navigationContext.Parameters.GetValue<PageMstEntity>(nameof(PreviewPageMstEntity));
+
+            Debug.WriteLine("★Sample004PagePreviewViewModel:エンティティ格納完了");
+
+            //// 自身をSharedに格納
+            Shared.Sample004PagePreviewViewModel = this;
+        }
+
+        #endregion
+
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         private Uri _movieSource;
@@ -75,7 +93,7 @@ namespace Template2.WPF.ViewModels
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 2. Event Binding (DelegateCommand)
+        #region //// Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         public DelegateCommand<IMediaService> MediaServiceLoaded { get; }
@@ -123,7 +141,7 @@ namespace Template2.WPF.ViewModels
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 3. Others
+        #region //// Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         public void PreviewMovie()
@@ -206,25 +224,5 @@ namespace Template2.WPF.ViewModels
         }
 
         #endregion
-
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// Screen transition
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            Debug.WriteLine("★Sample004PagePreviewViewModel:OnNavigatedTo開始");
-
-            //// プレビュー表示するエンティティを受け取り
-            PreviewPageMstEntity = navigationContext.Parameters.GetValue<PageMstEntity>(nameof(PreviewPageMstEntity));
-
-            Debug.WriteLine("★Sample004PagePreviewViewModel:エンティティ格納完了");
-
-            //// 自身をSharedに格納
-            Shared.Sample004PagePreviewViewModel = this;
-        }
-
-        #endregion
-
     }
 }

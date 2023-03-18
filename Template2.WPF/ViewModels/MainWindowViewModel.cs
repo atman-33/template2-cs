@@ -1,24 +1,26 @@
 ﻿using Prism.Commands;
+using Prism.Events;
 using Prism.Regions;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
 using Template2.Infrastructure;
+using Template2.WPF.Events;
 using Template2.WPF.Views;
 
 namespace Template2.WPF.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private NavigationParameters _parameters = new NavigationParameters();
-
-        public MainWindowViewModel(IRegionManager regionManager)
+        public MainWindowViewModel(
+            IRegionManager regionManager,
+            IEventAggregator eventAggregator)
         {
-            //// 画面遷移用（ナビゲーション）
-            _regionManager = regionManager;
+            base._regionManager = regionManager;
+            base._eventAggregator = eventAggregator;
 
-            //// 初期画面
-            //// ex. _regionManager.RegisterViewWithRegion("ContentRegion", nameof(HomeView));
+            //// 初期画面 => WindowContentRendered後に遷移するためコメントアウト
+            //_regionManager.RegisterViewWithRegion(_contentRegionName, nameof(HomeView));
 
             //// DelegateCommandメソッドを登録
             WindowContentRendered = new DelegateCommand(WindowContentRenderedExecute);
@@ -38,13 +40,26 @@ namespace Template2.WPF.ViewModels
             Sample010ViewButton = new DelegateCommand(Sample010ViewButtonExecute);
             Sample011ViewButton = new DelegateCommand(Sample011ViewButtonExecute);
 
-            //// 自身をパラメータに格納
-            _parameters.Add(nameof(MainWindowViewModel), this);
+            //// EventAggregatorメソッドを登録
+            _eventAggregator.GetEvent<MainWindowCallMethodEvent>().Subscribe(HandleCallMethodEvent);
+            _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Subscribe(HandleSetSubTitleEvent);
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 1. Property Data Binding
+        #region //// Screen transition
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        #endregion
+
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #region //// Property Data Binding
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        private readonly string _contentRegionName = "ContentRegion";
+        public string ContentRegionName
+        {
+            get { return _contentRegionName; }
+        }
 
         /// <summary>
         /// ローディング中表示のVisibility
@@ -67,13 +82,13 @@ namespace Template2.WPF.ViewModels
         }
 
         /// <summary>
-        /// 画面の概要
+        /// サブタイトル
         /// </summary>
-        private string _viewOutline;
-        public string ViewOutline
+        private string _subTitle;
+        public string SubTitle
         {
-            get { return _viewOutline; }
-            set { SetProperty(ref _viewOutline, value); }
+            get { return _subTitle; }
+            set { SetProperty(ref _subTitle, value); }
         }
 
         private bool _dbConnectionIsChecked = false;
@@ -86,7 +101,7 @@ namespace Template2.WPF.ViewModels
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 2. Event Binding (DelegateCommand)
+        #region //// Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         public DelegateCommand WindowContentRendered { get; }
@@ -101,7 +116,7 @@ namespace Template2.WPF.ViewModels
             await Task.Delay(500);
             await Task.Run(() => DBConnectionCheck());
 
-            _regionManager.RequestNavigate("ContentRegion", nameof(HomeView), _parameters);
+            _regionManager.RequestNavigate(_contentRegionName, nameof(HomeView));
         }
 
         public DelegateCommand ExitButton { get; }
@@ -113,84 +128,83 @@ namespace Template2.WPF.ViewModels
         public DelegateCommand HomeViewButton { get; }
         private void HomeViewButtonExecute()
         {
-            _regionManager.RequestNavigate("ContentRegion", nameof(HomeView), _parameters);
+            _regionManager.RequestNavigate(_contentRegionName, nameof(HomeView));
         }
 
         public DelegateCommand Sample001ViewButton { get; }
 
         private void Sample001ViewButtonExecute()
         {
-            _regionManager.RequestNavigate("ContentRegion", nameof(Sample001View), _parameters);
+            _regionManager.RequestNavigate(_contentRegionName, nameof(Sample001View));
         }
 
         public DelegateCommand Sample002ViewButton { get; }
 
         private void Sample002ViewButtonExecute()
         {
-            _regionManager.RequestNavigate("ContentRegion", nameof(Sample002View), _parameters);
+            _regionManager.RequestNavigate(_contentRegionName, nameof(Sample002View));
         }
 
         public DelegateCommand Sample003ViewButton { get; }
 
         private void Sample003ViewButtonExecute()
         {
-            _regionManager.RequestNavigate("ContentRegion", nameof(Sample003View), _parameters);
+            _regionManager.RequestNavigate(_contentRegionName, nameof(Sample003View));
         }
 
         public DelegateCommand Sample004ViewButton { get; }
 
         private void Sample004ViewButtonExecute()
         {
-            _regionManager.RequestNavigate("ContentRegion", nameof(Sample004PageListView), _parameters);
+            _regionManager.RequestNavigate(_contentRegionName, nameof(Sample004PageListView));
         }
         public DelegateCommand Sample005ViewButton { get; }
 
         private void Sample005ViewButtonExecute()
         {
-            _regionManager.RequestNavigate("ContentRegion", nameof(Sample005View), _parameters);
+            _regionManager.RequestNavigate(_contentRegionName, nameof(Sample005View));
         }
 
         public DelegateCommand Sample006ViewButton { get; }
         private void Sample006ViewButtonExecute()
         {
-            _regionManager.RequestNavigate("ContentRegion", nameof(Sample006View), _parameters);
+            _regionManager.RequestNavigate(_contentRegionName, nameof(Sample006View));
         }
 
         public DelegateCommand Sample007ViewButton { get; }
         private void Sample007ViewButtonExecute()
         {
-            _regionManager.RequestNavigate("ContentRegion", nameof(Sample007View), _parameters);
+            _regionManager.RequestNavigate(_contentRegionName, nameof(Sample007View));
         }
 
         public DelegateCommand Sample008ViewButton { get; }
         private void Sample008ViewButtonExecute()
         {
-            _regionManager.RequestNavigate("ContentRegion", nameof(Sample008View), _parameters);
+            _regionManager.RequestNavigate(_contentRegionName, nameof(Sample008View));
         }
 
         public DelegateCommand Sample009ViewButton { get; }
         private void Sample009ViewButtonExecute()
         {
-            _regionManager.RequestNavigate("ContentRegion", nameof(Sample009View), _parameters);
+            _regionManager.RequestNavigate(_contentRegionName, nameof(Sample009View));
         }
 
         public DelegateCommand Sample010ViewButton { get; }
         private void Sample010ViewButtonExecute()
         {
-            _regionManager.RequestNavigate("ContentRegion", nameof(Sample010View), _parameters);
+            _regionManager.RequestNavigate(_contentRegionName, nameof(Sample010View));
         }
 
         public DelegateCommand Sample011ViewButton { get; }
         private void Sample011ViewButtonExecute()
         {
-            _regionManager.RequestNavigate("ContentRegion", nameof(Sample011View), _parameters);
+            _regionManager.RequestNavigate(_contentRegionName, nameof(Sample011View));
         }
-
 
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 3. Others
+        #region //// Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         private void DBConnectionCheck()
@@ -210,11 +224,30 @@ namespace Template2.WPF.ViewModels
             }
         }
 
-        #endregion
+        /// <summary>
+        /// MainWindowEventがPublishされた際の処理
+        /// </summary>
+        /// <param name="delegateCommandName"></param>
+        private void HandleCallMethodEvent(string delegateCommandName)
+        {
+            Type type = this.GetType();
 
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// Screen transition
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+            var property = type.GetProperty(delegateCommandName);
+            var getter = property.GetGetMethod();
+            var command = getter.Invoke(this, null) as DelegateCommand;
+
+            command.Execute();
+        }
+
+        /// <summary>
+        /// サブタイトルをセット
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void HandleSetSubTitleEvent(string subTitle)
+        {
+            SubTitle = subTitle;
+        }
 
         #endregion
     }

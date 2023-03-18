@@ -1,24 +1,28 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
-    <SolidColorBrush x:Key="backgroundColor" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="backgroundColor" Color="WhiteSmoke" />
     <Thickness x:Key="gridMargin">30,10,10,10</Thickness>
 
     <Style x:Key="commonCard" TargetType="materialDesign:Card">
-        <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp2"/>
+        <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp2" />
     </Style>
-    
-    <!-- DataGridの標準スタイル -->
-    <Style x:Key="commonDataGrid" TargetType="DataGrid" BasedOn="{StaticResource MaterialDesignDataGrid}">
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="EnableColumnVirtualization" Value="True"/>
-        <Setter Property="EnableRowVirtualization" Value="True"/>
-        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True"/>
-        <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling"/>
-        <Setter Property="AutoGenerateColumns" Value="False"/>
-        <Setter Property="Background" Value="White"/>
+
+    <!--  DataGridの標準スタイル  -->
+    <Style
+        x:Key="commonDataGrid"
+        BasedOn="{StaticResource MaterialDesignDataGrid}"
+        TargetType="DataGrid">
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="EnableColumnVirtualization" Value="True" />
+        <Setter Property="EnableRowVirtualization" Value="True" />
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True" />
+        <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling" />
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="Background" Value="White" />
     </Style>
 
 </ResourceDictionary>

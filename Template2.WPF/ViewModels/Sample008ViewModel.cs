@@ -1,10 +1,11 @@
 ﻿using Prism.Commands;
-using Prism.Regions;
+using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
 using Template2.Domain.Entities;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure.Csv;
+using Template2.WPF.Events;
 
 namespace Template2.WPF.ViewModels
 {
@@ -12,11 +13,12 @@ namespace Template2.WPF.ViewModels
     {
         private ITaskMstCsvRepository _taskMstCsvRepository;
 
-        public Sample008ViewModel()
+        public Sample008ViewModel(IEventAggregator eventAggregator)
             : this(new TaskMstCsv())
         {
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル008（CSV取り込み、ListView並び替え）");
         }
-
         public Sample008ViewModel(ITaskMstCsvRepository taskMstCsvRepository)
         {
             _taskMstCsvRepository = taskMstCsvRepository;
@@ -33,7 +35,12 @@ namespace Template2.WPF.ViewModels
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 1. Property Data Binding
+        #region //// Screen transition
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #endregion
+
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         private string _csvFilePathText = String.Empty;
@@ -80,7 +87,7 @@ namespace Template2.WPF.ViewModels
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 2. Event Binding (DelegateCommand)
+        #region //// Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         public DelegateCommand ImportCsvButton { get; }
@@ -121,7 +128,12 @@ namespace Template2.WPF.ViewModels
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 3. Others
+        #region //// Timer
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #endregion
+
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #region //// Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         /// <summary>
@@ -137,23 +149,6 @@ namespace Template2.WPF.ViewModels
             }
         }
 
-        #endregion
-
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// Screen transition
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            base.OnNavigatedTo(navigationContext);
-            _mainWindowViewModel.ViewOutline = "> サンプル008（CSV取り込み、ListView並び替え）";
-        }
-
-        #endregion
-
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// Timer
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-
-        #endregion
+        #endregion    
     }
 }

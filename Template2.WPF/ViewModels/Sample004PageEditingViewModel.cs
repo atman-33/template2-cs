@@ -16,6 +16,8 @@ namespace Template2.WPF.ViewModels
 {
     public class Sample004PageEditingViewModel : ViewModelBase, IDialogAware
     {
+        // ToDo: リージョン名は読み取り専用バインド
+
         /// <summary>
         /// ページプレビューを表示するContentRegion
         /// </summary>
@@ -67,7 +69,63 @@ namespace Template2.WPF.ViewModels
         public bool IsNewPage { get; private set; }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 1. Property Data Binding
+        #region //// Screen transition
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        public event Action<IDialogResult> RequestClose;
+
+        public bool CanCloseDialog()
+        {
+            return true;
+        }
+
+        public void OnDialogClosed()
+        {
+            //// 画面内のリージョンを除去しておかないとエラーが発生してしまう
+            MainRegionManager.Regions.Remove(PagePreviewContentRegion);
+        }
+
+        public void OnDialogOpened(IDialogParameters parameters)
+        {
+            //// ページプレビューのContentRegionを表示
+            MainRegionManager.RequestNavigate(PagePreviewContentRegion, nameof(Sample004PagePreviewView));
+            _pagePreviewViewModel = Shared.Sample004PagePreviewViewModel as Sample004PagePreviewViewModel;
+
+            //// 新規ページかどうか設定
+            IsNewPage = parameters.GetValue<bool>(nameof(IsNewPage));
+
+            if (IsNewPage)
+            {
+                PageIdText = "（新規のため未採番）";
+            }
+            else
+            {
+                var vme = parameters.GetValue<Sample004PageListViewModelPageMst>
+                    (nameof(Sample004PageListViewModel.PageMstEntitiesSlectedItem));
+                var editingEntity = vme.Entity;
+
+                //// 編集対象のエンティティ情報を初期値に設定
+                PageIdText = editingEntity.PageId.Value.ToString();
+                PageNameText = editingEntity.PageName.Value;
+                MovieLinkText = editingEntity.MovieLink.Value;
+                ImageFolderLinkText = editingEntity.ImageFolderLink.Value;
+                ImagePageNoText = editingEntity.ImagePageNo.Value;
+                SlideWaitingTimeText = editingEntity.SlideWaitingTime.Value;
+
+                NoteEntities[0] = new NoteEntity(editingEntity.Note1.Value);
+                NoteEntities[1] = new NoteEntity(editingEntity.Note2.Value);
+                NoteEntities[2] = new NoteEntity(editingEntity.Note3.Value);
+
+                //// 編集モードはプレビュー表示
+                _pagePreviewViewModel.ShowPreviewImmediately = true;
+                PreviewButtonExecute();
+            }
+        }
+
+        #endregion
+
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         private string _pageIdText;
@@ -133,7 +191,7 @@ namespace Template2.WPF.ViewModels
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 2. Event Binding (DelegateCommand)
+        #region //// Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         public DelegateCommand OpenMovieFileButton { get; }
@@ -244,7 +302,6 @@ namespace Template2.WPF.ViewModels
             RequestClose?.Invoke(new DialogResult(ButtonResult.Cancel));
         }
 
-
         public DelegateCommand SaveButton { get; }
         private void SaveButtonExecute()
         {
@@ -323,68 +380,11 @@ namespace Template2.WPF.ViewModels
             RequestClose?.Invoke(new DialogResult(ButtonResult.No, p));
         }
 
-
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 3. Others
+        #region //// Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-
-        #endregion
-
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// Screen transition
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-
-        public event Action<IDialogResult> RequestClose;
-
-        public bool CanCloseDialog()
-        {
-            return true;
-        }
-
-        public void OnDialogClosed()
-        {
-            //// 画面内のリージョンを除去しておかないとエラーが発生してしまう
-            MainRegionManager.Regions.Remove(PagePreviewContentRegion);
-        }
-
-        public void OnDialogOpened(IDialogParameters parameters)
-        {
-            //// ページプレビューのContentRegionを表示
-            MainRegionManager.RequestNavigate(PagePreviewContentRegion, nameof(Sample004PagePreviewView));
-            _pagePreviewViewModel = Shared.Sample004PagePreviewViewModel as Sample004PagePreviewViewModel;
-
-            //// 新規ページかどうか設定
-            IsNewPage = parameters.GetValue<bool>(nameof(IsNewPage));
-
-            if (IsNewPage)
-            {
-                PageIdText = "（新規のため未採番）";
-            }
-            else
-            {
-                var vme = parameters.GetValue<Sample004PageListViewModelPageMst>
-                    (nameof(Sample004PageListViewModel.PageMstEntitiesSlectedItem));
-                var editingEntity = vme.Entity;
-
-                //// 編集対象のエンティティ情報を初期値に設定
-                PageIdText = editingEntity.PageId.Value.ToString();
-                PageNameText = editingEntity.PageName.Value;
-                MovieLinkText = editingEntity.MovieLink.Value;
-                ImageFolderLinkText = editingEntity.ImageFolderLink.Value;
-                ImagePageNoText = editingEntity.ImagePageNo.Value;
-                SlideWaitingTimeText = editingEntity.SlideWaitingTime.Value;
-
-                NoteEntities[0] = new NoteEntity(editingEntity.Note1.Value);
-                NoteEntities[1] = new NoteEntity(editingEntity.Note2.Value);
-                NoteEntities[2] = new NoteEntity(editingEntity.Note3.Value);
-
-                //// 編集モードはプレビュー表示
-                _pagePreviewViewModel.ShowPreviewImmediately = true;
-                PreviewButtonExecute();
-            }
-        }
 
         #endregion
     }

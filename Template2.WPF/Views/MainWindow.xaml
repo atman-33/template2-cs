@@ -21,7 +21,7 @@
     </i:Interaction.Triggers>
 
     <Window.Resources>
-        <system:Double x:Key="menuFontSize">12</system:Double>
+        <system:Double x:Key="menuFontSize">10</system:Double>
         <system:Double x:Key="menuIconSize">25</system:Double>
         <system:Double x:Key="menuButtonHeight">50</system:Double>
         <Thickness x:Key="menuMargin">0,5,0,5</Thickness>
@@ -396,7 +396,7 @@
                 Padding="10,0"
                 Background="White"
                 DockPanel.Dock="Top">
-                <Label VerticalAlignment="Center" Content="{Binding ViewOutline}" />
+                <Label VerticalAlignment="Center" Content="{Binding SubTitle}" />
 
             </materialDesign:ColorZone>
 
@@ -405,7 +405,7 @@
                 <Label Margin="10" Content="DB接続確認中..." />
             </StackPanel>
 
-            <ContentControl prism:RegionManager.RegionName="ContentRegion" DockPanel.Dock="Top" />
+            <ContentControl prism:RegionManager.RegionName="{Binding ContentRegionName}" DockPanel.Dock="Top" />
 
         </DockPanel>
     </Grid>

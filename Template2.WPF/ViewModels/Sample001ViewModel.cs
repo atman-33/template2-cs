@@ -1,4 +1,5 @@
 ﻿using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
@@ -7,7 +8,7 @@ using Template2.Domain.Entities;
 using Template2.Domain.Modules.Helpers;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
-using Template2.WPF.Services;
+using Template2.WPF.Events;
 
 namespace Template2.WPF.ViewModels
 {
@@ -19,9 +20,11 @@ namespace Template2.WPF.ViewModels
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public Sample001ViewModel()
+        public Sample001ViewModel(IEventAggregator eventAggregator)
             : this(Factories.CreateWorkerGroupMst())
         {
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル001（読み取り専用DataGrid）");
         }
 
         public Sample001ViewModel(IWorkerGroupMstRepository workerGroupMstRepository)
@@ -40,7 +43,13 @@ namespace Template2.WPF.ViewModels
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 1. Property Data Binding
+        #region //// Screen transition
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        #endregion
+
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         private ObservableCollection<Sample001ViewModelWorkerGroupMst> _workerGroupMstEntities
@@ -82,7 +91,7 @@ namespace Template2.WPF.ViewModels
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 2. Event Binding (DelegateCommand)
+        #region //// Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         public DelegateCommand WorkerGroupMstEntitiesSelectedCellsChanged { get; }
@@ -151,7 +160,7 @@ namespace Template2.WPF.ViewModels
 
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 3. Others
+        #region //// Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         private void UpdateWorkerGroupMstEntities()
@@ -162,17 +171,6 @@ namespace Template2.WPF.ViewModels
             {
                 WorkerGroupMstEntities.Add(new Sample001ViewModelWorkerGroupMst(entity));
             }
-        }
-
-        #endregion
-
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// Screen transition
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            base.OnNavigatedTo(navigationContext); 
-            _mainWindowViewModel.ViewOutline = "> サンプル001（マスタテーブル編集）";
         }
 
         #endregion

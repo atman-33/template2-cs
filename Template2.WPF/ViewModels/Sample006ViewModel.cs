@@ -1,7 +1,8 @@
 ﻿using Prism.Commands;
-using Prism.Regions;
+using Prism.Events;
 using System.Threading.Tasks;
 using Template2.Infrastructure.Aws;
+using Template2.WPF.Events;
 
 namespace Template2.WPF.ViewModels
 {
@@ -12,8 +13,11 @@ namespace Template2.WPF.ViewModels
 
         private LookoutforVisionController _lookoutforVisionController;
 
-        public Sample006ViewModel()
+        public Sample006ViewModel(IEventAggregator eventAggregator)
         {
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル006（AWS 操作）");
+
             StartModelButton = new DelegateCommand(StartModelButtonExecute);
             StopModelButton = new DelegateCommand(StopModelButtonExecute);
             DescribeModelButton = new DelegateCommand(DescribeModelButtonExecute);
@@ -21,7 +25,12 @@ namespace Template2.WPF.ViewModels
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 1. Property Data Binding
+        #region //// Screen transition
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #endregion
+
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         private string _projectNameText = "l4v_test_project";
@@ -62,7 +71,7 @@ namespace Template2.WPF.ViewModels
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 2. Event Binding (DelegateCommand)
+        #region //// Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         public DelegateCommand StartModelButton { get; }
@@ -115,21 +124,9 @@ namespace Template2.WPF.ViewModels
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 3. Others
+        #region //// Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         #endregion
-
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// Screen transition
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            base.OnNavigatedTo(navigationContext);
-            _mainWindowViewModel.ViewOutline = "> サンプル006（AWS 操作）";
-        }
-
-        #endregion
-
     }
 }

@@ -1,10 +1,11 @@
 ﻿using Prism.Commands;
-using Prism.Regions;
+using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
 using Template2.Domain.Entities;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
+using Template2.WPF.Events;
 
 namespace Template2.WPF.ViewModels
 {
@@ -14,10 +15,11 @@ namespace Template2.WPF.ViewModels
         private IWorkerGroupMstRepository _workerGroupMstRepository;
         private IWorkerMstRepository _workerMstRepository;
 
-        public Sample005ViewModel()
+        public Sample005ViewModel(IEventAggregator eventAggregator)
             : this(Factories.CreateWorkerGroupMst(), Factories.CreateWorkerMst())
         {
-
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル005（TreeViewと選択アイテムのバインド）");
         }
 
         public Sample005ViewModel(IWorkerGroupMstRepository workerGroupMstRepository, 
@@ -35,7 +37,12 @@ namespace Template2.WPF.ViewModels
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 1. Property Data Binding
+        #region //// Screen transition
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #endregion
+
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         private ObservableCollection<WorkerGroupTreeViewData> _workerGroupTreeView
@@ -70,7 +77,7 @@ namespace Template2.WPF.ViewModels
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 2. Event Binding (DelegateCommand)
+        #region //// Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         public DelegateCommand WorkerGroupTreeViewSelectedItemChanged { get; }
@@ -99,19 +106,8 @@ namespace Template2.WPF.ViewModels
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 3. Others
+        #region //// Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-
-        #endregion
-
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// Screen transition
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            base.OnNavigatedTo(navigationContext);
-            _mainWindowViewModel.ViewOutline = "> サンプル005（TreeViewと選択アイテムのバインド）";
-        }
 
         #endregion
     }

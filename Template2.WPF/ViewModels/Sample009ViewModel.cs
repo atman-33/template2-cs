@@ -1,11 +1,12 @@
 ﻿using Microsoft.Win32;
 using Prism.Commands;
-using Prism.Regions;
+using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
 using Template2.Domain.Entities;
 using Template2.Domain.Repositories;
 using Template2.Infrastruture.Excel;
+using Template2.WPF.Events;
 
 namespace Template2.WPF.ViewModels
 {
@@ -14,9 +15,11 @@ namespace Template2.WPF.ViewModels
         private ITaskMstExcelRepository _taskMstExcelRepository;
 
 
-        public Sample009ViewModel()
+        public Sample009ViewModel(IEventAggregator eventAggregator)
             :this(new TaskMstExcel())
         {
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル009（Excel取り込み）");
         }
 
         public Sample009ViewModel(TaskMstExcel taskMstExcel)
@@ -33,7 +36,12 @@ namespace Template2.WPF.ViewModels
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 1. Property Data Binding
+        #region //// Screen transition
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #endregion
+
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         private string _excelFilePathText = String.Empty;
@@ -61,7 +69,7 @@ namespace Template2.WPF.ViewModels
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 2. Event Binding (DelegateCommand)
+        #region //// Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         public DelegateCommand SelectExcelFileButton { get; }
@@ -95,25 +103,16 @@ namespace Template2.WPF.ViewModels
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 3. Others
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-
-        #endregion
-
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// Screen transition
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            base.OnNavigatedTo(navigationContext);
-            _mainWindowViewModel.ViewOutline = "> サンプル009（Excel取り込み）";
-        }
-        #endregion
-
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// Timer
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         #endregion
+
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #region //// Others
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        #endregion
+
     }
 }

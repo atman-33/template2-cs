@@ -1,6 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using Prism.Events;
+using System.Collections.ObjectModel;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
+using Template2.WPF.Events;
 
 namespace Template2.WPF.ViewModels
 {
@@ -8,10 +10,11 @@ namespace Template2.WPF.ViewModels
     {
         private IWorkerGroupMstRepository _sampleMstRepository;
 
-        public Sample011ViewModel()
+        public Sample011ViewModel(IEventAggregator eventAggregator)
             : this(Factories.CreateWorkerGroupMst())
         {
-
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル011（ドラッグ＆ドロップでDataGrid並び替え）");
         }
 
         public Sample011ViewModel(IWorkerGroupMstRepository workerGroupMstRepository)
@@ -24,7 +27,13 @@ namespace Template2.WPF.ViewModels
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 1. Property Data Binding
+        #region //// Screen transition
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        #endregion
+
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         private ObservableCollection<Sample011ViewModelWorkerGroupMst> _workerGroupMstEntities
             = new ObservableCollection<Sample011ViewModelWorkerGroupMst>();
@@ -37,13 +46,19 @@ namespace Template2.WPF.ViewModels
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 2. Event Binding (DelegateCommand)
+        #region //// Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 3. Others
+        #region //// Timer
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        #endregion
+
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #region //// Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         private void UpdateWorkerGroupMstEntities()
         {
@@ -54,18 +69,6 @@ namespace Template2.WPF.ViewModels
                 WorkerGroupMstEntities.Add(new Sample011ViewModelWorkerGroupMst(entity));
             }
         }
-
-        #endregion
-
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// Screen transition
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-
-        #endregion
-
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// Timer
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         #endregion
     }

@@ -1,4 +1,5 @@
 ﻿using Prism.Commands;
+using Prism.Events;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using Template2.Domain.Modules.Objects;
 using Template2.Domain.Repositories;
 using Template2.Domain.ValueObjects;
 using Template2.Infrastructure;
+using Template2.WPF.Events;
 
 namespace Template2.WPF.ViewModels
 {
@@ -29,9 +31,11 @@ namespace Template2.WPF.ViewModels
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public Sample003ViewModel()
+        public Sample003ViewModel(IEventAggregator eventAggregator)
             : this(Factories.CreateWorkingTimePlanMst(), Factories.CreateWorkerMst())
         {
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル003（テーブルをピボット / アンピボット変換）");
         }
 
         public Sample003ViewModel(IWorkingTimePlanMstRepository workingTimePlanMstRepository,
@@ -52,7 +56,12 @@ namespace Template2.WPF.ViewModels
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 1. Property Data Binding
+        #region //// Screen transition
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #endregion
+
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         private DataView _workingTimePlanMstEntitiesDataView;
@@ -74,7 +83,7 @@ namespace Template2.WPF.ViewModels
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 2. Event Binding (DelegateCommand)
+        #region //// Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         /// <summary>
@@ -155,7 +164,7 @@ namespace Template2.WPF.ViewModels
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 3. Others
+        #region //// Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         /// <summary>
@@ -206,16 +215,5 @@ namespace Template2.WPF.ViewModels
 
         #endregion
 
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// Screen transition
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            base.OnNavigatedTo(navigationContext);
-            _mainWindowViewModel.ViewOutline = "> サンプル003（テーブルをピボット/アンピボット変換）";
-        }
-
-        #endregion
     }
 }

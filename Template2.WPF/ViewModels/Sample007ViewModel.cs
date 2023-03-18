@@ -1,4 +1,5 @@
 ﻿using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
@@ -13,6 +14,7 @@ using Template2.Domain;
 using Template2.Domain.Entities;
 using Template2.Domain.StaticValues;
 using Template2.WPF.BackgroundWorkers;
+using Template2.WPF.Events;
 using Template2.WPF.Views;
 
 namespace Template2.WPF.ViewModels
@@ -24,9 +26,12 @@ namespace Template2.WPF.ViewModels
         /// </summary>
         private DispatcherTimer _timer;
 
-        public Sample007ViewModel(IDialogService dialogService)
+        public Sample007ViewModel(IDialogService dialogService, IEventAggregator eventAggregator)
         {
             _dialogService = dialogService;
+            _eventAggregator = eventAggregator;
+
+            _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル007（DataGrid自動更新）");
 
             //// タイマー処理の初期化
             InitializeTimer();
@@ -39,9 +44,14 @@ namespace Template2.WPF.ViewModels
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 1. Property Data Binding
+        #region //// Screen transition
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
- 
+        #endregion
+
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        #region //// Property Data Binding
+        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
         private string _updatedTimeLabel = Shared.UpdatedTime.ToString("HH:mm:ss");
         public string UpdatedTimeLabel
         {
@@ -60,7 +70,7 @@ namespace Template2.WPF.ViewModels
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 2. Event Binding (DelegateCommand)
+        #region //// Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
         public DelegateCommand AutoUpdateButtonChecked { get; }
@@ -102,7 +112,7 @@ namespace Template2.WPF.ViewModels
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// 3. Others
+        #region //// Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         private void updateWorkerMstEntities()
         {
@@ -112,17 +122,6 @@ namespace Template2.WPF.ViewModels
             {
                 WorkerMstEntities.Add(entity);
             }
-        }
-
-        #endregion
-
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        #region //// Screen transition
-        //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            base.OnNavigatedTo(navigationContext);
-            _mainWindowViewModel.ViewOutline = "> サンプル007（DataGrid自動更新）";
         }
 
         #endregion
