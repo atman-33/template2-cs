@@ -13,7 +13,7 @@ namespace Template2.Infrastructure.Oracle
     internal class OracleOdpDao
     {
         private OracleConnection _connection;
-        private OracleTransaction _transaction;
+        private OracleTransaction? _transaction;
 
         /// <summary>
         /// トランザクションモード 
@@ -46,7 +46,7 @@ namespace Template2.Infrastructure.Oracle
         {
             _connection.Close();
             _connection.Dispose();
-            _transaction.Dispose();
+            _transaction?.Dispose();
         }
 
         internal void BeginTransaction()
@@ -56,12 +56,12 @@ namespace Template2.Infrastructure.Oracle
 
         internal void Commit()
         {
-            _transaction.Commit();
+            _transaction?.Commit();
         }
 
         internal void Rollback()
         {
-            _transaction.Rollback();
+            _transaction?.Rollback();
         }
 
         internal void ExecuteNonQuery(string sql)
@@ -186,16 +186,16 @@ namespace Template2.Infrastructure.Oracle
 
                     if (TransactionMode == TransactionMode.Auto)
                     {
-                        _transaction.Commit();
+                        _transaction?.Commit();
                     }
                 }
                 catch(DataException ex)
                 {
                     if (TransactionMode == TransactionMode.Auto)
                     {
-                        _transaction.Rollback();
+                        _transaction?.Rollback();
                     }
-                    _transaction.Dispose();
+                    _transaction?.Dispose();
 
                     Console.WriteLine(ex.ToString());
                 }
@@ -226,16 +226,16 @@ namespace Template2.Infrastructure.Oracle
 
                     if (TransactionMode == TransactionMode.Auto)
                     {
-                        _transaction.Commit();
+                        _transaction?.Commit();
                     }
                 }
                 catch (DataException ex)
                 {
                     if (TransactionMode == TransactionMode.Auto)
                     {
-                        _transaction.Rollback();
+                        _transaction?.Rollback();
                     }
-                    _transaction.Dispose();
+                    _transaction?.Dispose();
                     Console.WriteLine(ex.ToString());
                 }
             }

@@ -66,8 +66,8 @@ namespace Template2.WPF.BackgroundWorkers
                 //// 処理を記述
 
                 //// 時刻を更新
-                Shared.UpdatedTime = DateTime.Now;
-                Debug.WriteLine("Callbck : " + Shared.UpdatedTime.ToString("HH:mm:ss"));
+                Shared.Sample007ViewUpdatedTime = DateTime.Now;
+                Debug.WriteLine("Callbck : " + Shared.Sample007ViewUpdatedTime.ToString("HH:mm:ss"));
 
                 //// データを更新
                 var repository = Factories.CreateWorkerMst();

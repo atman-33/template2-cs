@@ -4,7 +4,7 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:services="clr-namespace:Template2.WPF.Services">
+             xmlns:bindings="clr-namespace:Template2.WPF.ExtendedBindings">
 
     <Grid Margin="{StaticResource gridMargin}">
 
@@ -34,8 +34,8 @@
                           
                           x:Name="WorkerGroupMstEntitiesName"
                           SelectionMode="Single"
-                          services:BindingDragDropRowBehavior.Enabled="True"
-                          services:BindingDragDropRowBehavior.PopupControl="{Binding ElementName=DraggingPopup}"
+                          bindings:ReorderableDataGridRowBehavior.Enabled="True"
+                          bindings:ReorderableDataGridRowBehavior.PopupControl="{Binding ElementName=DraggingPopup}"
                           AllowDrop="True">
 
                     <DataGrid.Columns>

@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows;
 
-namespace Template2.WPF.Services
+namespace Template2.WPF.ExtendedBindings
 {
     /// <summary>
     /// SelectedItem をバインド可能にする TreeView の拡張コントロールです。
@@ -27,8 +27,8 @@ namespace Template2.WPF.Services
         /// </summary>
         public object BindableSelectedItem
         {
-            get { return (object)this.GetValue(BindableSelectedItemProperty); }
-            set { this.SetValue(BindableSelectedItemProperty, value); }
+            get { return GetValue(BindableSelectedItemProperty); }
+            set { SetValue(BindableSelectedItemProperty, value); }
         }
 
         //
@@ -37,7 +37,7 @@ namespace Template2.WPF.Services
 
         public BindableSelectedItemTreeView()
         {
-            this.SelectedItemChanged += this.OnSelectedItemChanged;
+            SelectedItemChanged += OnSelectedItemChanged;
         }
 
         //
@@ -46,12 +46,12 @@ namespace Template2.WPF.Services
 
         protected virtual void OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (this.SelectedItem == null)
+            if (SelectedItem == null)
             {
                 return;
             }
 
-            this.SetValue(BindableSelectedItemProperty, this.SelectedItem);
+            SetValue(BindableSelectedItemProperty, SelectedItem);
         }
     }
 }

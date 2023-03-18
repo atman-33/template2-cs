@@ -12,6 +12,7 @@ using Template2.Domain.Modules.Helpers;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
 using Template2.WPF.Events;
+using Template2.WPF.Services;
 using Template2.WPF.Views;
 
 //// ページ削除機能追加
@@ -20,11 +21,6 @@ namespace Template2.WPF.ViewModels
 {
     public class Sample004PageListViewModel : ViewModelBase
     {
-        /// <summary>
-        /// ページプレビューを表示するContentRegion
-        /// </summary>
-        const string PagePreviewContentRegion = "PageListPagePreviewContentRegion";
-
         //// 外部接触Repository
         private IPageMstRepository _pageMstRepository;
 
@@ -40,16 +36,32 @@ namespace Template2.WPF.ViewModels
             IRegionManager regionManager, 
             IDialogService dialogService, 
             IEventAggregator eventAggregator)
-            : this(Factories.CreatePageMst())
+            : this(regionManager,dialogService,eventAggregator,new MessageService(), Factories.CreatePageMst())
         {
-            _regionManager = regionManager;
-            _dialogService = dialogService;
-            _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル004（画像を表示するDataGrid）");
         }
 
-        public Sample004PageListViewModel(IPageMstRepository pageMstRepository)
+        public Sample004PageListViewModel(
+            IRegionManager regionManager,
+            IDialogService dialogService,
+            IEventAggregator eventAggregator,
+            IMessageService messageService,
+            IPageMstRepository pageMstRepository)
         {
+            _regionManager = regionManager;
+            _regionManager.RegisterViewWithRegion(_contentRegionName, nameof(Sample004PagePreviewView));
+
+            //// 【補足】
+            //// コンストラクタ内では、追加したRegion（今回の_contentRegionNameであり部分View）が
+            //// _regionManagerに追加されていないため注意すること。つまり、この時点では部分Viewを操作できない。
+            //// 部分Viewを操作する場合、ViewのLoadイベント等に実装すればよい。
+
+            _dialogService = dialogService;
+
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル004（画像を表示するDataGrid）");
+
+            _messageService = messageService;
+
             //// Factories経由で作成したRepositoryを、プライベート変数に格納
             _pageMstRepository = pageMstRepository;
 
@@ -72,6 +84,12 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        private readonly string _contentRegionName = "PageListPagePreviewContentRegion";
+        public string ContentRegionName
+        {
+            get { return _contentRegionName; }
+        }
 
         /// <summary>
         /// ページ名称検索ボックスのテキスト
@@ -114,7 +132,12 @@ namespace Template2.WPF.ViewModels
 
         private void ViewLoadedExecute()
         {
-            _regionManager.RequestNavigate(PagePreviewContentRegion, nameof(Sample004PagePreviewView));
+            //// 部分ViewのViewModelをプライベート変数に格納
+            var view = _regionManager.Regions[_contentRegionName].Views.FirstOrDefault() as Sample004PagePreviewView;
+            _pagePreviewViewModel = view.DataContext as Sample004PagePreviewViewModel;
+
+            //// 【補足】
+            //// 1つのContentRegionに1つのViewが対応しているため、Views.FirstOrDefaultでOK
         }
 
         /// <summary>
@@ -250,19 +273,9 @@ namespace Template2.WPF.ViewModels
                 entity = PageMstEntitiesSlectedItem.Entity;
             }
 
-            var p = new NavigationParameters
-            {
-                { nameof(Sample004PagePreviewViewModel.PreviewPageMstEntity), entity }
-            };
+            //// プレビュー用エンティティを格納
+            _pagePreviewViewModel.PreviewPageMstEntity = entity;
 
-            Debug.WriteLine("★Sample004PageListViewModel:プレビュー遷移処理開始");
-
-            _regionManager.RequestNavigate(PagePreviewContentRegion, nameof(Sample004PagePreviewView), p);
-            Debug.WriteLine("★Sample004PageListViewModel:プレビュー遷移処理完了");
-
-            _pagePreviewViewModel = Shared.Sample004PagePreviewViewModel as Sample004PagePreviewViewModel;
-
-            Debug.WriteLine("★Sample004PageListViewModel:動画、画像プレビュー更新開始");
             //// 動画プレビュー更新
             _pagePreviewViewModel.PreviewMovie();
             //// 画像プレビュー更新

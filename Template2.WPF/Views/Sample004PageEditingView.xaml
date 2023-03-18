@@ -2,13 +2,20 @@
     x:Class="Template2.WPF.Views.Sample004PageEditingView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:bindings="clr-namespace:Template2.WPF.ExtendedBindings"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:prism="http://prismlibrary.com/"
-    xmlns:services="clr-namespace:Template2.WPF.Services"
+    xmlns:rules="clr-namespace:Template2.WPF.ValidationRules"
     xmlns:system="clr-namespace:System;assembly=netstandard"
     prism:ViewModelLocator.AutoWireViewModel="True"
     Background="{StaticResource backgroundColor}">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <prism:InvokeCommandAction Command="{Binding ViewLoaded}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <UserControl.Resources>
         <Thickness x:Key="inputTextBoxMargin">0,10,0,10</Thickness>
@@ -21,7 +28,7 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="550" />
+            <ColumnDefinition Width="450" />
             <ColumnDefinition Width="250" />
             <ColumnDefinition Width="25" />
             <ColumnDefinition MinWidth="400" />
@@ -35,7 +42,8 @@
                 Orientation="Vertical">
 
                 <TextBox
-                    MinWidth="500"
+                    Width="200"
+                    HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
                     materialDesign:HintAssist.Hint="ページID"
                     IsEnabled="False"
@@ -52,7 +60,7 @@
                             Path="PageNameText"
                             UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
-                                <services:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                <rules:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
@@ -60,8 +68,7 @@
 
                 <StackPanel Orientation="Horizontal">
                     <TextBox
-                        MinWidth="450"
-                        MaxWidth="450"
+                        Width="300"
                         Margin="{StaticResource inputTextBoxMargin}"
                         VerticalAlignment="Center"
                         materialDesign:HintAssist.Hint="動画リンク"
@@ -80,8 +87,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBox
-                        MinWidth="450"
-                        MaxWidth="450"
+                        Width="300"
                         Margin="{StaticResource inputTextBoxMargin}"
                         VerticalAlignment="Center"
                         materialDesign:HintAssist.Hint="画像リンク"
@@ -100,8 +106,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBox
-                        MinWidth="300"
-                        MaxWidth="300"
+                        Width="100"
                         Margin="{StaticResource inputTextBoxMargin}"
                         VerticalAlignment="Center"
                         materialDesign:HintAssist.Hint="画像ページNo"
@@ -138,7 +143,7 @@
                             Path="SlideWaitingTimeText"
                             UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
-                                <services:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                <rules:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
@@ -165,8 +170,8 @@
 
                 <DataGrid
                     Name="NoteEntitiesDataGrid"
-                    services:BindingDragDropRowBehavior.Enabled="True"
-                    services:BindingDragDropRowBehavior.PopupControl="{Binding ElementName=DraggingPopup}"
+                    bindings:ReorderableDataGridRowBehavior.Enabled="True"
+                    bindings:ReorderableDataGridRowBehavior.PopupControl="{Binding ElementName=DraggingPopup}"
                     AllowDrop="True"
                     AutoGenerateColumns="False"
                     IsReadOnly="False"
@@ -176,16 +181,14 @@
 
                     <DataGrid.Columns>
                         <DataGridTextColumn
-                            MinWidth="60"
-                            MaxWidth="60"
+                            Width="60"
                             Binding="{Binding Hint}"
                             CanUserSort="False"
                             Header="▲▼"
                             IsReadOnly="True" />
 
                         <DataGridTextColumn
-                            Width="450"
-                            MinWidth="300"
+                            Width="300"
                             Binding="{Binding Note}"
                             CanUserSort="False"
                             Header="説明"
@@ -283,7 +286,7 @@
             Grid.RowSpan="2"
             Grid.Column="3"
             Margin="10">
-            <ContentControl prism:RegionManager.RegionManager="{Binding MainRegionManager}" prism:RegionManager.RegionName="PageEditingPagePreviewContentRegion" />
+            <ContentControl prism:RegionManager.RegionManager="{Binding MainRegionManager}" prism:RegionManager.RegionName="{Binding ContentRegionName}" />
         </ScrollViewer>
 
     </Grid>

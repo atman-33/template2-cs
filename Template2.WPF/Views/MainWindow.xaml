@@ -43,8 +43,7 @@
         <DockPanel LastChildFill="True">
             <materialDesign:ColorZone
                 Height="50"
-                Padding="5"
-                materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                materialDesign:ElevationAssist.Elevation="Dp2"
                 DockPanel.Dock="Top"
                 Mode="PrimaryDark">
                 <DockPanel VerticalAlignment="Center">

@@ -7,7 +7,7 @@ using System.Collections;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace Template2.WPF.Services
+namespace Template2.WPF.ExtendedBindings
 {
     /// <summary>
     /// DataGridの行をドラッグ&ドロップで並び変えるビヘイビア
@@ -17,7 +17,7 @@ namespace Template2.WPF.Services
     /// 　・自動列生成のみ
     /// 　・DataGridTextColumnのみ
     /// </summary>
-    public static class BindingDragDropRowBehavior
+    public static class ReorderableDataGridRowBehavior
     {
         private static DataGrid dataGrid;
 
@@ -29,8 +29,8 @@ namespace Template2.WPF.Services
 
         public static object DraggedItem
         {
-            get { return BindingDragDropRowBehavior.draggedItem; }
-            set { BindingDragDropRowBehavior.draggedItem = value; }
+            get { return draggedItem; }
+            set { draggedItem = value; }
         }
 
         public static Popup GetPopupControl(DependencyObject obj)
@@ -45,7 +45,7 @@ namespace Template2.WPF.Services
 
         // Using a DependencyProperty as the backing store for PopupControl.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PopupControlProperty =
-            DependencyProperty.RegisterAttached("PopupControl", typeof(Popup), typeof(BindingDragDropRowBehavior), new UIPropertyMetadata(null, OnPopupControlChanged));
+            DependencyProperty.RegisterAttached("PopupControl", typeof(Popup), typeof(ReorderableDataGridRowBehavior), new UIPropertyMetadata(null, OnPopupControlChanged));
 
         private static void OnPopupControlChanged(DependencyObject depObject, DependencyPropertyChangedEventArgs e)
         {
@@ -65,7 +65,7 @@ namespace Template2.WPF.Services
             {
                 dataGrid.BeginningEdit += new EventHandler<DataGridBeginningEditEventArgs>(OnBeginEdit);
                 dataGrid.CellEditEnding += new EventHandler<DataGridCellEditEndingEventArgs>(OnEndEdit);
-                dataGrid.MouseLeftButtonUp += new System.Windows.Input.MouseButtonEventHandler(OnMouseLeftButtonUp);
+                dataGrid.MouseLeftButtonUp += new MouseButtonEventHandler(OnMouseLeftButtonUp);
                 dataGrid.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(OnMouseLeftButtonDown);
                 dataGrid.MouseMove += new MouseEventHandler(OnMouseMove);
             }
@@ -73,7 +73,7 @@ namespace Template2.WPF.Services
             {
                 dataGrid.BeginningEdit -= new EventHandler<DataGridBeginningEditEventArgs>(OnBeginEdit);
                 dataGrid.CellEditEnding -= new EventHandler<DataGridCellEditEndingEventArgs>(OnEndEdit);
-                dataGrid.MouseLeftButtonUp -= new System.Windows.Input.MouseButtonEventHandler(OnMouseLeftButtonUp);
+                dataGrid.MouseLeftButtonUp -= new MouseButtonEventHandler(OnMouseLeftButtonUp);
                 dataGrid.MouseLeftButtonDown -= new MouseButtonEventHandler(OnMouseLeftButtonDown);
                 dataGrid.MouseMove -= new MouseEventHandler(OnMouseMove);
 
@@ -97,7 +97,7 @@ namespace Template2.WPF.Services
 
         // Using a DependencyProperty as the backing store for Enabled.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty EnabledProperty =
-            DependencyProperty.RegisterAttached("Enabled", typeof(bool), typeof(BindingDragDropRowBehavior), new UIPropertyMetadata(false, OnEnabledChanged));
+            DependencyProperty.RegisterAttached("Enabled", typeof(bool), typeof(ReorderableDataGridRowBehavior), new UIPropertyMetadata(false, OnEnabledChanged));
 
         private static void OnEnabledChanged(DependencyObject depObject, DependencyPropertyChangedEventArgs e)
         {
@@ -157,13 +157,13 @@ namespace Template2.WPF.Services
             if (targetItem == null || !ReferenceEquals(DraggedItem, targetItem))
             {
                 //get target index
-                var targetIndex = ((dataGrid).ItemsSource as IList).IndexOf(targetItem);
+                var targetIndex = (dataGrid.ItemsSource as IList).IndexOf(targetItem);
 
                 //remove the source from the list
-                ((dataGrid).ItemsSource as IList).Remove(DraggedItem);
+                (dataGrid.ItemsSource as IList).Remove(DraggedItem);
 
                 //move source at the target's location
-                ((dataGrid).ItemsSource as IList).Insert(targetIndex, DraggedItem);
+                (dataGrid.ItemsSource as IList).Insert(targetIndex, DraggedItem);
 
                 //select the dropped item
                 dataGrid.SelectedItem = DraggedItem;

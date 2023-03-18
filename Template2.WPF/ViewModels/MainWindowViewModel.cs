@@ -12,6 +12,11 @@ namespace Template2.WPF.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        /// <summary>
+        /// MainWindowViewのContentRegion名称。他ViewModelから参照可能なようにStatic
+        /// </summary>
+        public static string MainWindowContentRegionName = "ContentRegion";
+
         public MainWindowViewModel(
             IRegionManager regionManager,
             IEventAggregator eventAggregator)
@@ -55,7 +60,7 @@ namespace Template2.WPF.ViewModels
         #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        private readonly string _contentRegionName = "ContentRegion";
+        private readonly string _contentRegionName = MainWindowContentRegionName;
         public string ContentRegionName
         {
             get { return _contentRegionName; }

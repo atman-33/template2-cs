@@ -8,11 +8,10 @@ using Template2.Domain.Entities;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
 using Template2.WPF.Events;
+using Template2.WPF.Services;
 
 namespace Template2.WPF.ViewModels
 {
-    //ToDo: テスト可能なメッセージボックスを実装
-
     public class Sample002ViewModel : ViewModelBase, IDialogAware   //// 別ViewModelからダイアログ表示させるためIDialogAware実装
     {
         //// 外部接触Repository
@@ -20,14 +19,24 @@ namespace Template2.WPF.ViewModels
         private IWorkerGroupMstRepository _workerGroupMstRepository;
 
         public Sample002ViewModel(IEventAggregator eventAggregator)
-            : this(Factories.CreateWorkerMst(), Factories.CreateWorkerGroupMst())
+            : this(eventAggregator, 
+                  new MessageService(), 
+                  Factories.CreateWorkerMst(), 
+                  Factories.CreateWorkerGroupMst())
+        {
+        }
+
+        public Sample002ViewModel(
+            IEventAggregator eventAggregator,
+            IMessageService messageService,
+            IWorkerMstRepository workerMstRepository, 
+            IWorkerGroupMstRepository workerGroupMstRepository)
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル002（DataGridを直接編集）");
-        }
 
-        public Sample002ViewModel(IWorkerMstRepository workerMstRepository, IWorkerGroupMstRepository workerGroupMstRepository)
-        {
+            _messageService = messageService;
+
             //// Factories経由で作成したRepositoryを、プライベート変数に格納
             _workerMstRepository = workerMstRepository;
             _workerGroupMstRepository = workerGroupMstRepository;
@@ -51,6 +60,9 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// Screen transition
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        public event Action<IDialogResult> RequestClose;
+
         public bool CanCloseDialog()
         {
             return true;
@@ -102,8 +114,6 @@ namespace Template2.WPF.ViewModels
         }
 
         private Visibility _workerNameVisibility = Visibility.Visible;
-
-        public event Action<IDialogResult> RequestClose;
 
         public Visibility WorkerNameVisibility
         {

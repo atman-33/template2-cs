@@ -5,42 +5,44 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
-using Template2.Domain;
+using System.Linq;
 using Template2.Domain.Entities;
 using Template2.Domain.Modules.Helpers;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
+using Template2.WPF.Services;
 using Template2.WPF.Views;
 
 namespace Template2.WPF.ViewModels
 {
     public class Sample004PageEditingViewModel : ViewModelBase, IDialogAware
     {
-        // ToDo: リージョン名は読み取り専用バインド
-
-        /// <summary>
-        /// ページプレビューを表示するContentRegion
-        /// </summary>
-        const string PagePreviewContentRegion = "PageEditingPagePreviewContentRegion";
-
         //// 外部接触Repository
         private IPageMstRepository _pageMstRepository;
 
         private Sample004PagePreviewViewModel _pagePreviewViewModel;
 
         public Sample004PageEditingViewModel(IRegionManager regionManager)
-            : this(Factories.CreatePageMst())
+            : this(regionManager, new MessageService(),Factories.CreatePageMst())
         {
-            MainRegionManager = regionManager;
-
-            //// 注意：コンストラクタ内でContentRegionをナビゲートしても反映されない
         }
 
-        public Sample004PageEditingViewModel(IPageMstRepository pageMstRepository)
+        public Sample004PageEditingViewModel(
+            IRegionManager regionManager,
+            IMessageService messageService,
+            IPageMstRepository pageMstRepository)
         {
+            MainRegionManager = regionManager;  //// DialogのRegionManagerに、本体のRegionManagerを設定
+
+            _regionManager = regionManager;
+            _regionManager.RegisterViewWithRegion(_contentRegionName, nameof(Sample004PagePreviewView));
+
             _pageMstRepository = pageMstRepository;
+            _messageService = messageService;
 
             //// DelegateCommandメソッドを登録
+            ViewLoaded = new DelegateCommand(ViewLoadedExecute);
+
             CancelButton = new DelegateCommand(CancelButtonExecute);
             SaveButton = new DelegateCommand(SaveButtonExecute);
             DeleteButton = new DelegateCommand(DeleteButtonExecute);
@@ -82,16 +84,12 @@ namespace Template2.WPF.ViewModels
         public void OnDialogClosed()
         {
             //// 画面内のリージョンを除去しておかないとエラーが発生してしまう
-            MainRegionManager.Regions.Remove(PagePreviewContentRegion);
+            _regionManager.Regions.Remove(ContentRegionName);
         }
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
-            //// ページプレビューのContentRegionを表示
-            MainRegionManager.RequestNavigate(PagePreviewContentRegion, nameof(Sample004PagePreviewView));
-            _pagePreviewViewModel = Shared.Sample004PagePreviewViewModel as Sample004PagePreviewViewModel;
-
-            //// 新規ページかどうか設定
+            //// 新規ページかどうか
             IsNewPage = parameters.GetValue<bool>(nameof(IsNewPage));
 
             if (IsNewPage)
@@ -127,6 +125,12 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        private readonly string _contentRegionName = "PageEditingPagePreviewContentRegion";
+        public string ContentRegionName
+        {
+            get { return _contentRegionName; }
+        }
 
         private string _pageIdText;
         public string PageIdText
@@ -193,6 +197,17 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+        public DelegateCommand ViewLoaded { get; }
+
+        private void ViewLoadedExecute()
+        {
+            //// 部分ViewのViewModelをプライベート変数に格納
+            var view = _regionManager.Regions[_contentRegionName].Views.FirstOrDefault() as Sample004PagePreviewView;
+            _pagePreviewViewModel = view.DataContext as Sample004PagePreviewViewModel;
+
+            //// 【補足】
+            //// 1つのContentRegionに1つのViewが対応しているため、Views.FirstOrDefaultでOK
+        }
 
         public DelegateCommand OpenMovieFileButton { get; }
         private void OpenMovieFileButtonExecute()
@@ -373,9 +388,11 @@ namespace Template2.WPF.ViewModels
                 );
 
             _pageMstRepository.Delete(entity);
-            
-            var p = new DialogParameters();
-            p.Add(nameof(PageMstEntity), entity);
+
+            var p = new DialogParameters
+            {
+                { nameof(PageMstEntity), entity }
+            };
 
             RequestClose?.Invoke(new DialogResult(ButtonResult.No, p));
         }

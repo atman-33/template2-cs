@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Template2.WPF.Services
+namespace Template2.WPF.ExtendedBindings
 {
     /// <summary>
     /// ViewModelのバインディングソースの代理として働くクラスです。
@@ -22,7 +22,7 @@ namespace Template2.WPF.Services
         /// </summary>
         public object Data
         {
-            get { return (object)GetValue(DataProperty); }
+            get { return GetValue(DataProperty); }
             set { SetValue(DataProperty, value); }
         }
 

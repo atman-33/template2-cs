@@ -9,6 +9,7 @@ using Template2.Domain.Modules.Helpers;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
 using Template2.WPF.Events;
+using Template2.WPF.Services;
 
 namespace Template2.WPF.ViewModels
 {
@@ -21,14 +22,20 @@ namespace Template2.WPF.ViewModels
         /// コンストラクタ
         /// </summary>
         public Sample001ViewModel(IEventAggregator eventAggregator)
-            : this(Factories.CreateWorkerGroupMst())
+            : this(eventAggregator ,new MessageService() ,Factories.CreateWorkerGroupMst())
+        {
+        }
+
+        public Sample001ViewModel(
+            IEventAggregator eventAggregator,
+            IMessageService messageService,
+            IWorkerGroupMstRepository workerGroupMstRepository)
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル001（読み取り専用DataGrid）");
-        }
 
-        public Sample001ViewModel(IWorkerGroupMstRepository workerGroupMstRepository)
-        {
+            _messageService = messageService;
+
             //// Factories経由で作成したRepositoryを、プライベート変数に格納
             _sampleMstRepository = workerGroupMstRepository;
 

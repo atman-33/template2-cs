@@ -3,12 +3,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Template2.WPF.Services
+namespace Template2.WPF.ExtendedBindings
 {
     /// <summary>
     /// ItemsControl に対するドラッグ＆ドロップによる並べ替え動作をおこなうビヘイビアを表します。
     /// </summary>
-    public class BindingReorderableItemsControlBehavior
+    public class ReorderableItemsControlBehavior
     {
         /// <summary>
         /// ドラッグ中の一時データ
@@ -23,7 +23,7 @@ namespace Template2.WPF.Services
         public static readonly DependencyProperty CallbackProperty
             = DependencyProperty.RegisterAttached("Callback",
                 typeof(Action<int>),
-                typeof(BindingReorderableItemsControlBehavior),
+                typeof(ReorderableItemsControlBehavior),
                 new PropertyMetadata(null, OnCallbackPropertyChanged));
 
         /// <summary>
@@ -218,14 +218,14 @@ namespace Template2.WPF.Services
             /// <returns>十分マウスが移動している場合に true を返します。</returns>
             public bool CheckStartDragging(Point current)
             {
-                return (current - this.Start).Length - MinimumDragPoint.Length > 0;
+                return (current - Start).Length - MinimumDragPoint.Length > 0;
             }
 
             /// <summary>
             /// ドラッグ開始に必要な最短距離を示すベクトル
             /// </summary>
-            private static readonly Vector MinimumDragPoint 
-                = new Vector(SystemParameters.MinimumHorizontalDragDistance, 
+            private static readonly Vector MinimumDragPoint
+                = new Vector(SystemParameters.MinimumHorizontalDragDistance,
                              SystemParameters.MinimumVerticalDragDistance);
         }
     }

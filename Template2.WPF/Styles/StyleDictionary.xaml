@@ -4,7 +4,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
     <SolidColorBrush x:Key="backgroundColor" Color="WhiteSmoke" />
-    <Thickness x:Key="gridMargin">30,10,10,10</Thickness>
+    <Thickness x:Key="gridMargin">10,10,10,10</Thickness>
 
     <Style x:Key="commonCard" TargetType="materialDesign:Card">
         <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp2" />
@@ -17,7 +17,7 @@
         TargetType="DataGrid">
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-        <Setter Property="EnableColumnVirtualization" Value="True" />
+        <Setter Property="EnableColumnVirtualization" Value="False" />
         <Setter Property="EnableRowVirtualization" Value="True" />
         <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True" />
         <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling" />

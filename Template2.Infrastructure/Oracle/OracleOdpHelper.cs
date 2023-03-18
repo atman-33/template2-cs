@@ -122,12 +122,12 @@ namespace Template2.Infrastructure.Oracle
                         command.ExecuteNonQuery();
                     }
 
-                    _transaction.Commit();
+                    _transaction?.Commit();
                     Close();
                 }
                 catch(DataException e)
                 {
-                    _transaction.Rollback();
+                    _transaction?.Rollback();
                     Close();
 
                     Console.WriteLine(e.ToString());
@@ -155,12 +155,12 @@ namespace Template2.Infrastructure.Oracle
 
                     command.ExecuteNonQuery();
 
-                    _transaction.Commit();
+                    _transaction?.Commit();
                     Close();
                 }
                 catch (DataException e)
                 {
-                    _transaction.Rollback();
+                    _transaction?.Rollback();
                     Close();
 
                     Console.WriteLine(e.ToString());

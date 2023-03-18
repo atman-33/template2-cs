@@ -52,7 +52,7 @@ namespace Template2.WPF.ViewModels
         #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        private string _updatedTimeLabel = Shared.UpdatedTime.ToString("HH:mm:ss");
+        private string _updatedTimeLabel = Shared.Sample007ViewUpdatedTime.ToString("HH:mm:ss");
         public string UpdatedTimeLabel
         {
             get { return _updatedTimeLabel; }
@@ -143,7 +143,7 @@ namespace Template2.WPF.ViewModels
 
         private void TimerExecute()
         {
-            UpdatedTimeLabel = Shared.UpdatedTime.ToString("HH:mm:ss");
+            UpdatedTimeLabel = Shared.Sample007ViewUpdatedTime.ToString("HH:mm:ss");
             updateWorkerMstEntities();
         }
         #endregion

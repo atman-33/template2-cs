@@ -6,7 +6,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:domain="clr-namespace:Template2.Domain.Entities;assembly=Template2.Domain"
-             xmlns:services="clr-namespace:Template2.WPF.Services">
+             xmlns:bindings="clr-namespace:Template2.WPF.ExtendedBindings">
 
     <Grid Margin="{StaticResource gridMargin}">
         <Grid.RowDefinitions>
@@ -21,7 +21,7 @@
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="5">
 
             <!-- TreeViewは標準では選択アイテムをBindできないため、カスタムTreeViewを利用 -->
-            <services:BindableSelectedItemTreeView ItemsSource="{Binding WorkerGroupTreeView}"
+            <bindings:BindableSelectedItemTreeView ItemsSource="{Binding WorkerGroupTreeView}"
                                                    BindableSelectedItem="{Binding WorkerGroupTreeViewSelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    Style="{StaticResource MaterialDesignTreeView}">
 
@@ -37,7 +37,7 @@
                         <TextBlock Text="{Binding Name}"/>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
-            </services:BindableSelectedItemTreeView>
+            </bindings:BindableSelectedItemTreeView>
 
         </StackPanel>
 

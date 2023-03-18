@@ -2,7 +2,7 @@
 
 namespace Template2.WPF.Events
 {
-    internal class MainWindowCallMethodEvent : PubSubEvent<string>
+    public class MainWindowCallMethodEvent : PubSubEvent<string>
     {
     }
 }

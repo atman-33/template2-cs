@@ -186,7 +186,7 @@
             Grid.RowSpan="3"
             Grid.Column="2"
             Margin="10">
-            <ContentControl HorizontalAlignment="Left" prism:RegionManager.RegionName="PageListPagePreviewContentRegion" />
+            <ContentControl HorizontalAlignment="Left" prism:RegionManager.RegionName="{Binding ContentRegionName}" />
         </ScrollViewer>
 
     </Grid>

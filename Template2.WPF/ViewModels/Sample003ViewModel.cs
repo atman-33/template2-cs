@@ -1,6 +1,5 @@
 ﻿using Prism.Commands;
 using Prism.Events;
-using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,6 +13,7 @@ using Template2.Domain.Repositories;
 using Template2.Domain.ValueObjects;
 using Template2.Infrastructure;
 using Template2.WPF.Events;
+using Template2.WPF.Services;
 
 namespace Template2.WPF.ViewModels
 {
@@ -26,21 +26,30 @@ namespace Template2.WPF.ViewModels
         /// <summary>
         /// WorkingTimePlanMstのViewModelEntity群（DataView変換を対応）
         /// </summary>
-        private EntityDataTable<Weekday, string?> _workingTimePlanMstEntitiesDataTable;
+        private EntityDataTable<Weekday, string> _workingTimePlanMstEntitiesDataTable;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public Sample003ViewModel(IEventAggregator eventAggregator)
-            : this(Factories.CreateWorkingTimePlanMst(), Factories.CreateWorkerMst())
+            : this(eventAggregator, 
+                  new MessageService(),
+                  Factories.CreateWorkingTimePlanMst(), 
+                  Factories.CreateWorkerMst())
+        {
+        }
+
+        public Sample003ViewModel(
+            IEventAggregator eventAggregator,
+            IMessageService messageService,
+            IWorkingTimePlanMstRepository workingTimePlanMstRepository,
+            IWorkerMstRepository workerMstRepository)
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル003（テーブルをピボット / アンピボット変換）");
-        }
 
-        public Sample003ViewModel(IWorkingTimePlanMstRepository workingTimePlanMstRepository,
-                                  IWorkerMstRepository workerMstRepository)
-        {
+            _messageService = messageService;
+
             //// Factories経由で作成したRepositoryを、プライベート変数に格納
             _workingTimePlanMstRepository = workingTimePlanMstRepository;
             _workerMstRepository = workerMstRepository;
@@ -173,7 +182,7 @@ namespace Template2.WPF.ViewModels
         private void UpdateWorkingTimePlanMstEntitiesDataView()
         {
             //// 1. マトリックス表を生成
-            _workingTimePlanMstEntitiesDataTable = new EntityDataTable<Weekday, string?>("作業者コード", true);
+            _workingTimePlanMstEntitiesDataTable = new EntityDataTable<Weekday, string>("作業者コード", true);
 
             //// 2. ID名称ヘッダーを設定
             _workingTimePlanMstEntitiesDataTable.SetIdNameHeader("作業者名称", true);

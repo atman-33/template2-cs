@@ -49,15 +49,15 @@ namespace Template2.WPF.ViewModels
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            Debug.WriteLine("★Sample004PagePreviewViewModel:OnNavigatedTo開始");
+            //Debug.WriteLine("★Sample004PagePreviewViewModel:OnNavigatedTo開始");
 
-            //// プレビュー表示するエンティティを受け取り
-            PreviewPageMstEntity = navigationContext.Parameters.GetValue<PageMstEntity>(nameof(PreviewPageMstEntity));
+            ////// プレビュー表示するエンティティを受け取り
+            //PreviewPageMstEntity = navigationContext.Parameters.GetValue<PageMstEntity>(nameof(PreviewPageMstEntity));
 
-            Debug.WriteLine("★Sample004PagePreviewViewModel:エンティティ格納完了");
+            //Debug.WriteLine("★Sample004PagePreviewViewModel:エンティティ格納完了");
 
-            //// 自身をSharedに格納
-            Shared.Sample004PagePreviewViewModel = this;
+            ////// 自身をSharedに格納
+            //Shared.Sample004PagePreviewViewModel = this;
         }
 
         #endregion

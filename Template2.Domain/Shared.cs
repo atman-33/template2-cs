@@ -1,5 +1,4 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
 
 namespace Template2.Domain
 {
@@ -24,12 +23,9 @@ namespace Template2.Domain
 
         public static int TimerPeriod { get; } = Convert.ToInt32(ConfigurationManager.AppSettings["TimerPeriod"]);
 
-
         /// <summary>
-        /// 別のViewModelから、このViewModelのメソッドを呼び出したいため、Sharedに格納して共有
+        /// Sample007Viewをアップデートした日時
         /// </summary>
-        public static object? Sample004PagePreviewViewModel { get; set; }
-
-        public static DateTime UpdatedTime { get; set; } = DateTime.Now;
+        public static DateTime Sample007ViewUpdatedTime { get; set; }
     }
 }
