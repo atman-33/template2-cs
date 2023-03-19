@@ -33,6 +33,8 @@ namespace Template2.Domain.Modules.Objects
             //// _dataTable.Columns[idColumnName].ColumnMapping = MappingType.Hidden;   // 非表示設定のはずだが、Viewに反映されない
         }
 
+        public DataTable DataTable { get { return _dataTable; } }
+
         public string IdHeader { get; private set; } = String.Empty;
         public string IdNameHeader { get; private set; } = String.Empty;
 
@@ -393,6 +395,11 @@ namespace Template2.Domain.Modules.Objects
                 foreach (var keyValuePair in itemValues)
                 {
                     if (keyValuePair.Value == null)
+                    {
+                        continue;
+                    }
+
+                    if (keyValuePair.Value == string.Empty)
                     {
                         continue;
                     }

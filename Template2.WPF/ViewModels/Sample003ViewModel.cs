@@ -59,8 +59,8 @@ namespace Template2.WPF.ViewModels
             SaveButton = new DelegateCommand(SaveButtonExecute);
             WorkingTimePlanMstEntitiesDataViewAutoGeneratingColumn = new DelegateCommand<DataGridAutoGeneratingColumnEventArgs>
                 (WorkingTimePlanMstEntitiesDataViewAutoGeneratingColumnExecute);
-            WorkingTimePlanMstEntitiesDataViewCurrentCellChanged = new DelegateCommand
-                (WorkingTimePlanMstEntitiesDataViewCurrentCellChangedExecute);
+            WorkingTimePlanMstEntitiesDataViewCellEditEnding = new DelegateCommand<DataGridCellEditEndingEventArgs>
+                (WorkingTimePlanMstEntitiesDataViewCellEditEndingExecute);
 
             //// Repositoryからデータ取得
             UpdateWorkingTimePlanMstEntitiesDataView();
@@ -75,11 +75,11 @@ namespace Template2.WPF.ViewModels
         #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        private string _firstRowTotalNumLabel = string.Empty;
-        public string FirstRowTotalNumLabel
+        private string _updatedRowTotalNumLabel = string.Empty;
+        public string UpdatedRowTotalNumLabel
         {
-            get { return _firstRowTotalNumLabel; }
-            set { SetProperty(ref _firstRowTotalNumLabel, value); }
+            get { return _updatedRowTotalNumLabel; }
+            set { SetProperty(ref _updatedRowTotalNumLabel, value); }
         }
 
         private DataView _workingTimePlanMstEntitiesDataView;
@@ -141,12 +141,28 @@ namespace Template2.WPF.ViewModels
             //}
         }
 
-        //WorkingTimePlanMstEntitiesDataViewCurrentCellChanged
-        public DelegateCommand WorkingTimePlanMstEntitiesDataViewCurrentCellChanged { get; }
+        /// <summary>
+        /// テーブル編集後にDataTableの値を更新して行の合計を更新。
+        /// 【補足】
+        /// 通常、行のフォーカスを変更しないとDataTableは更新されないため、TABでカラムのフォーカスを変更してもDataTableは変わらない。
+        /// そのため、今回のようにCellEditEndingイベントで取得したEditingElementを、DataTableに格納すれば更新可能となる。
+        /// </summary>
+        public DelegateCommand<DataGridCellEditEndingEventArgs> WorkingTimePlanMstEntitiesDataViewCellEditEnding { get; }
 
-        private void WorkingTimePlanMstEntitiesDataViewCurrentCellChangedExecute()
+        private void WorkingTimePlanMstEntitiesDataViewCellEditEndingExecute(DataGridCellEditEndingEventArgs e)
         {
-            FirstRowTotalNumLabel = Convert.ToString(_workingTimePlanMstEntitiesDataTable.SumRowData(0));
+            //// 編集されたセルの列と行を取得する
+            int columnIndex = e.Column.DisplayIndex;
+            int rowIndex = e.Row.GetIndex();
+
+            //// 編集されたセルの値を取得する
+            var editedCellValue = ((TextBox)e.EditingElement).Text;
+
+            //// DataTableの該当するセルの値を更新する
+            DataTable dataTable = _workingTimePlanMstEntitiesDataTable.DataTable;
+            dataTable.Rows[rowIndex][columnIndex] = editedCellValue;
+
+            UpdatedRowTotalNumLabel = Convert.ToString(_workingTimePlanMstEntitiesDataTable.SumRowData(rowIndex));
         }
 
         /// <summary>

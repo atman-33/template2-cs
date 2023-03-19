@@ -36,11 +36,11 @@
             <Label
                 Margin="5"
                 VerticalAlignment="Center"
-                Content="1行目の合計:" />
+                Content="データ更新行の合計:" />
             <Label
                 Margin="5"
                 VerticalAlignment="Center"
-                Content="{Binding FirstRowTotalNumLabel}" />
+                Content="{Binding UpdatedRowTotalNumLabel}" />
         </StackPanel>
 
         <materialDesign:Card
@@ -65,8 +65,8 @@
                         <prism:InvokeCommandAction Command="{Binding WorkingTimePlanMstEntitiesDataViewAutoGeneratingColumn}" />
                     </i:EventTrigger>
 
-                    <i:EventTrigger EventName="CurrentCellChanged" SourceObject="{Binding ElementName=WorkingTimePlanMstEntitiesDataGrid}">
-                        <prism:InvokeCommandAction Command="{Binding WorkingTimePlanMstEntitiesDataViewCurrentCellChanged}" />
+                    <i:EventTrigger EventName="CellEditEnding" SourceObject="{Binding ElementName=WorkingTimePlanMstEntitiesDataGrid}">
+                        <prism:InvokeCommandAction Command="{Binding WorkingTimePlanMstEntitiesDataViewCellEditEnding}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 
