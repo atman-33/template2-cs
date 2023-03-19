@@ -16,14 +16,15 @@ namespace Template2.WPF.ViewModels
 
 
         public Sample009ViewModel(IEventAggregator eventAggregator)
-            :this(new TaskMstExcel())
+            :this(eventAggregator, new TaskMstExcel())
+        {
+        }
+
+        public Sample009ViewModel(IEventAggregator eventAggregator, ITaskMstExcelRepository taskMstExcel)
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル009（Excel取り込み）");
-        }
 
-        public Sample009ViewModel(TaskMstExcel taskMstExcel)
-        {
             _taskMstExcelRepository = taskMstExcel;
 
             //// DelegateCommandメソッドを登録

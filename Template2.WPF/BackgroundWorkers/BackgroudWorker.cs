@@ -10,6 +10,11 @@ namespace Template2.WPF.BackgroundWorkers
     internal static class BackgroudWorker
     {
         /// <summary>
+        /// 処理実施日時
+        /// </summary>
+        public static DateTime ExecutedAt;
+
+        /// <summary>
         /// タイマー
         /// </summary>
         private static Timer _timer;
@@ -66,8 +71,8 @@ namespace Template2.WPF.BackgroundWorkers
                 //// 処理を記述
 
                 //// 時刻を更新
-                Shared.Sample007ViewUpdatedTime = DateTime.Now;
-                Debug.WriteLine("Callbck : " + Shared.Sample007ViewUpdatedTime.ToString("HH:mm:ss"));
+                ExecutedAt = DateTime.Now;
+                Debug.WriteLine("Callbck : " + (DateTime.Now).ToString("HH:mm:ss"));
 
                 //// データを更新
                 var repository = Factories.CreateWorkerMst();

@@ -1,6 +1,5 @@
 ﻿using Prism.Commands;
 using Prism.Events;
-using Prism.Regions;
 using System;
 using Template2.Domain.Modules.Helpers;
 using Template2.WPF.Events;
@@ -17,7 +16,7 @@ namespace Template2.WPF.ViewModels
             PythonExecuteButton = new DelegateCommand(PythonExecuteButtonExecute);
 
             //// サンプル用の初期値
-            PythonFilePathText = @"C:\Repos\template2-cs\Template2.Domain\Modules\Python\test.py";
+            PythonFilePathText = @"C:\Repos\template2-wpf-cs\Template2.Domain\Modules\Python\test.py";
             PythonArgumentText = "5 2";
         }
 

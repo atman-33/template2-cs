@@ -22,6 +22,9 @@ namespace Template2.WPF.ViewModels
             MovieStopButton = new DelegateCommand(MovieStopButtonExecute);
         }
 
+        /// <summary>
+        /// 動画再生用のMediaService
+        /// </summary>
         public IMediaService MediaService {get; private set;}
 
         public PageMstEntity PreviewPageMstEntity { get; set; }

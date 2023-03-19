@@ -1,16 +1,9 @@
 ﻿using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
-using Prism.Regions;
 using Prism.Services.Dialogs;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows.Media;
 using System.Windows.Threading;
-using Template2.Domain;
 using Template2.Domain.Entities;
 using Template2.Domain.StaticValues;
 using Template2.WPF.BackgroundWorkers;
@@ -52,7 +45,7 @@ namespace Template2.WPF.ViewModels
         #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        private string _updatedTimeLabel = Shared.Sample007ViewUpdatedTime.ToString("HH:mm:ss");
+        private string _updatedTimeLabel;
         public string UpdatedTimeLabel
         {
             get { return _updatedTimeLabel; }
@@ -90,7 +83,6 @@ namespace Template2.WPF.ViewModels
             BackgroudWorker.Start();
         }
 
-        //AutoUpdateButtonUnhecked
         public DelegateCommand AutoUpdateButtonUnchecked { get; }
 
         private void AutoUpdateButtonUncheckedExecute()
@@ -143,7 +135,8 @@ namespace Template2.WPF.ViewModels
 
         private void TimerExecute()
         {
-            UpdatedTimeLabel = Shared.Sample007ViewUpdatedTime.ToString("HH:mm:ss");
+            UpdatedTimeLabel = BackgroudWorker.ExecutedAt.ToString("HH:mm:ss");
+
             updateWorkerMstEntities();
         }
         #endregion

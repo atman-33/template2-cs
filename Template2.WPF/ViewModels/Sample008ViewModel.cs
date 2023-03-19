@@ -14,13 +14,14 @@ namespace Template2.WPF.ViewModels
         private ITaskMstCsvRepository _taskMstCsvRepository;
 
         public Sample008ViewModel(IEventAggregator eventAggregator)
-            : this(new TaskMstCsv())
+            : this(eventAggregator, new TaskMstCsv())
+        {
+        }
+        public Sample008ViewModel(IEventAggregator eventAggregator, ITaskMstCsvRepository taskMstCsvRepository)
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル008（CSV取り込み、ListView並び替え）");
-        }
-        public Sample008ViewModel(ITaskMstCsvRepository taskMstCsvRepository)
-        {
+
             _taskMstCsvRepository = taskMstCsvRepository;
 
             //// DelegateCommandメソッドを登録

@@ -35,12 +35,14 @@ namespace Template2.Domain.Modules.Helpers
             psInfo.RedirectStandardOutput = true;
 
             //// プロセスを開始
-            Process p = Process.Start(psInfo);
+            Process? p = Process.Start(psInfo);
 
             //// アプリのコンソール出力結果を全て受け取る
-            string line;
+            string? line;
             int row = 1;
-            while ((line = p.StandardOutput.ReadLine()) != null)
+
+            var output = p?.StandardOutput;
+            while ((line = output?.ReadLine()) != null)
             {
                 Debug.WriteLine(line);
                 if (row++ == 1)

@@ -22,10 +22,5 @@ namespace Template2.Domain
         public static string? OracleDataSource { get; } = ConfigurationManager.AppSettings["OracleDataSource"];
 
         public static int TimerPeriod { get; } = Convert.ToInt32(ConfigurationManager.AppSettings["TimerPeriod"]);
-
-        /// <summary>
-        /// Sample007Viewをアップデートした日時
-        /// </summary>
-        public static DateTime Sample007ViewUpdatedTime { get; set; }
     }
 }

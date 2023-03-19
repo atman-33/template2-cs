@@ -6,6 +6,7 @@ using Template2.Domain.Entities;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
 using Template2.WPF.Events;
+using Template2.WPF.Services;
 
 namespace Template2.WPF.ViewModels
 {
@@ -16,15 +17,18 @@ namespace Template2.WPF.ViewModels
         private IWorkerMstRepository _workerMstRepository;
 
         public Sample005ViewModel(IEventAggregator eventAggregator)
-            : this(Factories.CreateWorkerGroupMst(), Factories.CreateWorkerMst())
+            : this(eventAggregator, Factories.CreateWorkerGroupMst(), Factories.CreateWorkerMst())
+        {
+        }
+
+        public Sample005ViewModel(
+            IEventAggregator eventAggregator,
+            IWorkerGroupMstRepository workerGroupMstRepository, 
+            IWorkerMstRepository workerMstRepository)
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル005（TreeViewと選択アイテムのバインド）");
-        }
 
-        public Sample005ViewModel(IWorkerGroupMstRepository workerGroupMstRepository, 
-                                  IWorkerMstRepository workerMstRepository)
-        {
             _workerGroupMstRepository = workerGroupMstRepository;
             _workerMstRepository = workerMstRepository;
 

@@ -11,14 +11,15 @@ namespace Template2.WPF.ViewModels
         private IWorkerGroupMstRepository _sampleMstRepository;
 
         public Sample011ViewModel(IEventAggregator eventAggregator)
-            : this(Factories.CreateWorkerGroupMst())
+            : this(eventAggregator, Factories.CreateWorkerGroupMst())
+        {
+        }
+
+        public Sample011ViewModel(IEventAggregator eventAggregator, IWorkerGroupMstRepository workerGroupMstRepository)
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル011（ドラッグ＆ドロップでDataGrid並び替え）");
-        }
 
-        public Sample011ViewModel(IWorkerGroupMstRepository workerGroupMstRepository)
-        {
             //// Factories経由で作成したRepositoryを、プライベート変数に格納
             _sampleMstRepository = workerGroupMstRepository;
 
