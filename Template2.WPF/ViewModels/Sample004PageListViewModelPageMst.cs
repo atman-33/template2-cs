@@ -12,13 +12,13 @@ namespace Template2.WPF.ViewModels
 
         public int PageId => Entity.PageId.Value;
         public string PageName => Entity.PageName.Value;
-        public string? MovieLink => Entity.MovieLink.Value;
-        public string? ImageFolderLink => Entity.ImageFolderLink.Value;
+        public string MovieLink => Entity.MovieLink.Value;
+        public string ImageFolderLink => Entity.ImageFolderLink.Value;
         public int? ImagePageNo => Entity.ImagePageNo.Value;
         public float SlideWaitingTime => Entity.SlideWaitingTime.Value;
-        public string? Note1 => Entity.Note1.Value;
-        public string? Note2 => Entity.Note2.Value;
-        public string? Note3 => Entity.Note3.Value;
+        public string Note1 => Entity.Note1.Value;
+        public string Note2 => Entity.Note2.Value;
+        public string Note3 => Entity.Note3.Value;
 
         public PageMstEntity Entity { get; private set; }
 

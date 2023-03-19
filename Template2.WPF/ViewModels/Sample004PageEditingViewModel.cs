@@ -20,6 +20,9 @@ namespace Template2.WPF.ViewModels
         //// 外部接触Repository
         private IPageMstRepository _pageMstRepository;
 
+        /// <summary>
+        /// プレビューのViewModel
+        /// </summary>
         private Sample004PagePreviewViewModel _pagePreviewViewModel;
 
         public Sample004PageEditingViewModel(IRegionManager regionManager)
@@ -32,7 +35,10 @@ namespace Template2.WPF.ViewModels
             IMessageService messageService,
             IPageMstRepository pageMstRepository)
         {
-            MainRegionManager = regionManager;  //// DialogのRegionManagerに、本体のRegionManagerを設定
+            MainRegionManager = regionManager;  
+            
+            //// 【補足】
+            //// Dialogの場合、DialogのRegionManagerに、本体のRegionManagerを設定する必要あり
 
             _regionManager = regionManager;
             _regionManager.RegisterViewWithRegion(_contentRegionName, nameof(Sample004PagePreviewView));
@@ -98,25 +104,19 @@ namespace Template2.WPF.ViewModels
             }
             else
             {
-                var vme = parameters.GetValue<Sample004PageListViewModelPageMst>
-                    (nameof(Sample004PageListViewModel.PageMstEntitiesSlectedItem));
-                var editingEntity = vme.Entity;
+                var entity = parameters.GetValue<PageMstEntity>(nameof(PageMstEntity));
 
                 //// 編集対象のエンティティ情報を初期値に設定
-                PageIdText = editingEntity.PageId.Value.ToString();
-                PageNameText = editingEntity.PageName.Value;
-                MovieLinkText = editingEntity.MovieLink.Value;
-                ImageFolderLinkText = editingEntity.ImageFolderLink.Value;
-                ImagePageNoText = editingEntity.ImagePageNo.Value;
-                SlideWaitingTimeText = editingEntity.SlideWaitingTime.Value;
+                PageIdText = entity.PageId.Value.ToString();
+                PageNameText = entity.PageName.Value;
+                MovieLinkText = entity.MovieLink.Value;
+                ImageFolderLinkText = entity.ImageFolderLink.Value;
+                ImagePageNoText = entity.ImagePageNo.Value;
+                SlideWaitingTimeText = entity.SlideWaitingTime.Value;
 
-                NoteEntities[0] = new NoteEntity(editingEntity.Note1.Value);
-                NoteEntities[1] = new NoteEntity(editingEntity.Note2.Value);
-                NoteEntities[2] = new NoteEntity(editingEntity.Note3.Value);
-
-                //// 編集モードはプレビュー表示
-                _pagePreviewViewModel.ShowPreviewImmediately = true;
-                PreviewButtonExecute();
+                NoteEntities[0] = new NoteEntity(entity.Note1.Value);
+                NoteEntities[1] = new NoteEntity(entity.Note2.Value);
+                NoteEntities[2] = new NoteEntity(entity.Note3.Value);
             }
         }
 
@@ -132,28 +132,28 @@ namespace Template2.WPF.ViewModels
             get { return _contentRegionName; }
         }
 
-        private string _pageIdText;
+        private string _pageIdText = string.Empty;
         public string PageIdText
         {
             get { return _pageIdText; }
             set { SetProperty(ref _pageIdText, value); }
         }
 
-        private string _pageNameText;
+        private string _pageNameText = string.Empty;
         public string PageNameText
         {
             get { return _pageNameText; }
             set { SetProperty(ref _pageNameText, value); }
         }
 
-        private string _movieLinkText;
+        private string _movieLinkText = string.Empty;
         public string MovieLinkText
         {
             get { return _movieLinkText; }
             set { SetProperty(ref _movieLinkText, value); }
         }
 
-        private string _imageFolderLinkText;
+        private string _imageFolderLinkText = string.Empty;
         public string ImageFolderLinkText
         {
             get { return _imageFolderLinkText; }
@@ -207,6 +207,12 @@ namespace Template2.WPF.ViewModels
 
             //// 【補足】
             //// 1つのContentRegionに1つのViewが対応しているため、Views.FirstOrDefaultでOK
+
+            if (!IsNewPage)
+            {
+                _pagePreviewViewModel.PreviewPageMstEntity = CreateEntity();
+                _pagePreviewViewModel.ShowPreviewImmediately = true;
+            }
         }
 
         public DelegateCommand OpenMovieFileButton { get; }
@@ -290,25 +296,10 @@ namespace Template2.WPF.ViewModels
         public DelegateCommand PreviewButton { get; }
         private void PreviewButtonExecute()
         {
-            var entity = new PageMstEntity(
-                0,                              //// プレビュー画面でありページIDは0で設定
-                PageNameText,
-                MovieLinkText,
-                ImageFolderLinkText,
-                ImagePageNoText,
-                (float)SlideWaitingTimeText,
-                NoteEntities[0].Note,
-                NoteEntities[1].Note,
-                NoteEntities[2].Note
-                );
-
-            //// ページプレビューにエンティティをセット
-            _pagePreviewViewModel.PreviewPageMstEntity = entity;
-
             //// 動画プレビュー更新
-            _pagePreviewViewModel.PreviewMovie();
+            _pagePreviewViewModel.PreviewMovie(MovieLinkText);
             //// 画像プレビュー更新
-            _pagePreviewViewModel.PreviewImage();
+            _pagePreviewViewModel.PreviewImage(ImageFolderLinkText, Convert.ToInt32(ImagePageNoText));
         }
 
         public DelegateCommand CancelButton { get; }
@@ -329,27 +320,12 @@ namespace Template2.WPF.ViewModels
                 return;
             }
 
-            int pageId;
             if (IsNewPage == true)
             {
-                pageId = _pageMstRepository.GetNextId();
-            }
-            else
-            {
-                pageId = Convert.ToInt32(PageIdText);
+                PageIdText = Convert.ToString(_pageMstRepository.GetNextId());
             }
 
-            var entity = new PageMstEntity(
-                pageId,
-                PageNameText,
-                MovieLinkText,
-                ImageFolderLinkText,
-                ImagePageNoText,
-                (float)SlideWaitingTimeText,
-                NoteEntities[0].Note,
-                NoteEntities[1].Note,
-                NoteEntities[2].Note
-                );
+            var entity = CreateEntity();
 
             _pageMstRepository.Save(entity);
 
@@ -375,17 +351,7 @@ namespace Template2.WPF.ViewModels
                 return;
             }
 
-            var entity = new PageMstEntity(
-                Convert.ToInt32(PageIdText),
-                PageNameText,
-                MovieLinkText,
-                ImageFolderLinkText,
-                ImagePageNoText,
-                (float)SlideWaitingTimeText,
-                NoteEntities[0].Note,
-                NoteEntities[1].Note,
-                NoteEntities[2].Note
-                );
+            var entity = CreateEntity();
 
             _pageMstRepository.Delete(entity);
 
@@ -402,6 +368,21 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        private PageMstEntity CreateEntity()
+        {
+            return new PageMstEntity(
+                    Convert.ToInt32(PageIdText),
+                    PageNameText,
+                    MovieLinkText,
+                    ImageFolderLinkText,
+                    ImagePageNoText,
+                    (float)SlideWaitingTimeText,
+                    NoteEntities[0].Note,
+                    NoteEntities[1].Note,
+                    NoteEntities[2].Note
+                    );
+        }
 
         #endregion
     }

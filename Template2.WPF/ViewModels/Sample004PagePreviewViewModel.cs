@@ -1,15 +1,9 @@
 ﻿using Prism.Commands;
-using Prism.Regions;
 using System;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
-using Template2.Domain;
 using Template2.Domain.Entities;
 using Template2.WPF.Services;
 
@@ -17,12 +11,6 @@ namespace Template2.WPF.ViewModels
 {
     public class Sample004PagePreviewViewModel : ViewModelBase
     {
-        /// <summary>
-        /// 動画読み込み確認タイマー
-        /// </summary>
-        private DispatcherTimer _movieLodingCheckTimer;
-
-
         public Sample004PagePreviewViewModel()
         {
             Debug.WriteLine("★Sample004PagePreviewViewModel:コンストラクタ処理開始");
@@ -46,20 +34,6 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// Screen transition
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            //Debug.WriteLine("★Sample004PagePreviewViewModel:OnNavigatedTo開始");
-
-            ////// プレビュー表示するエンティティを受け取り
-            //PreviewPageMstEntity = navigationContext.Parameters.GetValue<PageMstEntity>(nameof(PreviewPageMstEntity));
-
-            //Debug.WriteLine("★Sample004PagePreviewViewModel:エンティティ格納完了");
-
-            ////// 自身をSharedに格納
-            //Shared.Sample004PagePreviewViewModel = this;
-        }
-
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
@@ -96,6 +70,9 @@ namespace Template2.WPF.ViewModels
         #region //// Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
+        /// <summary>
+        /// View読み込み後の処理。ここで動画再生用のMediaServiceを取得する。
+        /// </summary>
         public DelegateCommand<IMediaService> MediaServiceLoaded { get; }
         private void MediaServiceLoadedExecute(IMediaService mediaService)
         {

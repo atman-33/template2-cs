@@ -4,9 +4,7 @@ using Prism.Regions;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using Template2.Domain;
 using Template2.Domain.Entities;
 using Template2.Domain.Modules.Helpers;
 using Template2.Domain.Repositories;
@@ -15,8 +13,6 @@ using Template2.WPF.Events;
 using Template2.WPF.Services;
 using Template2.WPF.Views;
 
-//// ページ削除機能追加
-
 namespace Template2.WPF.ViewModels
 {
     public class Sample004PageListViewModel : ViewModelBase
@@ -24,6 +20,9 @@ namespace Template2.WPF.ViewModels
         //// 外部接触Repository
         private IPageMstRepository _pageMstRepository;
 
+        /// <summary>
+        /// プレビューのViewModel
+        /// </summary>
         private Sample004PagePreviewViewModel _pagePreviewViewModel;
 
         /// <summary>
@@ -150,7 +149,6 @@ namespace Template2.WPF.ViewModels
             var p = new DialogParameters();
             p.Add(nameof(Sample004PageEditingViewModel.IsNewPage), true);
 
-
             _dialogService.ShowDialog(nameof(Sample004PageEditingView), p, Sample004PageEditingViewClose);
         }
 
@@ -195,7 +193,7 @@ namespace Template2.WPF.ViewModels
             var p = new DialogParameters
             {
                 { nameof(Sample004PageEditingViewModel.IsNewPage), false },
-                { nameof(this.PageMstEntitiesSlectedItem), PageMstEntitiesSlectedItem }
+                { nameof(PageMstEntity), PageMstEntitiesSlectedItem.Entity }
             };
 
             _dialogService.ShowDialog(nameof(Sample004PageEditingView), p, Sample004PageEditingViewClose);
