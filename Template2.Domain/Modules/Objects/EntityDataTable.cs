@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Data;
+using System.Reflection.PortableExecutable;
 using Template2.Domain.Exceptions;
 
 namespace Template2.Domain.Modules.Objects
@@ -21,7 +22,11 @@ namespace Template2.Domain.Modules.Objects
             IdHeader = idHeader;
             _dataTable.Columns.Add(idHeader);
 
-            _dataTable.Columns[idHeader].ReadOnly = idReadOnly;
+            var dataColumn = _dataTable.Columns[idHeader];
+            if (dataColumn != null)
+            {
+                dataColumn.ReadOnly = idReadOnly;
+            }
 
             //// その他設定メモ
             //// _dataTable.Columns[idColumnName].Unique = true;                        // ユニーク設定
@@ -50,7 +55,12 @@ namespace Template2.Domain.Modules.Objects
         {
             _dataTable.Columns.Add(idNameHeader, typeof(string));
             IdNameHeader = idNameHeader;
-            _dataTable.Columns[idNameHeader].ReadOnly = idNameReadOnly;
+
+            var dataColumn = _dataTable.Columns[idNameHeader];
+            if (dataColumn != null)
+            {
+                dataColumn.ReadOnly = idNameReadOnly;
+            }
         }
 
         /// <summary>
@@ -143,7 +153,7 @@ namespace Template2.Domain.Modules.Objects
                 for (rowIndex = 0; rowIndex < _dataTable.Rows.Count; rowIndex++)
                 {
                     //// ID列のデータ
-                    string idValue = _dataTable.Rows[rowIndex][IdHeader].ToString();
+                    string? idValue = _dataTable.Rows[rowIndex][IdHeader].ToString();
 
                     if (newVar.Id == idValue)
                     {
@@ -165,7 +175,20 @@ namespace Template2.Domain.Modules.Objects
                         continue;
                     }
 
-                    _dataTable.Rows[rowIndex][columnName] = newVar.Values.ContainsKey(columnName) ? newVar.Values[columnName].ToString() : DBNull.Value;
+                    if (!newVar.Values.ContainsKey(columnName))
+                    {
+                        continue;
+                    }
+
+                    var data = newVar.Values[columnName];
+                    if (data == null)
+                    {
+                        _dataTable.Rows[rowIndex][columnName] = DBNull.Value;
+                    }
+                    else
+                    {
+                        _dataTable.Rows[rowIndex][columnName] = newVar.Values.ContainsKey(columnName) ? data.ToString() : DBNull.Value;
+                    }
                 }
             }
         }
@@ -201,7 +224,15 @@ namespace Template2.Domain.Modules.Objects
                 //// カラム名に対応する値が存在する場合はセット
                 foreach (var columnName in _dataTable.Columns.Cast<DataColumn>().Skip(1).Select(c => c.ColumnName))
                 {
-                    row[idx++] = newVar.Values.ContainsKey(columnName) ? newVar.Values[columnName].ToString() : DBNull.Value;
+                    var data = newVar.Values[columnName];
+                    if (data == null)
+                    {
+                        row[idx++] = DBNull.Value;
+                    }
+                    else
+                    {
+                        row[idx++] = newVar.Values.ContainsKey(columnName) ? data.ToString() : DBNull.Value;
+                    }
                 }
 
                 //// 行データを追加
@@ -216,7 +247,7 @@ namespace Template2.Domain.Modules.Objects
         /// <param name="createEntity"></param>
         /// <returns></returns>
         public ObservableCollection<TEntity>? ToEntities<TEntity>(
-            Func<string, KeyValuePair<string, string>, TEntity> createEntity)
+        Func<string, KeyValuePair<string, string>, TEntity> createEntity)
         {
             if (_dataTable == null)
             {
@@ -228,7 +259,7 @@ namespace Template2.Domain.Modules.Objects
             for (int rowIndex = 0; rowIndex < _dataTable.Rows.Count; rowIndex++)
             {
                 //// ID列のデータ
-                string idValue = _dataTable.Rows[rowIndex][IdHeader].ToString();
+                string? idValue = _dataTable.Rows[rowIndex][IdHeader].ToString();
 
                 var itemValues = new Dictionary<string, string>();
 
@@ -245,11 +276,19 @@ namespace Template2.Domain.Modules.Objects
 
                     if (_dataTable.Rows[rowIndex].IsNull(columnIndex))
                     {
-                        itemValues.Add(colunIndexName, null);
+                        itemValues.Add(colunIndexName, string.Empty);
                     }
                     else
                     {
-                        itemValues.Add(colunIndexName, _dataTable.Rows[rowIndex][columnIndex].ToString());
+                        var data = _dataTable.Rows[rowIndex][columnIndex];
+                        if (data == null)
+                        {
+                            itemValues.Add(colunIndexName, string.Empty);
+                        }
+                        else
+                        {
+                            itemValues.Add(colunIndexName, data.ToString() ?? string.Empty);
+                        }
                     }
                 }
 
@@ -260,11 +299,50 @@ namespace Template2.Domain.Modules.Objects
                         continue;
                     }
 
-                    entities.Add(createEntity(idValue, keyValuePair));
+                    if (idValue != null)
+                    {
+                        entities.Add(createEntity(idValue, keyValuePair));
+                    }
                 }
             }
 
             return entities;
+        }
+
+        /// <summary>
+        /// 指定した行のデータ合計を返す。
+        /// </summary>
+        /// <param name="rowIndex"></param>
+        /// <returns></returns>
+        public float SumRowData(int rowIndex)
+        {
+            float sum = 0f;
+
+            foreach (var columnName in _dataTable.Columns.Cast<DataColumn>().Skip(1).Select(c => c.ColumnName))
+            {
+                if (columnName == IdHeader)
+                {
+                    continue;
+                }
+
+                if (columnName == IdNameHeader)
+                {
+                    continue;
+                }
+
+                float floatValue;
+                var data = _dataTable.Rows[rowIndex][columnName] as string;
+
+                if (data != null)
+                {
+                    if (float.TryParse(data, out floatValue))
+                    {
+                        sum += floatValue;
+                    }
+                }
+            }
+
+            return sum;
         }
 
         /// <summary>
@@ -287,7 +365,7 @@ namespace Template2.Domain.Modules.Objects
             for (int rowIndex = 0; rowIndex < _dataTable.Rows.Count; rowIndex++)
             {
                 //// ID列のデータ
-                string idValue = _dataTable.Rows[rowIndex][IdHeader].ToString();
+                string? idValue = _dataTable.Rows[rowIndex][IdHeader].ToString();
 
                 var itemValues = new Dictionary<string, string>();
 
@@ -304,11 +382,11 @@ namespace Template2.Domain.Modules.Objects
 
                     if (_dataTable.Rows[rowIndex].IsNull(columnIndex))
                     {
-                        itemValues.Add(colmunIndexName, null);
+                        itemValues.Add(colmunIndexName, string.Empty);
                     }
                     else
                     {
-                        itemValues.Add(colmunIndexName, _dataTable.Rows[rowIndex][columnIndex].ToString());
+                        itemValues.Add(colmunIndexName, _dataTable.Rows[rowIndex][columnIndex].ToString() ?? string.Empty);
                     }
                 }
 
@@ -319,7 +397,17 @@ namespace Template2.Domain.Modules.Objects
                         continue;
                     }
 
-                    entities.Add(createEntity(idValue, keyValuePair, _itemHeaders.GetValueOrDefault(keyValuePair.Key)));
+                    if (idValue != null)
+                    {
+                        if (_itemHeaders != null)
+                        {
+                            var vo = _itemHeaders.GetValueOrDefault(keyValuePair.Key);
+                            if (vo != null)
+                            {
+                                entities.Add(createEntity(idValue, keyValuePair, vo));
+                            }
+                        }
+                    }
                 }
             }
 
@@ -340,8 +428,6 @@ namespace Template2.Domain.Modules.Objects
 
             for (int rowIndex = 0; rowIndex < _dataTable.Rows.Count; rowIndex++)
             {
-                //var itemValues = new Dictionary<string, string>();
-
                 for (int columnIndex = 0; columnIndex < _dataTable.Columns.Count; columnIndex++)
                 {
                     //// カラム名
@@ -381,8 +467,6 @@ namespace Template2.Domain.Modules.Objects
 
             for (int rowIndex = 0; rowIndex < _dataTable.Rows.Count; rowIndex++)
             {
-                //var itemValues = new Dictionary<string, string>();
-
                 for (int columnIndex = 0; columnIndex < _dataTable.Columns.Count; columnIndex++)
                 {
                     //// カラム名

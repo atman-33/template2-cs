@@ -69,7 +69,7 @@
 
         public override string ToString()
         {
-            if (Value == null)
+            if (Value as int? == null)
             {
                 return String.Empty;
             }

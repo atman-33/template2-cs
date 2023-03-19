@@ -57,8 +57,10 @@ namespace Template2.WPF.ViewModels
             //// DelegateCommandメソッドを登録
             UnpivotTableButton = new DelegateCommand(UnpivotTableButtonExecute);
             SaveButton = new DelegateCommand(SaveButtonExecute);
-            WorkingTimePlanMstEntitiesDataGridAutoGeneratingColumn 
-                = new DelegateCommand<DataGridAutoGeneratingColumnEventArgs>(WorkingTimePlanMstEntitiesDataGridAutoGeneratingColumnExecute);
+            WorkingTimePlanMstEntitiesDataViewAutoGeneratingColumn = new DelegateCommand<DataGridAutoGeneratingColumnEventArgs>
+                (WorkingTimePlanMstEntitiesDataViewAutoGeneratingColumnExecute);
+            WorkingTimePlanMstEntitiesDataViewCurrentCellChanged = new DelegateCommand
+                (WorkingTimePlanMstEntitiesDataViewCurrentCellChangedExecute);
 
             //// Repositoryからデータ取得
             UpdateWorkingTimePlanMstEntitiesDataView();
@@ -73,13 +75,19 @@ namespace Template2.WPF.ViewModels
         #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
+        private string _firstRowTotalNumLabel = string.Empty;
+        public string FirstRowTotalNumLabel
+        {
+            get { return _firstRowTotalNumLabel; }
+            set { SetProperty(ref _firstRowTotalNumLabel, value); }
+        }
+
         private DataView _workingTimePlanMstEntitiesDataView;
         public DataView WorkingTimePlanMstEntitiesDataView
         {
             get { return _workingTimePlanMstEntitiesDataView; }
             set { SetProperty(ref _workingTimePlanMstEntitiesDataView, value); }
         }
-
 
         private ObservableCollection<WorkingTimePlanMstEntity> _workingTimePlanMstEntities
             = new ObservableCollection<WorkingTimePlanMstEntity>();
@@ -98,9 +106,9 @@ namespace Template2.WPF.ViewModels
         /// <summary>
         /// DataGridを生成する際の処理。IDカラムを非表示するために実装
         /// </summary>
-        public DelegateCommand<DataGridAutoGeneratingColumnEventArgs> WorkingTimePlanMstEntitiesDataGridAutoGeneratingColumn { get; }
+        public DelegateCommand<DataGridAutoGeneratingColumnEventArgs> WorkingTimePlanMstEntitiesDataViewAutoGeneratingColumn { get; }
 
-        private void WorkingTimePlanMstEntitiesDataGridAutoGeneratingColumnExecute(DataGridAutoGeneratingColumnEventArgs e)
+        private void WorkingTimePlanMstEntitiesDataViewAutoGeneratingColumnExecute(DataGridAutoGeneratingColumnEventArgs e)
         {
             Debug.WriteLine(e.PropertyName);
 
@@ -131,6 +139,14 @@ namespace Template2.WPF.ViewModels
             //    default:
             //        break;
             //}
+        }
+
+        //WorkingTimePlanMstEntitiesDataViewCurrentCellChanged
+        public DelegateCommand WorkingTimePlanMstEntitiesDataViewCurrentCellChanged { get; }
+
+        private void WorkingTimePlanMstEntitiesDataViewCurrentCellChangedExecute()
+        {
+            FirstRowTotalNumLabel = Convert.ToString(_workingTimePlanMstEntitiesDataTable.SumRowData(0));
         }
 
         /// <summary>

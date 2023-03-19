@@ -20,7 +20,7 @@ namespace Template2.Domain.ValueObjects
 
         protected override int GetHashCodeCore()
         {
-            if (Value == null)
+            if (Value as int? == null)
             {
                 return 0;
             }
@@ -30,7 +30,7 @@ namespace Template2.Domain.ValueObjects
 
         public override string ToString()
         {
-            if (Value == null)
+            if (Value as int? == null)
             {
                 return String.Empty;
             }
