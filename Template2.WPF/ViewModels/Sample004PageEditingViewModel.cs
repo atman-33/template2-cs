@@ -126,6 +126,17 @@ namespace Template2.WPF.ViewModels
         #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
+        /// <summary>
+        /// メイン画面のリージョンマネージャー
+        /// ※ダイアログ画面（子Window）からContentRegionを画面遷移する際は必要
+        /// </summary>
+        private IRegionManager _mainRegionManager;
+        public IRegionManager MainRegionManager
+        {
+            get { return _mainRegionManager; }
+            set { SetProperty(ref _mainRegionManager, value); }
+        }
+
         private readonly string _contentRegionName = "PageEditingPagePreviewContentRegion";
         public string ContentRegionName
         {
@@ -179,17 +190,6 @@ namespace Template2.WPF.ViewModels
         {
             get { return _noteEntities; }
             set { SetProperty(ref _noteEntities, value); }
-        }
-
-        /// <summary>
-        /// メイン画面のリージョンマネージャー
-        /// ※ダイアログ画面（子Window）からContentRegionを画面遷移する際は必要
-        /// </summary>
-        private IRegionManager _mainRegionManager;
-        public IRegionManager MainRegionManager
-        {
-            get { return _mainRegionManager; }
-            set { SetProperty(ref _mainRegionManager, value); }
         }
 
         #endregion
