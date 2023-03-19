@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Data;
-using System.Reflection.PortableExecutable;
 using Template2.Domain.Exceptions;
 
 namespace Template2.Domain.Modules.Objects
@@ -19,6 +18,7 @@ namespace Template2.Domain.Modules.Objects
         public EntityDataTable(string idHeader, bool idReadOnly)
         {
             _dataTable = new DataTable();
+            
             IdHeader = idHeader;
             _dataTable.Columns.Add(idHeader);
 

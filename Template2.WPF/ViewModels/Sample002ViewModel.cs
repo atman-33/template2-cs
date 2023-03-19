@@ -61,7 +61,9 @@ namespace Template2.WPF.ViewModels
         #region //// Screen transition
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
+#pragma warning disable CS0067 // イベント 'Sample002ViewModel.RequestClose' は使用されていません
         public event Action<IDialogResult> RequestClose;
+#pragma warning restore CS0067 // イベント 'Sample002ViewModel.RequestClose' は使用されていません
 
         public bool CanCloseDialog()
         {
