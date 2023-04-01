@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using Template2.Domain;
-using Template2.Domain.StaticValues;
-using Template2.Infrastructure;
 
 namespace Template2.WPF.BackgroundWorkers
 {
-    internal static class BackgroudWorker
+    internal static class Sample007ViewBackgroundWorker
     {
-        /// <summary>
-        /// 処理実施日時
-        /// </summary>
-        public static DateTime ExecutedAt;
-
         /// <summary>
         /// タイマー
         /// </summary>
@@ -22,12 +16,24 @@ namespace Template2.WPF.BackgroundWorkers
         /// <summary>
         /// 処理中の時True
         /// </summary>
-        private static bool _isWork = false;    //// フラグのコメントは、どの状態でTrueか書くと分かり易い
+        /// <remarks>
+        /// フラグのコメントは、どの状態でTrueか書くと分かり易い
+        /// </remarks>
+        private static bool _isWork = false;
+
+        /// <summary>
+        /// バックグラウンドの実行処理（アクション）
+        /// </summary>
+        /// <remarks>
+        /// 引数を利用する際はジェネリック型を指定する。
+        /// 例）Action<bool>
+        /// </remarks>
+        private static event Action _backgroundAction;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        static BackgroudWorker()
+        static Sample007ViewBackgroundWorker()
         {
             _timer = new Timer(Callback);
         }
@@ -52,7 +58,32 @@ namespace Template2.WPF.BackgroundWorkers
         }
 
         /// <summary>
-        /// コールバック
+        /// アクションに追加
+        /// </summary>
+        public static void Add(Action action)
+        {
+            bool contains = false;
+            if (_backgroundAction != null)
+            {
+                contains = _backgroundAction.GetInvocationList().Contains(action);
+            }
+
+            if (!contains)
+            {
+                _backgroundAction += action;
+            }
+        }
+
+        /// <summary>
+        /// アクションから除去
+        /// </summary>
+        public static void Remove(Action action)
+        {
+            _backgroundAction -= action;
+        }
+
+        /// <summary>
+        /// コールバック（指定時間間隔に実行）
         /// </summary>
         /// <param name="o">オブジェクト</param>
         private static void Callback(object o)
@@ -68,15 +99,10 @@ namespace Template2.WPF.BackgroundWorkers
             {
                 _isWork = true;
 
-                //// 処理を記述
-
-                //// 時刻を更新
-                ExecutedAt = DateTime.Now;
                 Debug.WriteLine("Callbck : " + (DateTime.Now).ToString("HH:mm:ss"));
 
-                //// データを更新
-                var repository = Factories.CreateWorkerMst();
-                StaticWorkerMst.Update(repository);
+                //// 登録Actionを実行
+                _backgroundAction?.Invoke();
             }
             finally
             {

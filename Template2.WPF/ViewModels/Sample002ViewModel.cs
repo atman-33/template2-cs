@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Events;
+using Prism.Regions;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
@@ -33,7 +34,9 @@ namespace Template2.WPF.ViewModels
             IWorkerGroupMstRepository workerGroupMstRepository)
         {
             _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル002（DataGridを直接編集）");
+            
+            //// Navigation表示の時のみ表示するように変更
+            //_eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル002（DataGridを直接編集）");
 
             _messageService = messageService;
 
@@ -60,6 +63,11 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// Screen transition
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
+
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル002（DataGridを直接編集）");
+        }
 
 #pragma warning disable CS0067 // イベント 'Sample002ViewModel.RequestClose' は使用されていません
         public event Action<IDialogResult> RequestClose;

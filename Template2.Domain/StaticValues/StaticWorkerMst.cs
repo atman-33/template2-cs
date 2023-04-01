@@ -5,17 +5,16 @@ using Template2.Domain.Repositories;
 
 namespace Template2.Domain.StaticValues
 {
+    /// <summary>
+    /// StaticなWorkerMstエンティティコレクション
+    /// </summary>
+    /// <remarks>
+    /// アプリ内で共通して利用するデータ群
+    /// </remarks>
     public static class StaticWorkerMst
     {
-        private static ObservableCollection<WorkerMstEntity> _entities = new ObservableCollection<WorkerMstEntity>();
-
-        public static ObservableCollection<WorkerMstEntity> Entities 
-        { 
-            get 
-            {
-                return _entities;
-            } 
-        }
+        public static ObservableCollection<WorkerMstEntity> Entities { get; private set; }
+            = new ObservableCollection<WorkerMstEntity>();
 
         /// <summary>
         /// データ更新
@@ -24,13 +23,13 @@ namespace Template2.Domain.StaticValues
         public static void Update(IWorkerMstRepository repository)
         {
             //// 処理途中に値が変わらないようにロックする
-            lock (((ICollection)_entities).SyncRoot)
+            lock (((ICollection)Entities).SyncRoot)
             {
-                _entities.Clear();
+                Entities.Clear();
 
                 foreach (var entity in repository.GetData())
                 {
-                    _entities.Add(entity);
+                    Entities.Add(entity);
                 }
             }
         }
