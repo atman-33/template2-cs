@@ -69,9 +69,7 @@ namespace Template2.WPF.ViewModels
             _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル002（DataGridを直接編集）");
         }
 
-#pragma warning disable CS0067 // イベント 'Sample002ViewModel.RequestClose' は使用されていません
         public event Action<IDialogResult> RequestClose;
-#pragma warning restore CS0067 // イベント 'Sample002ViewModel.RequestClose' は使用されていません
 
         public bool CanCloseDialog()
         {
