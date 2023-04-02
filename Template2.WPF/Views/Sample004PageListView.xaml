@@ -125,6 +125,14 @@
                     <DataGridTextColumn Binding="{Binding PageId}" Header="ページID" />
                     <DataGridTextColumn Binding="{Binding PageName}" Header="ページ名称" />
 
+                    <DataGridTemplateColumn Header="画像">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Thumbnail}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
                     <!--  Memo:改行する際は「&#10;」を入力  -->
                     <DataGridTextColumn Binding="{Binding SlideWaitingTime}" Header="停止時間[sec]" />
 

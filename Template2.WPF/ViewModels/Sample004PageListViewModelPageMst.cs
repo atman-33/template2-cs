@@ -1,4 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Windows.Media.Imaging;
 using Template2.Domain.Entities;
 
 namespace Template2.WPF.ViewModels
@@ -9,6 +12,7 @@ namespace Template2.WPF.ViewModels
         {
             Entity = entity;
         }
+        public PageMstEntity Entity { get; private set; }
 
         public int PageId => Entity.PageId.Value;
         public string PageName => Entity.PageName.Value;
@@ -20,34 +24,54 @@ namespace Template2.WPF.ViewModels
         public string Note2 => Entity.Note2.Value;
         public string Note3 => Entity.Note3.Value;
 
-        public PageMstEntity Entity { get; private set; }
-
-        static public void MergeViewModelEntity(ref ObservableCollection<Sample004PageListViewModelPageMst> viewModelEntities, 
-                                                PageMstEntity entity)
-        {
-            //// 既にKeyのエンティティが存在するなら差し替え
-            foreach(var viewModelEntity in viewModelEntities)
+        public BitmapImage Thumbnail 
+        { 
+            get
             {
-                if (viewModelEntity.Entity.PageId.Value == entity.PageId.Value)
+                var imagePath = Entity.ImageFilePath;
+
+                if (File.Exists(imagePath) == false)
                 {
-                    var index = viewModelEntities.IndexOf(viewModelEntity);
-                    viewModelEntities[index] = new Sample004PageListViewModelPageMst(entity);
-                    return;
+                    return null;
                 }
 
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+                bitmap.DecodePixelWidth = 100;
+                //bitmap.DecodePixelHeight = 100;
+                bitmap.UriSource = new Uri(imagePath);
+                bitmap.EndInit();
+                return bitmap;
+            } 
+        }
+
+        static public void MergeViewModelEntity(ref ObservableCollection<Sample004PageListViewModelPageMst> viewModelEntities,
+                                                PageMstEntity targetEntity)
+        {
+            //// 既にKeyのエンティティが存在するなら差し替え
+            foreach (var viewModelEntity in viewModelEntities)
+            {
+                if (viewModelEntity.Entity.PageId.Value == targetEntity.PageId.Value)
+                {
+                    var index = viewModelEntities.IndexOf(viewModelEntity);
+                    viewModelEntities[index] = new Sample004PageListViewModelPageMst(targetEntity);
+                    return;
+                }
             }
 
             //// コレクションに存在しないエンティティなら追加
-            viewModelEntities.Add(new Sample004PageListViewModelPageMst(entity));
+            viewModelEntities.Add(new Sample004PageListViewModelPageMst(targetEntity));
         }
 
         static public void RemoveViewModelEntity(ref ObservableCollection<Sample004PageListViewModelPageMst> viewModelEntities,
-                                                 PageMstEntity entity)
+                                                 PageMstEntity targetEntity)
         {
             //// 既にKeyのエンティティが存在するなら除去
             foreach (var viewModelEntity in viewModelEntities)
             {
-                if (viewModelEntity.Entity.PageId.Value == entity.PageId.Value)
+                if (viewModelEntity.Entity.PageId.Value == targetEntity.PageId.Value)
                 {
                     var index = viewModelEntities.IndexOf(viewModelEntity);
                     viewModelEntities.RemoveAt(index);

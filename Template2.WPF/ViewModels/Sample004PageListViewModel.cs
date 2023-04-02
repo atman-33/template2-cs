@@ -39,6 +39,20 @@ namespace Template2.WPF.ViewModels
         {
         }
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="regionManager"></param>
+        /// <param name="dialogService"></param>
+        /// <param name="eventAggregator"></param>
+        /// <param name="messageService"></param>
+        /// <param name="pageMstRepository"></param>
+        /// <remarks>
+        /// 【補足】
+        /// コンストラクタ内では、追加したRegion（今回の_contentRegionNameであり部分View）が
+        /// _regionManagerに追加されていないため注意。つまり、この時点では部分Viewを操作できない。
+        /// 部分Viewを操作する場合、ViewのLoadイベント等に実装すればよい。
+        /// </remarks>
         public Sample004PageListViewModel(
             IRegionManager regionManager,
             IDialogService dialogService,
@@ -48,11 +62,6 @@ namespace Template2.WPF.ViewModels
         {
             _regionManager = regionManager;
             _regionManager.RegisterViewWithRegion(_contentRegionName, nameof(Sample004PagePreviewView));
-
-            //// 【補足】
-            //// コンストラクタ内では、追加したRegion（今回の_contentRegionNameであり部分View）が
-            //// _regionManagerに追加されていないため注意すること。つまり、この時点では部分Viewを操作できない。
-            //// 部分Viewを操作する場合、ViewのLoadイベント等に実装すればよい。
 
             _dialogService = dialogService;
 
@@ -129,14 +138,18 @@ namespace Template2.WPF.ViewModels
 
         public DelegateCommand ViewLoaded { get; }
 
+        /// <summary>
+        /// ContentRegionにViewを設定
+        /// </summary>
+        /// <remarks>
+        /// 【補足】
+        /// 1つのContentRegionに1つのViewが対応しているため、Views.FirstOrDefaultでOK
+        /// </remarks>
         private void ViewLoadedExecute()
         {
             //// 部分ViewのViewModelをプライベート変数に格納
             var view = _regionManager.Regions[_contentRegionName].Views.FirstOrDefault() as Sample004PagePreviewView;
             _pagePreviewViewModel = view.DataContext as Sample004PagePreviewViewModel;
-
-            //// 【補足】
-            //// 1つのContentRegionに1つのViewが対応しているため、Views.FirstOrDefaultでOK
         }
 
         /// <summary>

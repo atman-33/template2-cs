@@ -39,10 +39,22 @@ namespace Template2.Domain.Entities
         public Note Note2 { get; }
         public Note Note3 { get; }
 
+        public string ImageFilePath
+        {
+            get
+            {
+                return PageMstEntity.GetImageFilePath(ImageFolderLink.Value, PageId.Value);
+            }
+        }
 
-        static public string GetImageFilePath(string imageFolderLink, int? imagePageNo)
+        static public string GetImageFilePath(string? imageFolderLink, int? imagePageNo)
         {
             int pageNo;
+
+            if (imageFolderLink == null)
+            {
+                return string.Empty;
+            }
 
             if (imagePageNo == null)
             {
@@ -54,6 +66,37 @@ namespace Template2.Domain.Entities
             }
 
             return imageFolderLink + "\\" + ImageFileFixedName + pageNo.ToString() + "." + ImageExtension;
+        }
+
+        static public void MergeEntity(ref IList<PageMstEntity> entities, PageMstEntity targetEntity)
+        {
+            //// 既にKeyのエンティティが存在するなら差し替え
+            foreach (var entity in entities)
+            {
+                if (entity.PageId.Value == targetEntity.PageId.Value)
+                {
+                    var index = entities.IndexOf(entity);
+                    entities[index] = targetEntity.Clone(targetEntity);
+                    return;
+                }
+            }
+
+            //// コレクションに存在しないエンティティなら追加
+            entities.Add(targetEntity);
+        }
+
+        static public void RemoveViewModelEntity(ref IList<PageMstEntity> entities, PageMstEntity targetEntity)
+        {
+            //// 既にKeyのエンティティが存在するなら除去
+            foreach (var entity in entities)
+            {
+                if (entity.PageId.Value == targetEntity.PageId.Value)
+                {
+                    var index = entities.IndexOf(entity);
+                    entities.RemoveAt(index);
+                    return;
+                }
+            }
         }
 
         public PageMstEntity Clone(PageMstEntity entity)
