@@ -42,7 +42,7 @@
     <Grid>
         <DockPanel LastChildFill="True">
             <materialDesign:ColorZone
-                Height="50"
+                Height="40"
                 materialDesign:ElevationAssist.Elevation="Dp2"
                 DockPanel.Dock="Top"
                 Mode="PrimaryDark">
@@ -69,7 +69,7 @@
                             Margin="20,0,0,0"
                             VerticalAlignment="Center"
                             VerticalContentAlignment="Center"
-                            Content="ver 1.1.4"
+                            Content="ver 1.2.0"
                             FontSize="14"
                             Foreground="White" />
 
