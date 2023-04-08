@@ -1,5 +1,4 @@
-﻿using Oracle.ManagedDataAccess.Client;
-using Template2.Domain.Entities;
+﻿using Template2.Domain.Entities;
 using Template2.Domain.Repositories;
 
 namespace Template2.Infrastructure.Oracle
@@ -16,8 +15,6 @@ namespace Template2.Infrastructure.Oracle
             throw new NotImplementedException();
 
         }
-
-
 
         public void Delete(WorkerMstEntity entity)
         {
