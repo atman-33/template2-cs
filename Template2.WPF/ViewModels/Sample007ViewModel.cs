@@ -96,6 +96,7 @@ namespace Template2.WPF.ViewModels
 
         private void AutoUpdateButtonCheckedExecute()
         {
+            //// 定期実行メソッドをBackgroundWorkerに登録
             Sample007ViewBackgroundWorker.Add(UpdateWorkerMstEntities);
         }
 

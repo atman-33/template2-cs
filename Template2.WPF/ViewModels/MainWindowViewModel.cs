@@ -44,6 +44,7 @@ namespace Template2.WPF.ViewModels
             Sample009ViewButton = new DelegateCommand(Sample009ViewButtonExecute);
             Sample010ViewButton = new DelegateCommand(Sample010ViewButtonExecute);
             Sample011ViewButton = new DelegateCommand(Sample011ViewButtonExecute);
+            Sample012ViewButton = new DelegateCommand(Sample012ViewButtonExecute);
 
             //// EventAggregatorメソッドを登録
             _eventAggregator.GetEvent<MainWindowCallMethodEvent>().Subscribe(HandleCallMethodEvent);
@@ -206,6 +207,11 @@ namespace Template2.WPF.ViewModels
             _regionManager.RequestNavigate(_contentRegionName, nameof(Sample011View));
         }
 
+        public DelegateCommand Sample012ViewButton { get; }
+        private void Sample012ViewButtonExecute()
+        {
+            _regionManager.RequestNavigate(_contentRegionName, nameof(Sample012View));
+        }
         #endregion
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 

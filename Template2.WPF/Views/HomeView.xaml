@@ -1,11 +1,13 @@
-﻿<UserControl x:Class="Template2.WPF.Views.HomeView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"             
-             prism:ViewModelLocator.AutoWireViewModel="True"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-             xmlns:system="clr-namespace:System;assembly=netstandard"
-             Background="{StaticResource backgroundColor}" Cursor="Hand">
+﻿<UserControl
+    x:Class="Template2.WPF.Views.HomeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:system="clr-namespace:System;assembly=netstandard"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Background="{StaticResource backgroundColor}"
+    Cursor="Hand">
 
     <UserControl.Resources>
         <system:Double x:Key="buttonWidth">200</system:Double>
@@ -14,117 +16,163 @@
 
     <Grid Margin="{StaticResource gridMargin}">
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Cursor="Hand">
+        <ScrollViewer Cursor="Hand" VerticalScrollBarVisibility="Auto">
             <DockPanel LastChildFill="False">
 
-                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                <StackPanel
+                    Margin="{StaticResource buttonMargin}"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
                     <Button
-                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
-                    Content="Sample001"
-                    Width="{StaticResource buttonWidth}"
-                    Command="{Binding Sample001ViewButton}" Cursor="Hand"/>
-                    <Label Content="・・・　読取専用のDataGrid編集" 
-                   VerticalAlignment="Center"/>
+                        Width="{StaticResource buttonWidth}"
+                        Command="{Binding Sample001ViewButton}"
+                        Content="Sample001"
+                        Cursor="Hand"
+                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                    <Label VerticalAlignment="Center" Content="・・・　読取専用のDataGrid編集" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                <StackPanel
+                    Margin="{StaticResource buttonMargin}"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
                     <Button
-                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
-                    Content="Sample002"
-                    Width="{StaticResource buttonWidth}"
-                    Command="{Binding Sample002ViewButton}" Cursor="Hand"/>
-                    <Label Content="・・・　読書可能なDataGrid編集 + DataGrid内のコンボボックス" 
-                   VerticalAlignment="Center"/>
+                        Width="{StaticResource buttonWidth}"
+                        Command="{Binding Sample002ViewButton}"
+                        Content="Sample002"
+                        Cursor="Hand"
+                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                    <Label VerticalAlignment="Center" Content="・・・　読書可能なDataGrid編集 + DataGrid内のコンボボックス" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                <StackPanel
+                    Margin="{StaticResource buttonMargin}"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
                     <Button
-                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
-                    Content="Sample003"
-                    Width="{StaticResource buttonWidth}"
-                    Command="{Binding Sample003ViewButton}" Cursor="Hand"/>
-                    <Label Content="・・・　DataGridの縦横変換（Unpivot）" 
-                   VerticalAlignment="Center"/>
+                        Width="{StaticResource buttonWidth}"
+                        Command="{Binding Sample003ViewButton}"
+                        Content="Sample003"
+                        Cursor="Hand"
+                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                    <Label VerticalAlignment="Center" Content="・・・　DataGridの縦横変換（Unpivot）" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                <StackPanel
+                    Margin="{StaticResource buttonMargin}"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
                     <Button
-                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
-                    Content="Sample004"
-                    Width="{StaticResource buttonWidth}"
-                    Command="{Binding Sample004ViewButton}" Cursor="Hand"/>
-                    <Label Content="・・・　画像/動画ファイル再生" 
-                   VerticalAlignment="Center"/>
+                        Width="{StaticResource buttonWidth}"
+                        Command="{Binding Sample004ViewButton}"
+                        Content="Sample004"
+                        Cursor="Hand"
+                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                    <Label VerticalAlignment="Center" Content="・・・　画像/動画ファイル再生" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                <StackPanel
+                    Margin="{StaticResource buttonMargin}"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
                     <Button
-                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
-                    Content="Sample005"
-                    Width="{StaticResource buttonWidth}"
-                    Command="{Binding Sample005ViewButton}" Cursor="Hand"/>
-                    <Label Content="・・・　ツリービューの選択アイテムをバインド" 
-                   VerticalAlignment="Center"/>
+                        Width="{StaticResource buttonWidth}"
+                        Command="{Binding Sample005ViewButton}"
+                        Content="Sample005"
+                        Cursor="Hand"
+                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                    <Label VerticalAlignment="Center" Content="・・・　ツリービューの選択アイテムをバインド" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                <StackPanel
+                    Margin="{StaticResource buttonMargin}"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
                     <Button
-                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
-                    Content="Sample006"
-                    Width="{StaticResource buttonWidth}"
-                    Command="{Binding Sample006ViewButton}" Cursor="Hand"/>
-                    <Label Content="・・・　AWSサービス接続" 
-                   VerticalAlignment="Center"/>
+                        Width="{StaticResource buttonWidth}"
+                        Command="{Binding Sample006ViewButton}"
+                        Content="Sample006"
+                        Cursor="Hand"
+                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                    <Label VerticalAlignment="Center" Content="・・・　AWSサービス接続" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                <StackPanel
+                    Margin="{StaticResource buttonMargin}"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
                     <Button
-                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
-                    Content="Sample007"
-                    Width="{StaticResource buttonWidth}"
-                    Command="{Binding Sample007ViewButton}" Cursor="Hand"/>
-                    <Label Content="・・・　DataGrid自動更新" 
-                   VerticalAlignment="Center"/>
+                        Width="{StaticResource buttonWidth}"
+                        Command="{Binding Sample007ViewButton}"
+                        Content="Sample007"
+                        Cursor="Hand"
+                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                    <Label VerticalAlignment="Center" Content="・・・　DataGrid自動更新" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                <StackPanel
+                    Margin="{StaticResource buttonMargin}"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
                     <Button
-                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
-                    Content="Sample008"
-                    Width="{StaticResource buttonWidth}"
-                    Command="{Binding Sample008ViewButton}" Cursor="Hand"/>
-                    <Label Content="・・・　CSVファイル取り込み + ドラッグ＆ドロップでListView並び替え" 
-                   VerticalAlignment="Center"/>
+                        Width="{StaticResource buttonWidth}"
+                        Command="{Binding Sample008ViewButton}"
+                        Content="Sample008"
+                        Cursor="Hand"
+                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                    <Label VerticalAlignment="Center" Content="・・・　CSVファイル取り込み + ドラッグ＆ドロップでListView並び替え" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                <StackPanel
+                    Margin="{StaticResource buttonMargin}"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
                     <Button
-                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
-                    Content="Sample009"
-                    Width="{StaticResource buttonWidth}"
-                    Command="{Binding Sample009ViewButton}" Cursor="Hand"/>
-                    <Label Content="・・・　Excel取り込み" 
-                   VerticalAlignment="Center"/>
+                        Width="{StaticResource buttonWidth}"
+                        Command="{Binding Sample009ViewButton}"
+                        Content="Sample009"
+                        Cursor="Hand"
+                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                    <Label VerticalAlignment="Center" Content="・・・　Excel取り込み" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                <StackPanel
+                    Margin="{StaticResource buttonMargin}"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
                     <Button
-                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
-                    Content="Sample010"
-                    Width="{StaticResource buttonWidth}"
-                    Command="{Binding Sample010ViewButton}" Cursor="Hand"/>
-                    <Label Content="・・・　Python実行" 
-                   VerticalAlignment="Center"/>
+                        Width="{StaticResource buttonWidth}"
+                        Command="{Binding Sample010ViewButton}"
+                        Content="Sample010"
+                        Cursor="Hand"
+                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                    <Label VerticalAlignment="Center" Content="・・・　Python実行" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Margin="{StaticResource buttonMargin}" DockPanel.Dock="Top">
+                <StackPanel
+                    Margin="{StaticResource buttonMargin}"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
                     <Button
-                    Style="{StaticResource MaterialDesignOutlinedDarkButton}"
-                    Content="Sample011"
-                    Width="{StaticResource buttonWidth}"
-                    Command="{Binding Sample011ViewButton}" Cursor="Hand"/>
-                    <Label Content="・・・　ドラッグ＆ドロップでDataGrid並び替え" 
-                   VerticalAlignment="Center"/>
+                        Width="{StaticResource buttonWidth}"
+                        Command="{Binding Sample011ViewButton}"
+                        Content="Sample011"
+                        Cursor="Hand"
+                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                    <Label VerticalAlignment="Center" Content="・・・　ドラッグ＆ドロップでDataGrid並び替え" />
+                </StackPanel>
+
+                <StackPanel
+                    Margin="{StaticResource buttonMargin}"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
+                    <Button
+                        Width="{StaticResource buttonWidth}"
+                        Command="{Binding Sample012ViewButton}"
+                        Content="Sample012"
+                        Cursor="Hand"
+                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                    <Label VerticalAlignment="Center" Content="・・・　Web API（REST API）でDBのデータ操作" />
                 </StackPanel>
 
             </DockPanel>

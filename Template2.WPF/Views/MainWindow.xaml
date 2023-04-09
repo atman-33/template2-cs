@@ -383,6 +383,28 @@
                                 </DockPanel>
                             </Button>
 
+                            <Button
+                                Command="{Binding Sample012ViewButton}"
+                                Cursor="Hand"
+                                DockPanel.Dock="Top"
+                                Style="{StaticResource menuButtonStyle}">
+                                <DockPanel>
+                                    <StackPanel>
+                                        <materialDesign:PackIcon
+                                            Width="{StaticResource menuIconSize}"
+                                            Height="{StaticResource menuIconSize}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Kind="API" />
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="{StaticResource menuFontSize}"
+                                            Text="サンプル12" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+
                         </DockPanel>
                     </ScrollViewer>
                 </materialDesign:DrawerHost.LeftDrawerContent>

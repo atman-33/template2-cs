@@ -4,35 +4,37 @@ using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Template2.Domain.Entities;
 using Template2.Domain.Modules.Helpers;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
+using Template2.Infrastructure.RestApi;
 using Template2.WPF.Events;
 using Template2.WPF.Services;
 
 namespace Template2.WPF.ViewModels
 {
-    public class Sample001ViewModel : ViewModelBase
+    public class Sample012ViewModel : ViewModelBase
     {
         //// 外部接触Repository
-        private IWorkerGroupMstRepository _workerGroupMstRepository;
+        private IWorkerGroupMstRepositoryAsync _workerGroupMstRepository;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public Sample001ViewModel(IEventAggregator eventAggregator)
-            : this(eventAggregator ,new MessageService() ,Factories.CreateWorkerGroupMst())
+        public Sample012ViewModel(IEventAggregator eventAggregator)
+            : this(eventAggregator, new MessageService(), new WorkerGroupMstRestApi())
         {
         }
 
-        public Sample001ViewModel(
+        public Sample012ViewModel(
             IEventAggregator eventAggregator,
             IMessageService messageService,
-            IWorkerGroupMstRepository workerGroupMstRepository)
+            IWorkerGroupMstRepositoryAsync workerGroupMstRepository)
         {
             _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル001（読み取り専用DataGrid）");
+            _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル012（Web APIによるテーブル操作）");
 
             _messageService = messageService;
 
@@ -124,7 +126,7 @@ namespace Template2.WPF.ViewModels
         }
 
         public DelegateCommand SaveButton { get; }
-        private void SaveButtonExecute()
+        private async void SaveButtonExecute()
         {
             Guard.IsNullOrEmpty(WorkerGroupNameText, "サンプル名称を入力してください。");
 
@@ -138,14 +140,14 @@ namespace Template2.WPF.ViewModels
                 WorkerGroupNameText
                 );
 
-            _workerGroupMstRepository.Save(entity);
+            await Task.Run(() => _workerGroupMstRepository.SaveAsync(entity));
             _messageService.ShowDialog("保存しました。", "情報", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
 
             UpdateWorkerGroupMstEntities();
         }
 
         public DelegateCommand DeleteButton { get; }
-        private void DeleteButtonExecute()
+        private async void DeleteButtonExecute()
         {
             if (_messageService.Question("「" + WorkerGroupNameText + "」を削除しますか？") != System.Windows.MessageBoxResult.OK)
             {
@@ -157,7 +159,7 @@ namespace Template2.WPF.ViewModels
                 WorkerGroupNameText
                 );
 
-            _workerGroupMstRepository.Delete(entity);
+            await Task.Run(() => _workerGroupMstRepository.DeleteAsync(entity));
             _messageService.ShowDialog("削除しました。", "情報", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
 
             UpdateWorkerGroupMstEntities();
@@ -170,11 +172,11 @@ namespace Template2.WPF.ViewModels
         #region //// Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        private void UpdateWorkerGroupMstEntities()
+        private async void UpdateWorkerGroupMstEntities()
         {
             WorkerGroupMstEntities.Clear();
 
-            foreach (var entity in _workerGroupMstRepository.GetData())
+            foreach (var entity in await _workerGroupMstRepository.GetDataAsync())
             {
                 WorkerGroupMstEntities.Add(new Sample001ViewModelWorkerGroupMst(entity));
             }
