@@ -80,8 +80,7 @@
             Grid.Row="2"
             Grid.Column="0"
             Margin="5"
-            HorizontalAlignment="Left"
-            Style="{StaticResource commonCard}">
+            HorizontalAlignment="Left">
 
             <!--  ObservableCollectionをBindした場合、CanUserAddRows="True"でも新規行は追加されない。  -->
             <DataGrid

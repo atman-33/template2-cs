@@ -105,15 +105,13 @@
         <materialDesign:Card
             Grid.Row="2"
             Grid.Column="0"
-            HorizontalAlignment="Left"
-            Style="{StaticResource commonCard}">
+            HorizontalAlignment="Left">
             <DataGrid
                 VerticalAlignment="Top"
                 Cursor="Hand"
                 IsReadOnly="True"
                 ItemsSource="{Binding PageMstEntities}"
-                SelectedItem="{Binding PageMstEntitiesSlectedItem}"
-                Style="{StaticResource commonDataGrid}">
+                SelectedItem="{Binding PageMstEntitiesSlectedItem}">
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectedCellsChanged">

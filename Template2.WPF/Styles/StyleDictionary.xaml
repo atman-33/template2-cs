@@ -6,13 +6,14 @@
     <SolidColorBrush x:Key="backgroundColor" Color="WhiteSmoke" />
     <Thickness x:Key="gridMargin">10,10,10,10</Thickness>
 
-    <Style x:Key="commonCard" TargetType="materialDesign:Card">
-        <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp2" />
-    </Style>
 
     <!--  標準スタイル  -->
     <Style TargetType="Window">
         <Setter Property="Background" Value="WhiteSmoke" />
+    </Style>
+
+    <Style TargetType="materialDesign:Card">
+        <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp0" />
     </Style>
 
     <Style BasedOn="{StaticResource MaterialDesignDataGrid}" TargetType="DataGrid">
