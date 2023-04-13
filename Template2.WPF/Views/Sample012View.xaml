@@ -30,8 +30,7 @@
                 Cursor="Hand"
                 IsReadOnly="True"
                 ItemsSource="{Binding WorkerGroupMstEntities}"
-                SelectedItem="{Binding WorkerGroupMstEntitiesSlectedItem}"
-                Style="{StaticResource commonDataGrid}">
+                SelectedItem="{Binding WorkerGroupMstEntitiesSlectedItem}">
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectedCellsChanged">

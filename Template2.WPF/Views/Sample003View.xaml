@@ -57,8 +57,7 @@
                 CanUserAddRows="False"
                 Cursor="Hand"
                 IsReadOnly="False"
-                ItemsSource="{Binding WorkingTimePlanMstEntitiesDataView, UpdateSourceTrigger=PropertyChanged}"
-                Style="{StaticResource commonDataGrid}">
+                ItemsSource="{Binding WorkingTimePlanMstEntitiesDataView, UpdateSourceTrigger=PropertyChanged}">
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="AutoGeneratingColumn" SourceObject="{Binding ElementName=WorkingTimePlanMstEntitiesDataGrid}">
@@ -106,8 +105,7 @@
             <DataGrid
                 Cursor="Hand"
                 IsReadOnly="True"
-                ItemsSource="{Binding WorkingTimePlanMstEntities}"
-                Style="{StaticResource commonDataGrid}">
+                ItemsSource="{Binding WorkingTimePlanMstEntities}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding WorkerCode}" Header="作業者コード" />
                     <DataGridTextColumn Binding="{Binding Weekday}" Header="曜日番号" />

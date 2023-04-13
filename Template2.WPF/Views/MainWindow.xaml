@@ -10,7 +10,6 @@
     Width="1200"
     Height="800"
     prism:ViewModelLocator.AutoWireViewModel="True"
-    Background="{StaticResource backgroundColor}"
     WindowStartupLocation="CenterScreen"
     WindowState="Maximized">
 

@@ -1,60 +1,73 @@
-﻿<UserControl x:Class="Template2.WPF.Views.Sample007View"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"             
-             prism:ViewModelLocator.AutoWireViewModel="True"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+﻿<UserControl
+    x:Class="Template2.WPF.Views.Sample007View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:prism="http://prismlibrary.com/"
+    prism:ViewModelLocator.AutoWireViewModel="True">
 
     <Grid Margin="{StaticResource gridMargin}">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
-            <Label Content="自動更新 OFF / ON " VerticalAlignment="Center"/>
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="0"
+            Orientation="Horizontal">
+            <Label VerticalAlignment="Center" Content="自動更新 OFF / ON " />
 
             <ToggleButton Margin="5" Cursor="Hand">
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Checked">
-                        <prism:InvokeCommandAction Command="{Binding AutoUpdateButtonChecked}"/>
+                        <prism:InvokeCommandAction Command="{Binding AutoUpdateButtonChecked}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="Unchecked">
-                        <prism:InvokeCommandAction Command="{Binding AutoUpdateButtonUnchecked}"/>
+                        <prism:InvokeCommandAction Command="{Binding AutoUpdateButtonUnchecked}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 
             </ToggleButton>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-            <Label Content="更新時刻：" VerticalAlignment="Center"/>
-            <Label Content="{Binding UpdatedTimeLabel}" Margin="5" VerticalAlignment="Center" Width="100"/>
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            Orientation="Horizontal">
+            <Label VerticalAlignment="Center" Content="更新時刻：" />
+            <Label
+                Width="100"
+                Margin="5"
+                VerticalAlignment="Center"
+                Content="{Binding UpdatedTimeLabel}" />
         </StackPanel>
 
         <DockPanel Grid.Row="2" Grid.Column="0">
 
-            <DataGrid Style="{StaticResource commonDataGrid}"
-                      ItemsSource="{Binding WorkerMstEntities}"
-                      AutoGenerateColumns="True" Cursor="Hand">
-            </DataGrid>
+            <DataGrid
+                AutoGenerateColumns="True"
+                Cursor="Hand"
+                ItemsSource="{Binding WorkerMstEntities}" />
 
         </DockPanel>
 
         <StackPanel Grid.Row="3" Grid.Column="0">
-            <Button Content="Sample002 を開く"
-                    HorizontalAlignment="Left"
-                    Margin="10"
-                    Command="{Binding Sample002ViewButton}" Cursor="Hand"/>
+            <Button
+                Margin="10"
+                HorizontalAlignment="Left"
+                Command="{Binding Sample002ViewButton}"
+                Content="Sample002 を開く"
+                Cursor="Hand" />
         </StackPanel>
     </Grid>
 </UserControl>

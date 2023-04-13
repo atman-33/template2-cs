@@ -10,11 +10,12 @@
         <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp2" />
     </Style>
 
-    <!--  DataGridの標準スタイル  -->
-    <Style
-        x:Key="commonDataGrid"
-        BasedOn="{StaticResource MaterialDesignDataGrid}"
-        TargetType="DataGrid">
+    <!--  標準スタイル  -->
+    <Style TargetType="Window">
+        <Setter Property="Background" Value="WhiteSmoke" />
+    </Style>
+
+    <Style BasedOn="{StaticResource MaterialDesignDataGrid}" TargetType="DataGrid">
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="EnableColumnVirtualization" Value="False" />
@@ -23,6 +24,11 @@
         <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling" />
         <Setter Property="AutoGenerateColumns" Value="False" />
         <Setter Property="Background" Value="White" />
+    </Style>
+
+    <Style BasedOn="{StaticResource MaterialDesignListView}" TargetType="ListView">
+        <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True" />
+        <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling" />
     </Style>
 
 </ResourceDictionary>
