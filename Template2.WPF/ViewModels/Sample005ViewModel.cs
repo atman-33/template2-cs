@@ -3,6 +3,7 @@ using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
 using Template2.Domain.Entities;
+using Template2.Domain.Modules.Objects.Composites;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
 using Template2.WPF.Events;
@@ -23,7 +24,7 @@ namespace Template2.WPF.ViewModels
 
         public Sample005ViewModel(
             IEventAggregator eventAggregator,
-            IWorkerGroupMstRepository workerGroupMstRepository, 
+            IWorkerGroupMstRepository workerGroupMstRepository,
             IWorkerMstRepository workerMstRepository)
         {
             _eventAggregator = eventAggregator;
@@ -35,9 +36,9 @@ namespace Template2.WPF.ViewModels
             //// DelegateCommandメソッドを登録
             WorkerGroupTreeViewSelectedItemChanged = new DelegateCommand(WorkerGroupTreeViewSelectedItemChangedExecute);
 
-            WorkerGroupTreeViewData.CreateTreeView(ref _workerGroupTreeView,
-                                                   _workerGroupMstRepository.GetData(), 
-                                                   _workerMstRepository.GetData());
+            WorkerGroupTreeView = new ObservableCollection<OrganizationComponentBase>(
+                OrganizationComponentBase.CreateOrganizationComponents(
+                _workerGroupMstRepository.GetData(), _workerMstRepository.GetData()));
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
@@ -49,9 +50,9 @@ namespace Template2.WPF.ViewModels
         #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        private ObservableCollection<WorkerGroupTreeViewData> _workerGroupTreeView
-            = new ObservableCollection<WorkerGroupTreeViewData>();
-        public ObservableCollection<WorkerGroupTreeViewData> WorkerGroupTreeView
+        private ObservableCollection<OrganizationComponentBase> _workerGroupTreeView
+            = new ObservableCollection<OrganizationComponentBase>();
+        public ObservableCollection<OrganizationComponentBase> WorkerGroupTreeView
         {
             get { return _workerGroupTreeView; }
             set { SetProperty(ref _workerGroupTreeView, value); }
@@ -71,8 +72,8 @@ namespace Template2.WPF.ViewModels
             set { SetProperty(ref _workerCodeText, value); }
         }
 
-        private WorkerGroupTreeViewData _workerGroupTreeViewSelectedItem;
-        public WorkerGroupTreeViewData WorkerGroupTreeViewSelectedItem
+        private OrganizationComponentBase _workerGroupTreeViewSelectedItem;
+        public OrganizationComponentBase WorkerGroupTreeViewSelectedItem
         {
             get { return _workerGroupTreeViewSelectedItem; }
             set { SetProperty(ref _workerGroupTreeViewSelectedItem, value); }
@@ -93,17 +94,17 @@ namespace Template2.WPF.ViewModels
                 return;
             }
 
-            if (WorkerGroupTreeViewSelectedItem.UpperTreeViewData == null)
+            if (WorkerGroupTreeViewSelectedItem.GetType().Name == nameof(WorkerGroup))
             {
-                //// 親TreeViewDataが無い = 親データを選択している場合
-                WorkerGroupCodeText = WorkerGroupTreeViewSelectedItem.Id;
+                //// ComponentがWorkerGroupの場合
+                WorkerGroupCodeText = WorkerGroupTreeViewSelectedItem.Code;
                 WorkerCodeText = String.Empty;
             }
             else
             {
-                //// 親TreeViewDataが有る = 子データを選択している場合
-                WorkerGroupCodeText = WorkerGroupTreeViewSelectedItem.UpperTreeViewData.Id;
-                WorkerCodeText = WorkerGroupTreeViewSelectedItem.Id;
+                //// ComponentがWorkerの場合
+                WorkerGroupCodeText = WorkerGroupTreeViewSelectedItem.WorkerGroupCode;
+                WorkerCodeText = WorkerGroupTreeViewSelectedItem.Code;
             }
         }
 
