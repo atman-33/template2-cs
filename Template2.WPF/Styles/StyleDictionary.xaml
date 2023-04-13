@@ -4,16 +4,31 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
     <SolidColorBrush x:Key="backgroundColor" Color="WhiteSmoke" />
-    <Thickness x:Key="gridMargin">10,10,10,10</Thickness>
+    <SolidColorBrush x:Key="sideBarBackgroundColor" Color="Lavender" />
 
-
-    <!--  標準スタイル  -->
+    <!--
+        【標準スタイル】
+        注意：Grid、Marginは正常に適用されないため適用しない
+    -->
     <Style TargetType="Window">
         <Setter Property="Background" Value="WhiteSmoke" />
     </Style>
 
+    <!--<Style TargetType="UserControl" >
+        <Setter Property="Background" Value="WhiteSmoke" />
+    </Style>-->
+
+    <!--<Style TargetType="Grid">
+        <Setter Property="Margin" Value="5" />
+    </Style>-->
+
+    <Style BasedOn="{StaticResource MaterialDesignRaisedButton}" TargetType="Button">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="MinWidth" Value="100" />
+    </Style>
+
     <Style TargetType="materialDesign:Card">
-        <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp0" />
+        <Setter Property="materialDesign:ElevationAssist.Elevation" Value="Dp1" />
     </Style>
 
     <Style BasedOn="{StaticResource MaterialDesignDataGrid}" TargetType="DataGrid">

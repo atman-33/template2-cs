@@ -6,10 +6,9 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:prism="http://prismlibrary.com/"
-    prism:ViewModelLocator.AutoWireViewModel="True"
-    Background="{StaticResource backgroundColor}">
+    prism:ViewModelLocator.AutoWireViewModel="True">
 
-    <Grid Margin="{StaticResource gridMargin}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
             <RowDefinition Height="60" />
@@ -71,9 +70,7 @@
             <Button
                 Margin="5"
                 Command="{Binding ChangeWorkerNameVisibilityButton}"
-                Content="作業者名称：表示⇔非表示"
-                Cursor="Hand"
-                Style="{StaticResource MaterialDesignRaisedDarkButton}" />
+                Content="作業者名称：表示⇔非表示" />
         </StackPanel>
 
         <materialDesign:Card

@@ -1,74 +1,82 @@
-﻿<UserControl x:Class="Template2.WPF.Views.Sample006View"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"             
-             prism:ViewModelLocator.AutoWireViewModel="True"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-             xmlns:system="clr-namespace:System;assembly=netstandard">
+﻿<UserControl
+    x:Class="Template2.WPF.Views.Sample006View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:system="clr-namespace:System;assembly=netstandard"
+    prism:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
         <system:Double x:Key="buttonWidth">150</system:Double>
     </UserControl.Resources>
 
-    <Grid Margin="{StaticResource gridMargin}">
+    <Grid>
 
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+        <StackPanel HorizontalAlignment="Left" Orientation="Vertical">
 
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBox Width="100" Margin="10"
-                          materialDesign:HintAssist.Hint="Project Name"
-                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                          VerticalAlignment="Center" 
-                         Text="{Binding ProjectNameText}"/>
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <TextBox
+                    Width="100"
+                    Margin="10"
+                    VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="Project Name"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                    Text="{Binding ProjectNameText}" />
 
-                <TextBox Width="100" Margin="10"
-                          materialDesign:HintAssist.Hint="Model Version"
-                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                          VerticalAlignment="Center" 
-                         Text="{Binding ModelVersionText}"/>
+                <TextBox
+                    Width="100"
+                    Margin="10"
+                    VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="Model Version"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                    Text="{Binding ModelVersionText}" />
             </StackPanel>
 
-            <TextBox Width="600" Margin="10"
-                          materialDesign:HintAssist.Hint="画像ファイルパス"
-                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                          VerticalAlignment="Center" 
-                         Text="{Binding ImagePathText}"
-                     HorizontalAlignment="Left"/>
+            <TextBox
+                Width="600"
+                Margin="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                materialDesign:HintAssist.Hint="画像ファイルパス"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                Text="{Binding ImagePathText}" />
 
 
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <Label Content="状態："/>
-                <Label Content="{Binding LookoutforVisionStatusLabel}"/>
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <Label Content="状態：" />
+                <Label Content="{Binding LookoutforVisionStatusLabel}" />
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <Label Content="IsAnomalous? / Confidence："/>
-                <Label Content="{Binding DetectAnomaliesLabel}"/>
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <Label Content="IsAnomalous? / Confidence：" />
+                <Label Content="{Binding DetectAnomaliesLabel}" />
             </StackPanel>
 
-            <StackPanel HorizontalAlignment="Left" Margin="10">
-            <Button Command="{Binding StartModelButton}"
-                  Style="{StaticResource MaterialDesignPaperLightButton}"
-                  Width="{StaticResource buttonWidth}"
-                  Content="モデル起動"
-                  Margin="5"/>
-            <Button Command="{Binding StopModelButton}"
-                  Style="{StaticResource MaterialDesignPaperLightButton}"
-                  Width="{StaticResource buttonWidth}"
-                  Content="モデル停止"
-                  Margin="5"/>
-            <Button Command="{Binding DescribeModelButton}"
-                  Style="{StaticResource MaterialDesignPaperLightButton}"
-                  Width="{StaticResource buttonWidth}"
-                  Content="状態取得"
-                  Margin="5" Cursor="Hand"/>
-            <Button Command="{Binding DetectAnomaliesButton}"
-                  Style="{StaticResource MaterialDesignPaperLightButton}"
-                  Width="{StaticResource buttonWidth}"
-                  Content="推論実行"
-                  Margin="5"/>
+            <StackPanel Margin="10" HorizontalAlignment="Left">
+                <Button
+                    Width="{StaticResource buttonWidth}"
+                    Margin="5"
+                    Command="{Binding StartModelButton}"
+                    Content="モデル起動" />
+                <Button
+                    Width="{StaticResource buttonWidth}"
+                    Margin="5"
+                    Command="{Binding StopModelButton}"
+                    Content="モデル停止" />
+                <Button
+                    Width="{StaticResource buttonWidth}"
+                    Margin="5"
+                    Command="{Binding DescribeModelButton}"
+                    Content="状態取得"
+                    Cursor="Hand" />
+                <Button
+                    Width="{StaticResource buttonWidth}"
+                    Margin="5"
+                    Command="{Binding DetectAnomaliesButton}"
+                    Content="推論実行" />
             </StackPanel>
         </StackPanel>
-            
+
     </Grid>
 </UserControl>

@@ -5,10 +5,8 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:prism="http://prismlibrary.com/"
-    prism:ViewModelLocator.AutoWireViewModel="True"
-    Background="{StaticResource backgroundColor}"
-    Cursor="Hand">
-    <Grid Margin="{StaticResource gridMargin}">
+    prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>

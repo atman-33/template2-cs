@@ -8,8 +8,7 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:rules="clr-namespace:Template2.WPF.ValidationRules"
     xmlns:system="clr-namespace:System;assembly=netstandard"
-    prism:ViewModelLocator.AutoWireViewModel="True"
-    Background="{StaticResource backgroundColor}">
+    prism:ViewModelLocator.AutoWireViewModel="True">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">

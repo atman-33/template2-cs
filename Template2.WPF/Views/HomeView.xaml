@@ -14,7 +14,7 @@
         <Thickness x:Key="buttonMargin">0,10,0,10</Thickness>
     </UserControl.Resources>
 
-    <Grid Margin="{StaticResource gridMargin}">
+    <Grid>
 
         <ScrollViewer Cursor="Hand" VerticalScrollBarVisibility="Auto">
             <DockPanel LastChildFill="False">
@@ -26,9 +26,7 @@
                     <Button
                         Width="{StaticResource buttonWidth}"
                         Command="{Binding Sample001ViewButton}"
-                        Content="Sample001"
-                        Cursor="Hand"
-                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                        Content="Sample001" />
                     <Label VerticalAlignment="Center" Content="・・・　読取専用のDataGrid編集" />
                 </StackPanel>
 
@@ -39,9 +37,7 @@
                     <Button
                         Width="{StaticResource buttonWidth}"
                         Command="{Binding Sample002ViewButton}"
-                        Content="Sample002"
-                        Cursor="Hand"
-                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                        Content="Sample002" />
                     <Label VerticalAlignment="Center" Content="・・・　読書可能なDataGrid編集 + DataGrid内のコンボボックス" />
                 </StackPanel>
 
@@ -52,9 +48,7 @@
                     <Button
                         Width="{StaticResource buttonWidth}"
                         Command="{Binding Sample003ViewButton}"
-                        Content="Sample003"
-                        Cursor="Hand"
-                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                        Content="Sample003" />
                     <Label VerticalAlignment="Center" Content="・・・　DataGridの縦横変換（Unpivot）" />
                 </StackPanel>
 
@@ -65,9 +59,7 @@
                     <Button
                         Width="{StaticResource buttonWidth}"
                         Command="{Binding Sample004ViewButton}"
-                        Content="Sample004"
-                        Cursor="Hand"
-                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                        Content="Sample004" />
                     <Label VerticalAlignment="Center" Content="・・・　画像/動画ファイル再生" />
                 </StackPanel>
 
@@ -78,9 +70,7 @@
                     <Button
                         Width="{StaticResource buttonWidth}"
                         Command="{Binding Sample005ViewButton}"
-                        Content="Sample005"
-                        Cursor="Hand"
-                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                        Content="Sample005" />
                     <Label VerticalAlignment="Center" Content="・・・　ツリービューの選択アイテムをバインド" />
                 </StackPanel>
 
@@ -91,9 +81,7 @@
                     <Button
                         Width="{StaticResource buttonWidth}"
                         Command="{Binding Sample006ViewButton}"
-                        Content="Sample006"
-                        Cursor="Hand"
-                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                        Content="Sample006" />
                     <Label VerticalAlignment="Center" Content="・・・　AWSサービス接続" />
                 </StackPanel>
 
@@ -104,9 +92,7 @@
                     <Button
                         Width="{StaticResource buttonWidth}"
                         Command="{Binding Sample007ViewButton}"
-                        Content="Sample007"
-                        Cursor="Hand"
-                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                        Content="Sample007" />
                     <Label VerticalAlignment="Center" Content="・・・　DataGrid自動更新" />
                 </StackPanel>
 
@@ -117,9 +103,7 @@
                     <Button
                         Width="{StaticResource buttonWidth}"
                         Command="{Binding Sample008ViewButton}"
-                        Content="Sample008"
-                        Cursor="Hand"
-                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                        Content="Sample008" />
                     <Label VerticalAlignment="Center" Content="・・・　CSVファイル取り込み + ドラッグ＆ドロップでListView並び替え" />
                 </StackPanel>
 
@@ -130,9 +114,7 @@
                     <Button
                         Width="{StaticResource buttonWidth}"
                         Command="{Binding Sample009ViewButton}"
-                        Content="Sample009"
-                        Cursor="Hand"
-                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                        Content="Sample009" />
                     <Label VerticalAlignment="Center" Content="・・・　Excel取り込み" />
                 </StackPanel>
 
@@ -143,9 +125,7 @@
                     <Button
                         Width="{StaticResource buttonWidth}"
                         Command="{Binding Sample010ViewButton}"
-                        Content="Sample010"
-                        Cursor="Hand"
-                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                        Content="Sample010" />
                     <Label VerticalAlignment="Center" Content="・・・　Python実行" />
                 </StackPanel>
 
@@ -156,9 +136,7 @@
                     <Button
                         Width="{StaticResource buttonWidth}"
                         Command="{Binding Sample011ViewButton}"
-                        Content="Sample011"
-                        Cursor="Hand"
-                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                        Content="Sample011" />
                     <Label VerticalAlignment="Center" Content="・・・　ドラッグ＆ドロップでDataGrid並び替え" />
                 </StackPanel>
 
@@ -169,9 +147,7 @@
                     <Button
                         Width="{StaticResource buttonWidth}"
                         Command="{Binding Sample012ViewButton}"
-                        Content="Sample012"
-                        Cursor="Hand"
-                        Style="{StaticResource MaterialDesignOutlinedDarkButton}" />
+                        Content="Sample012" />
                     <Label VerticalAlignment="Center" Content="・・・　Web API（REST API）でDBのデータ操作" />
                 </StackPanel>
 

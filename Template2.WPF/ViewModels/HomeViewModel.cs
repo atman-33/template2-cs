@@ -9,6 +9,7 @@ namespace Template2.WPF.ViewModels
         public HomeViewModel(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> Home");
 
             //// DelegateCommandメソッドを登録
             Sample001ViewButton = new DelegateCommand(Sample001ViewButtonExecute);

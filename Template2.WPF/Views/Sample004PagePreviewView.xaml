@@ -6,8 +6,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:prism="http://prismlibrary.com/"
     x:Name="MediaService"
-    prism:ViewModelLocator.AutoWireViewModel="True"
-    Background="{StaticResource backgroundColor}">
+    prism:ViewModelLocator.AutoWireViewModel="True">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -63,11 +62,11 @@
 
                         <MediaElement
                             x:Name="MediaPlayer"
+                            Width="300"
+                            Height="200"
                             LoadedBehavior="Manual"
                             Source="{Binding MovieSource}"
-                            Visibility="Visible"
-                            Width="300"
-                            Height="200">
+                            Visibility="Visible">
 
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MediaOpened">

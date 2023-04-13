@@ -7,7 +7,7 @@
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
-    <Grid Margin="{StaticResource gridMargin}">
+    <Grid>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
@@ -66,8 +66,7 @@
                 Margin="10"
                 HorizontalAlignment="Left"
                 Command="{Binding Sample002ViewButton}"
-                Content="Sample002 を開く"
-                Cursor="Hand" />
+                Content="Sample002 を開く" />
         </StackPanel>
     </Grid>
 </UserControl>

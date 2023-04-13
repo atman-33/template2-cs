@@ -6,8 +6,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:system="clr-namespace:System;assembly=netstandard"
-    prism:ViewModelLocator.AutoWireViewModel="True"
-    Background="{StaticResource backgroundColor}">
+    prism:ViewModelLocator.AutoWireViewModel="True">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -19,7 +18,7 @@
         <system:Double x:Key="IconSize">28</system:Double>
     </UserControl.Resources>
 
-    <Grid Margin="{StaticResource gridMargin}">
+    <Grid>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
