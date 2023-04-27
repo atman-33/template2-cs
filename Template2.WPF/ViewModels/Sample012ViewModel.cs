@@ -141,7 +141,6 @@ namespace Template2.WPF.ViewModels
                 );
 
             await Task.Run(() => _workerGroupMstRepository.SaveAsync(entity));
-            _messageService.ShowDialog("保存しました。", "情報", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
 
             UpdateWorkerGroupMstEntities();
         }
@@ -160,7 +159,6 @@ namespace Template2.WPF.ViewModels
                 );
 
             await Task.Run(() => _workerGroupMstRepository.DeleteAsync(entity));
-            _messageService.ShowDialog("削除しました。", "情報", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
 
             UpdateWorkerGroupMstEntities();
         }

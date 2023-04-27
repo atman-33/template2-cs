@@ -134,6 +134,11 @@ namespace Template2.WPF.ViewModels
         public DelegateCommand HomeViewButton { get; }
         private void HomeViewButtonExecute()
         {
+            if(!canNavigate())
+            {
+                return;
+            }
+
             _regionManager.RequestNavigate(_contentRegionName, nameof(HomeView));
         }
 
@@ -141,6 +146,11 @@ namespace Template2.WPF.ViewModels
 
         private void Sample001ViewButtonExecute()
         {
+            if (!canNavigate())
+            {
+                return;
+            }
+
             _regionManager.RequestNavigate(_contentRegionName, nameof(Sample001View));
         }
 
@@ -148,6 +158,11 @@ namespace Template2.WPF.ViewModels
 
         private void Sample002ViewButtonExecute()
         {
+            if (!canNavigate())
+            {
+                return;
+            }
+
             _regionManager.RequestNavigate(_contentRegionName, nameof(Sample002View));
         }
 
@@ -155,6 +170,11 @@ namespace Template2.WPF.ViewModels
 
         private void Sample003ViewButtonExecute()
         {
+            if (!canNavigate())
+            {
+                return;
+            }
+
             _regionManager.RequestNavigate(_contentRegionName, nameof(Sample003View));
         }
 
@@ -162,54 +182,99 @@ namespace Template2.WPF.ViewModels
 
         private void Sample004ViewButtonExecute()
         {
+            if (!canNavigate())
+            {
+                return;
+            }
+
             _regionManager.RequestNavigate(_contentRegionName, nameof(Sample004PageListView));
         }
         public DelegateCommand Sample005ViewButton { get; }
 
         private void Sample005ViewButtonExecute()
         {
+            if (!canNavigate())
+            {
+                return;
+            }
+
             _regionManager.RequestNavigate(_contentRegionName, nameof(Sample005View));
         }
 
         public DelegateCommand Sample006ViewButton { get; }
         private void Sample006ViewButtonExecute()
         {
+            if (!canNavigate())
+            {
+                return;
+            }
+
             _regionManager.RequestNavigate(_contentRegionName, nameof(Sample006View));
         }
 
         public DelegateCommand Sample007ViewButton { get; }
         private void Sample007ViewButtonExecute()
         {
+            if (!canNavigate())
+            {
+                return;
+            }
+
             _regionManager.RequestNavigate(_contentRegionName, nameof(Sample007View));
         }
 
         public DelegateCommand Sample008ViewButton { get; }
         private void Sample008ViewButtonExecute()
         {
+            if (!canNavigate())
+            {
+                return;
+            }
+
             _regionManager.RequestNavigate(_contentRegionName, nameof(Sample008View));
         }
 
         public DelegateCommand Sample009ViewButton { get; }
         private void Sample009ViewButtonExecute()
         {
+            if (!canNavigate())
+            {
+                return;
+            }
+
             _regionManager.RequestNavigate(_contentRegionName, nameof(Sample009View));
         }
 
         public DelegateCommand Sample010ViewButton { get; }
         private void Sample010ViewButtonExecute()
         {
+            if (!canNavigate())
+            {
+                return;
+            }
+
             _regionManager.RequestNavigate(_contentRegionName, nameof(Sample010View));
         }
 
         public DelegateCommand Sample011ViewButton { get; }
         private void Sample011ViewButtonExecute()
         {
+            if (!canNavigate())
+            {
+                return;
+            }
+
             _regionManager.RequestNavigate(_contentRegionName, nameof(Sample011View));
         }
 
         public DelegateCommand Sample012ViewButton { get; }
         private void Sample012ViewButtonExecute()
         {
+            if (!canNavigate())
+            {
+                return;
+            }
+
             _regionManager.RequestNavigate(_contentRegionName, nameof(Sample012View));
         }
         #endregion

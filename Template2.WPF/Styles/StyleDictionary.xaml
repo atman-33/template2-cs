@@ -1,10 +1,14 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <SolidColorBrush x:Key="backgroundColor" Color="WhiteSmoke" />
-    <SolidColorBrush x:Key="sideBarBackgroundColor" Color="Lavender" />
+
+    <system:Double x:Key="fontSizeSmall">10</system:Double>
+    <system:Double x:Key="fontSizeMedium">14</system:Double>
+    <system:Double x:Key="fontSizeLarge">20</system:Double>
 
     <!--
         【標準スタイル】

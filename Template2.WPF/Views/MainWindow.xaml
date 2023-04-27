@@ -20,10 +20,10 @@
     </i:Interaction.Triggers>
 
     <Window.Resources>
-        <system:Double x:Key="menuFontSize">10</system:Double>
+        <system:Double x:Key="menuFontSize">8</system:Double>
         <system:Double x:Key="menuIconSize">25</system:Double>
         <system:Double x:Key="menuButtonHeight">50</system:Double>
-        <Thickness x:Key="menuMargin">0,5,0,5</Thickness>
+        <Thickness x:Key="menuMargin">0,8,0,0</Thickness>
 
         <Style
             x:Key="menuButtonStyle"
@@ -33,6 +33,7 @@
             <Setter Property="Margin" Value="{StaticResource menuMargin}" />
             <Setter Property="Height" Value="{StaticResource menuButtonHeight}" />
             <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Foreground" Value="White" />
             <Setter Property="HorizontalAlignment" Value="Center" />
         </Style>
 
@@ -40,83 +41,338 @@
 
     <Grid>
         <DockPanel LastChildFill="True">
-            <materialDesign:ColorZone
-                Height="48"
-                Margin="8"
-                materialDesign:ElevationAssist.Elevation="Dp4"
-                DockPanel.Dock="Top"
-                Mode="PrimaryDark">
-                <DockPanel VerticalAlignment="Center">
-                    <StackPanel
-                        VerticalAlignment="Center"
-                        DockPanel.Dock="Right"
-                        Orientation="Horizontal">
-
-                        <Label
-                            VerticalAlignment="Center"
-                            Content="DB接続："
-                            Foreground="White" />
-                        <ToggleButton
-                            materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=DatabaseCheck}"
-                            Content="{materialDesign:PackIcon Kind=DatabaseRemove}"
-                            Cursor="Hand"
-                            IsChecked="{Binding DBConnectionIsChecked}"
-                            IsEnabled="False"
-                            Style="{StaticResource MaterialDesignActionToggleButton}"
-                            ToolTip="MaterialDesignActionLightToggleButton" />
-
-                        <Label
-                            Margin="20,0,0,0"
-                            VerticalAlignment="Center"
-                            VerticalContentAlignment="Center"
-                            Content="ver 1.4.0"
-                            FontSize="14"
-                            Foreground="White" />
-
-                        <materialDesign:PopupBox BorderBrush="Transparent" PlacementMode="BottomAndAlignRightEdges">
-                            <Button
-                                Width="100"
-                                Command="{Binding ExitButton}"
-                                Content="終了" />
-                        </materialDesign:PopupBox>
-
-                    </StackPanel>
-
-                    <StackPanel>
-                        <DockPanel LastChildFill="True">
-                            <ToggleButton
-                                x:Name="MenuToggleButton"
-                                Width="{Binding ElementName=MenuPanel, Path=Width}"
-                                Height="30"
-                                Margin="10,0"
-                                materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=Menu,
-                                                                                                      Size=30}"
-                                AutomationProperties.Name="HamburgerToggleButton"
-                                Background="Transparent"
-                                Content="{materialDesign:PackIcon Kind=Menu,
-                                                                  Size=30}"
-                                Cursor="Hand"
-                                DockPanel.Dock="Left"
-                                IsChecked="True"
-                                Style="{StaticResource MaterialDesignActionToggleButton}" />
+            <materialDesign:DrawerHost DockPanel.Dock="Left" IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+                <materialDesign:DrawerHost.LeftDrawerContent>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <DockPanel
+                            x:Name="MenuPanel"
+                            Width="60"
+                            HorizontalAlignment="Center"
+                            Background="{StaticResource MaterialDesignDarkBackground}"
+                            LastChildFill="False">
 
                             <Button
-                                Width="70"
-                                HorizontalAlignment="Center"
-                                Command="{Binding HomeViewButton}"
-                                Cursor="Hand"
-                                Style="{StaticResource MaterialDesignFlatButton}">
-                                <materialDesign:PackIcon
-                                    Width="30"
-                                    Height="30"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Cursor="Hand"
-                                    Foreground="White"
-                                    Kind="Home" />
+                                Command="{Binding Sample001ViewButton}"
+                                DockPanel.Dock="Top"
+                                Style="{StaticResource menuButtonStyle}">
+                                <DockPanel>
+                                    <StackPanel>
+                                        <materialDesign:PackIcon
+                                            Width="{StaticResource menuIconSize}"
+                                            Height="{StaticResource menuIconSize}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Kind="Table" />
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="{StaticResource menuFontSize}"
+                                            Text="サンプル1" />
+                                    </StackPanel>
+                                </DockPanel>
                             </Button>
 
+                            <Button
+                                Command="{Binding Sample002ViewButton}"
+                                DockPanel.Dock="Top"
+                                Style="{StaticResource menuButtonStyle}">
+                                <DockPanel>
+                                    <StackPanel>
+                                        <materialDesign:PackIcon
+                                            Width="{StaticResource menuIconSize}"
+                                            Height="{StaticResource menuIconSize}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Kind="TableEdit" />
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="{StaticResource menuFontSize}"
+                                            Text="サンプル2" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+
+                            <Button
+                                Command="{Binding Sample003ViewButton}"
+                                DockPanel.Dock="Top"
+                                Style="{StaticResource menuButtonStyle}">
+                                <DockPanel>
+                                    <StackPanel>
+                                        <materialDesign:PackIcon
+                                            Width="{StaticResource menuIconSize}"
+                                            Height="{StaticResource menuIconSize}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Kind="TablePivot" />
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="{StaticResource menuFontSize}"
+                                            Text="サンプル3" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+
+                            <Separator Margin="0,5,0,5" DockPanel.Dock="Top" />
+
+                            <Button
+                                HorizontalAlignment="Center"
+                                Command="{Binding Sample004ViewButton}"
+                                DockPanel.Dock="Top"
+                                Style="{StaticResource menuButtonStyle}">
+                                <DockPanel>
+                                    <StackPanel>
+                                        <materialDesign:PackIcon
+                                            Width="{StaticResource menuIconSize}"
+                                            Height="{StaticResource menuIconSize}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Kind="Multimedia" />
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="{StaticResource menuFontSize}"
+                                            Text="サンプル4" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+
+                            <Button
+                                Command="{Binding Sample005ViewButton}"
+                                DockPanel.Dock="Top"
+                                Style="{StaticResource menuButtonStyle}">
+                                <DockPanel>
+                                    <StackPanel>
+                                        <materialDesign:PackIcon
+                                            Width="{StaticResource menuIconSize}"
+                                            Height="{StaticResource menuIconSize}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Kind="FileTree" />
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="{StaticResource menuFontSize}"
+                                            Text="サンプル5" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+
+                            <Button
+                                Command="{Binding Sample006ViewButton}"
+                                DockPanel.Dock="Top"
+                                Style="{StaticResource menuButtonStyle}">
+                                <DockPanel>
+                                    <StackPanel>
+                                        <materialDesign:PackIcon
+                                            Width="{StaticResource menuIconSize}"
+                                            Height="{StaticResource menuIconSize}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Kind="CloudUploadOutline" />
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="{StaticResource menuFontSize}"
+                                            Text="サンプル6" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+
+                            <Button
+                                Command="{Binding Sample007ViewButton}"
+                                DockPanel.Dock="Top"
+                                Style="{StaticResource menuButtonStyle}">
+                                <DockPanel>
+                                    <StackPanel>
+                                        <materialDesign:PackIcon
+                                            Width="{StaticResource menuIconSize}"
+                                            Height="{StaticResource menuIconSize}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Kind="Update" />
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="{StaticResource menuFontSize}"
+                                            Text="サンプル7" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+
+                            <Button
+                                Command="{Binding Sample008ViewButton}"
+                                Cursor="Hand"
+                                DockPanel.Dock="Top"
+                                Style="{StaticResource menuButtonStyle}">
+                                <DockPanel>
+                                    <StackPanel>
+                                        <materialDesign:PackIcon
+                                            Width="{StaticResource menuIconSize}"
+                                            Height="{StaticResource menuIconSize}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Kind="FileDelimited" />
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="{StaticResource menuFontSize}"
+                                            Text="サンプル8" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+
+                            <Button
+                                Command="{Binding Sample009ViewButton}"
+                                Cursor="Hand"
+                                DockPanel.Dock="Top"
+                                Style="{StaticResource menuButtonStyle}">
+                                <DockPanel>
+                                    <StackPanel>
+                                        <materialDesign:PackIcon
+                                            Width="{StaticResource menuIconSize}"
+                                            Height="{StaticResource menuIconSize}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Kind="FileExcel" />
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="{StaticResource menuFontSize}"
+                                            Text="サンプル9" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+
+                            <Button
+                                Command="{Binding Sample010ViewButton}"
+                                Cursor="Hand"
+                                DockPanel.Dock="Top"
+                                Style="{StaticResource menuButtonStyle}">
+                                <DockPanel>
+                                    <StackPanel>
+                                        <materialDesign:PackIcon
+                                            Width="{StaticResource menuIconSize}"
+                                            Height="{StaticResource menuIconSize}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Kind="LanguagePython" />
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="{StaticResource menuFontSize}"
+                                            Text="サンプル10" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+
+                            <Button
+                                Command="{Binding Sample011ViewButton}"
+                                Cursor="Hand"
+                                DockPanel.Dock="Top"
+                                Style="{StaticResource menuButtonStyle}">
+                                <DockPanel>
+                                    <StackPanel>
+                                        <materialDesign:PackIcon
+                                            Width="{StaticResource menuIconSize}"
+                                            Height="{StaticResource menuIconSize}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Kind="TableArrowDown" />
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="{StaticResource menuFontSize}"
+                                            Text="サンプル11" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+
+                            <Button
+                                Command="{Binding Sample012ViewButton}"
+                                Cursor="Hand"
+                                DockPanel.Dock="Top"
+                                Style="{StaticResource menuButtonStyle}">
+                                <DockPanel>
+                                    <StackPanel>
+                                        <materialDesign:PackIcon
+                                            Width="{StaticResource menuIconSize}"
+                                            Height="{StaticResource menuIconSize}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Kind="API" />
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="{StaticResource menuFontSize}"
+                                            Text="サンプル12" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button>
+                        </DockPanel>
+                    </ScrollViewer>
+                </materialDesign:DrawerHost.LeftDrawerContent>
+
+            </materialDesign:DrawerHost>
+
+            <materialDesign:Card
+                Margin="8,0,8,8"
+                materialDesign:ElevationAssist.Elevation="Dp4"
+                DockPanel.Dock="Top">
+                <StackPanel>
+
+                    <materialDesign:ColorZone
+                        Height="48"
+                        materialDesign:ElevationAssist.Elevation="Dp2"
+                        Mode="PrimaryDark"
+                        Panel.ZIndex="1">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel
+                                Grid.Column="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
+                                <ToggleButton
+                                    x:Name="MenuToggleButton"
+                                    Width="40"
+                                    Margin="8"
+                                    materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=Menu,
+                                                                                                          Size=35}"
+                                    AutomationProperties.Name="HamburgerToggleButton"
+                                    Background="Transparent"
+                                    Content="{materialDesign:PackIcon Kind=Menu,
+                                                                      Size=30}"
+                                    IsChecked="True"
+                                    Style="{StaticResource MaterialDesignActionToggleButton}" />
+
+                                <Button
+                                    Height="40"
+                                    HorizontalAlignment="Center"
+                                    Command="{Binding HomeViewButton}"
+                                    Cursor="Hand"
+                                    Style="{StaticResource MaterialDesignFlatButton}">
+                                    <materialDesign:PackIcon
+                                        Width="35"
+                                        Height="35"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Cursor="Hand"
+                                        Foreground="White"
+                                        Kind="Home" />
+                                </Button>
+
+                            </StackPanel>
+
                             <TextBlock
+                                Grid.Column="1"
                                 Margin="16,0,0,0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
@@ -124,319 +380,62 @@
                                 FontSize="20"
                                 FontWeight="Bold"
                                 Text="C# WPF Prism テンプレートアプリ2" />
-                        </DockPanel>
 
+                            <StackPanel
+                                Grid.Column="20"
+                                VerticalAlignment="Center"
+                                DockPanel.Dock="Right"
+                                Orientation="Horizontal">
 
-                    </StackPanel>
-
-                </DockPanel>
-            </materialDesign:ColorZone>
-
-
-            <materialDesign:Card
-                Margin="8"
-                materialDesign:ElevationAssist.Elevation="Dp16"
-                Background="{StaticResource sideBarBackgroundColor}"
-                DockPanel.Dock="Left">
-                <materialDesign:DrawerHost Margin="8" IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
-                    <materialDesign:DrawerHost.LeftDrawerContent>
-                        <ScrollViewer VerticalScrollBarVisibility="Auto">
-                            <DockPanel
-                                x:Name="MenuPanel"
-                                Width="60"
-                                Margin="0"
-                                HorizontalAlignment="Center"
-                                Background="{StaticResource sideBarBackgroundColor}"
-                                LastChildFill="False">
-
-                                <Button
-                                    Command="{Binding Sample001ViewButton}"
-                                    DockPanel.Dock="Top"
-                                    Style="{StaticResource menuButtonStyle}">
-                                    <DockPanel>
-                                        <StackPanel>
-                                            <materialDesign:PackIcon
-                                                Width="{StaticResource menuIconSize}"
-                                                Height="{StaticResource menuIconSize}"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Bottom"
-                                                Kind="Table" />
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontSize="{StaticResource menuFontSize}"
-                                                Text="サンプル1" />
-                                        </StackPanel>
-                                    </DockPanel>
-                                </Button>
-
-                                <Button
-                                    Command="{Binding Sample002ViewButton}"
-                                    DockPanel.Dock="Top"
-                                    Style="{StaticResource menuButtonStyle}">
-                                    <DockPanel>
-                                        <StackPanel>
-                                            <materialDesign:PackIcon
-                                                Width="{StaticResource menuIconSize}"
-                                                Height="{StaticResource menuIconSize}"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Bottom"
-                                                Kind="TableEdit" />
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontSize="{StaticResource menuFontSize}"
-                                                Text="サンプル2" />
-                                        </StackPanel>
-                                    </DockPanel>
-                                </Button>
-
-                                <Button
-                                    Command="{Binding Sample003ViewButton}"
-                                    DockPanel.Dock="Top"
-                                    Style="{StaticResource menuButtonStyle}">
-                                    <DockPanel>
-                                        <StackPanel>
-                                            <materialDesign:PackIcon
-                                                Width="{StaticResource menuIconSize}"
-                                                Height="{StaticResource menuIconSize}"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Bottom"
-                                                Kind="TablePivot" />
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontSize="{StaticResource menuFontSize}"
-                                                Text="サンプル3" />
-                                        </StackPanel>
-                                    </DockPanel>
-                                </Button>
-
-                                <Separator Margin="0,5,0,5" DockPanel.Dock="Top" />
-
-                                <Button
-                                    HorizontalAlignment="Center"
-                                    Command="{Binding Sample004ViewButton}"
-                                    DockPanel.Dock="Top"
-                                    Style="{StaticResource menuButtonStyle}">
-                                    <DockPanel>
-                                        <StackPanel>
-                                            <materialDesign:PackIcon
-                                                Width="{StaticResource menuIconSize}"
-                                                Height="{StaticResource menuIconSize}"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Bottom"
-                                                Kind="Multimedia" />
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontSize="{StaticResource menuFontSize}"
-                                                Text="サンプル4" />
-                                        </StackPanel>
-                                    </DockPanel>
-                                </Button>
-
-                                <Button
-                                    Command="{Binding Sample005ViewButton}"
-                                    DockPanel.Dock="Top"
-                                    Style="{StaticResource menuButtonStyle}">
-                                    <DockPanel>
-                                        <StackPanel>
-                                            <materialDesign:PackIcon
-                                                Width="{StaticResource menuIconSize}"
-                                                Height="{StaticResource menuIconSize}"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Bottom"
-                                                Kind="FileTree" />
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontSize="{StaticResource menuFontSize}"
-                                                Text="サンプル5" />
-                                        </StackPanel>
-                                    </DockPanel>
-                                </Button>
-
-                                <Button
-                                    Command="{Binding Sample006ViewButton}"
-                                    DockPanel.Dock="Top"
-                                    Style="{StaticResource menuButtonStyle}">
-                                    <DockPanel>
-                                        <StackPanel>
-                                            <materialDesign:PackIcon
-                                                Width="{StaticResource menuIconSize}"
-                                                Height="{StaticResource menuIconSize}"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Bottom"
-                                                Kind="CloudUploadOutline" />
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontSize="{StaticResource menuFontSize}"
-                                                Text="サンプル6" />
-                                        </StackPanel>
-                                    </DockPanel>
-                                </Button>
-
-                                <Button
-                                    Command="{Binding Sample007ViewButton}"
-                                    DockPanel.Dock="Top"
-                                    Style="{StaticResource menuButtonStyle}">
-                                    <DockPanel>
-                                        <StackPanel>
-                                            <materialDesign:PackIcon
-                                                Width="{StaticResource menuIconSize}"
-                                                Height="{StaticResource menuIconSize}"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Bottom"
-                                                Kind="Update" />
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontSize="{StaticResource menuFontSize}"
-                                                Text="サンプル7" />
-                                        </StackPanel>
-                                    </DockPanel>
-                                </Button>
-
-                                <Button
-                                    Command="{Binding Sample008ViewButton}"
+                                <Label
+                                    VerticalAlignment="Center"
+                                    Content="DB接続："
+                                    Foreground="White" />
+                                <ToggleButton
+                                    materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=DatabaseCheck}"
+                                    Content="{materialDesign:PackIcon Kind=DatabaseRemove}"
                                     Cursor="Hand"
-                                    DockPanel.Dock="Top"
-                                    Style="{StaticResource menuButtonStyle}">
-                                    <DockPanel>
-                                        <StackPanel>
-                                            <materialDesign:PackIcon
-                                                Width="{StaticResource menuIconSize}"
-                                                Height="{StaticResource menuIconSize}"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Bottom"
-                                                Kind="FileDelimited" />
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontSize="{StaticResource menuFontSize}"
-                                                Text="サンプル8" />
-                                        </StackPanel>
-                                    </DockPanel>
-                                </Button>
+                                    IsChecked="{Binding DBConnectionIsChecked}"
+                                    IsEnabled="False"
+                                    Style="{StaticResource MaterialDesignActionToggleButton}"
+                                    ToolTip="MaterialDesignActionLightToggleButton" />
 
-                                <Button
-                                    Command="{Binding Sample009ViewButton}"
-                                    Cursor="Hand"
-                                    DockPanel.Dock="Top"
-                                    Style="{StaticResource menuButtonStyle}">
-                                    <DockPanel>
-                                        <StackPanel>
-                                            <materialDesign:PackIcon
-                                                Width="{StaticResource menuIconSize}"
-                                                Height="{StaticResource menuIconSize}"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Bottom"
-                                                Kind="FileExcel" />
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontSize="{StaticResource menuFontSize}"
-                                                Text="サンプル9" />
-                                        </StackPanel>
-                                    </DockPanel>
-                                </Button>
+                                <Label
+                                    Margin="20,0,0,0"
+                                    VerticalAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Content="ver 1.4.0"
+                                    FontSize="14"
+                                    Foreground="White" />
 
-                                <Button
-                                    Command="{Binding Sample010ViewButton}"
-                                    Cursor="Hand"
-                                    DockPanel.Dock="Top"
-                                    Style="{StaticResource menuButtonStyle}">
-                                    <DockPanel>
-                                        <StackPanel>
-                                            <materialDesign:PackIcon
-                                                Width="{StaticResource menuIconSize}"
-                                                Height="{StaticResource menuIconSize}"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Bottom"
-                                                Kind="LanguagePython" />
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontSize="{StaticResource menuFontSize}"
-                                                Text="サンプル10" />
-                                        </StackPanel>
-                                    </DockPanel>
-                                </Button>
+                                <materialDesign:PopupBox BorderBrush="Transparent" PlacementMode="BottomAndAlignRightEdges">
+                                    <Button
+                                        Width="100"
+                                        Command="{Binding ExitButton}"
+                                        Content="終了" />
+                                </materialDesign:PopupBox>
 
-                                <Button
-                                    Command="{Binding Sample011ViewButton}"
-                                    Cursor="Hand"
-                                    DockPanel.Dock="Top"
-                                    Style="{StaticResource menuButtonStyle}">
-                                    <DockPanel>
-                                        <StackPanel>
-                                            <materialDesign:PackIcon
-                                                Width="{StaticResource menuIconSize}"
-                                                Height="{StaticResource menuIconSize}"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Bottom"
-                                                Kind="TableArrowDown" />
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontSize="{StaticResource menuFontSize}"
-                                                Text="サンプル11" />
-                                        </StackPanel>
-                                    </DockPanel>
-                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </materialDesign:ColorZone>
 
-                                <Button
-                                    Command="{Binding Sample012ViewButton}"
-                                    Cursor="Hand"
-                                    DockPanel.Dock="Top"
-                                    Style="{StaticResource menuButtonStyle}">
-                                    <DockPanel>
-                                        <StackPanel>
-                                            <materialDesign:PackIcon
-                                                Width="{StaticResource menuIconSize}"
-                                                Height="{StaticResource menuIconSize}"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Bottom"
-                                                Kind="API" />
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontSize="{StaticResource menuFontSize}"
-                                                Text="サンプル12" />
-                                        </StackPanel>
-                                    </DockPanel>
-                                </Button>
+                    <materialDesign:ColorZone Height="40" materialDesign:ElevationAssist.Elevation="Dp0"
+                                              Panel.ZIndex="0">
+                        <Label VerticalAlignment="Center" Content="{Binding SubTitle}" />
 
-                            </DockPanel>
-                        </ScrollViewer>
-                    </materialDesign:DrawerHost.LeftDrawerContent>
-
-                </materialDesign:DrawerHost>
+                    </materialDesign:ColorZone>
+                </StackPanel>
             </materialDesign:Card>
-            <materialDesign:ColorZone
-                Height="40"
-                Margin="8"
-                Padding="10,0"
-                materialDesign:ElevationAssist.Elevation="Dp4"
-                Background="White"
-                CornerRadius="10"
-                DockPanel.Dock="Top">
-                <Label VerticalAlignment="Center" Content="{Binding SubTitle}" />
-
-            </materialDesign:ColorZone>
-
 
             <materialDesign:Card
                 Margin="8"
                 Padding="8"
-                Background="White"
+                Background="{StaticResource backgroundColor}"
                 DockPanel.Dock="Top">
                 <Grid>
                     <StackPanel Visibility="{Binding LoadingBarVisibility}">
                         <ProgressBar IsIndeterminate="True" />
-                        <Label Margin="10" Content="DB接続確認中..." />
+                        <Label Content="DB接続確認中..." />
                     </StackPanel>
                     <ContentControl prism:RegionManager.RegionName="{Binding ContentRegionName}" />
                 </Grid>
