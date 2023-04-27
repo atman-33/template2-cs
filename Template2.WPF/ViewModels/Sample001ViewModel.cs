@@ -121,6 +121,8 @@ namespace Template2.WPF.ViewModels
             WorkerGroupCodeIsEnabled = true;
             WorkerGroupCodeText = String.Empty;
             WorkerGroupNameText = String.Empty;
+
+            OnEdit();
         }
 
         public DelegateCommand SaveButton { get; }
@@ -139,9 +141,10 @@ namespace Template2.WPF.ViewModels
                 );
 
             _workerGroupMstRepository.Save(entity);
-            _messageService.ShowDialog("保存しました。", "情報", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
 
             UpdateWorkerGroupMstEntities();
+
+            OnEditCompleted();
         }
 
         public DelegateCommand DeleteButton { get; }
@@ -158,7 +161,6 @@ namespace Template2.WPF.ViewModels
                 );
 
             _workerGroupMstRepository.Delete(entity);
-            _messageService.ShowDialog("削除しました。", "情報", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
 
             UpdateWorkerGroupMstEntities();
         }

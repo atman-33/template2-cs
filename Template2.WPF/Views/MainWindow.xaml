@@ -20,7 +20,7 @@
     </i:Interaction.Triggers>
 
     <Window.Resources>
-        <system:Double x:Key="menuFontSize">10</system:Double>
+        <system:Double x:Key="menuFontSize">8</system:Double>
         <system:Double x:Key="menuIconSize">25</system:Double>
         <system:Double x:Key="menuButtonHeight">50</system:Double>
         <Thickness x:Key="menuMargin">0,8,0,0</Thickness>
@@ -324,8 +324,9 @@
 
                     <materialDesign:ColorZone
                         Height="48"
-                        materialDesign:ElevationAssist.Elevation="Dp4"
-                        Mode="PrimaryDark">
+                        materialDesign:ElevationAssist.Elevation="Dp2"
+                        Mode="PrimaryDark"
+                        Panel.ZIndex="1">
 
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -418,7 +419,8 @@
                         </Grid>
                     </materialDesign:ColorZone>
 
-                    <materialDesign:ColorZone Height="40" materialDesign:ElevationAssist.Elevation="Dp0">
+                    <materialDesign:ColorZone Height="40" materialDesign:ElevationAssist.Elevation="Dp0"
+                                              Panel.ZIndex="0">
                         <Label VerticalAlignment="Center" Content="{Binding SubTitle}" />
 
                     </materialDesign:ColorZone>
