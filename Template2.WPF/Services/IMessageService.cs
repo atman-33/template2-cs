@@ -8,5 +8,7 @@ namespace Template2.WPF.Services
         void ShowDialog(string message, string caption, MessageBoxButton messageBoxButton, MessageBoxImage messageBoxImage);
 
         MessageBoxResult Question(string message);
+        MessageBoxResult Warning(string message);
+        MessageBoxResult Error(string message);
     }
 }
