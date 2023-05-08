@@ -324,9 +324,9 @@
 
                     <materialDesign:ColorZone
                         Height="48"
+                        Panel.ZIndex="1"
                         materialDesign:ElevationAssist.Elevation="Dp2"
-                        Mode="PrimaryDark"
-                        Panel.ZIndex="1">
+                        Mode="PrimaryDark">
 
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -404,7 +404,7 @@
                                     Margin="20,0,0,0"
                                     VerticalAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    Content="ver 1.4.0"
+                                    Content="ver 1.4.1"
                                     FontSize="14"
                                     Foreground="White" />
 
@@ -419,8 +419,10 @@
                         </Grid>
                     </materialDesign:ColorZone>
 
-                    <materialDesign:ColorZone Height="40" materialDesign:ElevationAssist.Elevation="Dp0"
-                                              Panel.ZIndex="0">
+                    <materialDesign:ColorZone
+                        Height="40"
+                        Panel.ZIndex="0"
+                        materialDesign:ElevationAssist.Elevation="Dp0">
                         <Label VerticalAlignment="Center" Content="{Binding SubTitle}" />
 
                     </materialDesign:ColorZone>
