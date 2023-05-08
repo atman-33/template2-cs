@@ -1,7 +1,6 @@
 using System.Data.SQLite;
 using Template2.Domain.Entities;
 using Template2.Domain.Repositories;
-using Template2.Domain.ValueObjects;
 
 namespace Template2.Infrastructure.SQLite
 {
@@ -29,7 +28,7 @@ FROM
                 {
                     return new PageMstEntity(
                         Convert.ToInt32(reader["page_id"]),
-						Convert.ToString(reader["page_name"]),
+						Convert.ToString(reader["page_name"]) ?? string.Empty,
 						reader["movie_link"] != DBNull.Value ? Convert.ToString(reader["movie_link"]) : null,
 						reader["image_folder_link"] != DBNull.Value ? Convert.ToString(reader["image_folder_link"]) : null,
 						reader["image_page_no"] != DBNull.Value ? Convert.ToInt32(reader["image_page_no"]) : null,
@@ -115,16 +114,15 @@ DELETE FROM tmp_page_mst WHERE page_id = @page_id
 SELECT MAX(page_id) AS max_page_id FROM tmp_page_mst
 ";
 
-            var vo =  SQLiteHelper.QuerySingle(
+            var maxId =  SQLiteHelper.QuerySingle<int>(
                 sql,
                 reader =>
                 {
-                    return new PageId(
-                        reader["max_page_id"] != DBNull.Value ? Convert.ToInt32(reader["max_page_id"]) : 0);
+                    return reader["max_page_id"] != DBNull.Value ? Convert.ToInt32(reader["max_page_id"]) : 0;
                 }, 
-                new PageId(0));
+                0);
 
-            return vo.Value + 1;
+            return maxId + 1;
         }
     }
 }
