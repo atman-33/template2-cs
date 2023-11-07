@@ -215,6 +215,7 @@ namespace Template2.Infrastructure.Oracle
                     command.Transaction = _transaction;
                 }
 
+                command.BindByName = true;
                 try
                 {
                     if (parameters != null)
