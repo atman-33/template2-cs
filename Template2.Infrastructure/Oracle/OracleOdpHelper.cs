@@ -146,6 +146,7 @@ namespace Template2.Infrastructure.Oracle
                 _transaction = _connection?.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
                 command.Transaction = _transaction;
 
+                command.BindByName = true;
                 try
                 {
                     if (parameters != null)
