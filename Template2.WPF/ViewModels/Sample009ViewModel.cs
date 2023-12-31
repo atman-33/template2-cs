@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using Template2.Domain.Entities;
 using Template2.Domain.Repositories;
 using Template2.Infrastruture.Excel;
-using Template2.WPF.Events;
+using Template2.WPF.Services;
 
 namespace Template2.WPF.ViewModels
 {
@@ -45,14 +45,14 @@ namespace Template2.WPF.ViewModels
         #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        private string _excelFilePathText = String.Empty;
+        private string _excelFilePathText = string.Empty;
         public string ExcelFilePathText
         {
             get { return _excelFilePathText; }
             set { SetProperty(ref _excelFilePathText, value); }
         }
 
-        private string _excelSheetNameText = String.Empty;
+        private string _excelSheetNameText = string.Empty;
         public string ExcelSheetNameText
         {
             get { return _excelSheetNameText; }

@@ -17,8 +17,8 @@ namespace Template2.Infrastructure.Aws
         const string ProfileName = "l4v_profile";
 
         private AmazonLookoutforVisionClient? _l4vClient;
-        private string _projectName = String.Empty;
-        private string _modelVersion = String.Empty;
+        private string _projectName = string.Empty;
+        private string _modelVersion = string.Empty;
         private int _minInferenceUnits;
         private string _clientToken = "l4v-client-token";
 
@@ -73,7 +73,7 @@ namespace Template2.Infrastructure.Aws
         {
             if (_l4vClient == null)
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             DescribeModelRequest request = new DescribeModelRequest();

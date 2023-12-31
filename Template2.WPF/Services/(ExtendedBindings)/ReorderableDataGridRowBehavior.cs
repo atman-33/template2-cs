@@ -7,7 +7,7 @@ using System.Collections;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace Template2.WPF.ExtendedBindings
+namespace Template2.WPF.Services
 {
     /// <summary>
     /// DataGridの行をドラッグ&ドロップで並び変えるビヘイビア

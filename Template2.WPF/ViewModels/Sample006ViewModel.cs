@@ -2,7 +2,7 @@
 using Prism.Events;
 using System.Threading.Tasks;
 using Template2.Infrastructure.Aws;
-using Template2.WPF.Events;
+using Template2.WPF.Services;
 
 namespace Template2.WPF.ViewModels
 {

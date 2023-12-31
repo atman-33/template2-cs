@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Controls;
 
-namespace Template2.WPF.ValidationRules
+namespace Template2.WPF.Services
 {
     public class NotEmptyValidationRule : ValidationRule
     {

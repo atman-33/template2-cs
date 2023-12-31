@@ -404,7 +404,7 @@
                                     Margin="20,0,0,0"
                                     VerticalAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    Content="ver 1.4.1"
+                                    Content="ver 2.0.0"
                                     FontSize="14"
                                     Foreground="White" />
 

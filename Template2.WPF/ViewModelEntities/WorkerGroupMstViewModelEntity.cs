@@ -1,10 +1,10 @@
 ﻿using Template2.Domain.Entities;
 
-namespace Template2.WPF.ViewModels
+namespace Template2.WPF.ViewModelEntities
 {
-    public class Sample001ViewModelWorkerGroupMst
+    public class WorkerGroupMstViewModelEntity
     {
-        public Sample001ViewModelWorkerGroupMst(WorkerGroupMstEntity entity)
+        public WorkerGroupMstViewModelEntity(WorkerGroupMstEntity entity)
         {
             Entity = entity;
         }

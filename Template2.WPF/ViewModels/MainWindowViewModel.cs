@@ -5,7 +5,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 using Template2.Infrastructure;
-using Template2.WPF.Events;
+using Template2.WPF.Services;
 using Template2.WPF.Views;
 
 namespace Template2.WPF.ViewModels
@@ -288,7 +288,7 @@ namespace Template2.WPF.ViewModels
             try
             {
                 //// DB接続確認
-                Factories.Open();
+                AbstractFactory.TestConnection();
                 DBConnectionIsChecked = true;
                 LoadingBarVisibility = Visibility.Collapsed;
             }

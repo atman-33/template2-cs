@@ -3,13 +3,13 @@ using Prism.Events;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using System;
-using System.Collections.ObjectModel;
 using System.Windows;
 using Template2.Domain.Entities;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
-using Template2.WPF.Events;
+using Template2.WPF.Collections;
 using Template2.WPF.Services;
+using Template2.WPF.ViewModelEntities;
 
 namespace Template2.WPF.ViewModels
 {
@@ -22,16 +22,14 @@ namespace Template2.WPF.ViewModels
         public Sample002ViewModel(IEventAggregator eventAggregator)
             : this(eventAggregator, 
                   new MessageService(), 
-                  Factories.CreateWorkerMst(), 
-                  Factories.CreateWorkerGroupMst())
+                  AbstractFactory.Create())
         {
         }
 
         public Sample002ViewModel(
             IEventAggregator eventAggregator,
             IMessageService messageService,
-            IWorkerMstRepository workerMstRepository, 
-            IWorkerGroupMstRepository workerGroupMstRepository)
+            AbstractFactory factory)
         {
             _eventAggregator = eventAggregator;
             
@@ -41,21 +39,22 @@ namespace Template2.WPF.ViewModels
             _messageService = messageService;
 
             //// Factories経由で作成したRepositoryを、プライベート変数に格納
-            _workerMstRepository = workerMstRepository;
-            _workerGroupMstRepository = workerGroupMstRepository;
-
-            //// DelegateCommandメソッドを登録
-            AddRowButton = new DelegateCommand(AddRowButtonExecute);
-            DeleteRowButton = new DelegateCommand(DeleteRowButtonExecute);
-            SaveButton = new DelegateCommand(SaveButtonExecute);
-            ChangeWorkerNameVisibilityButton = new DelegateCommand(ChangeWorkerNameVisibilityButtonExecute);
-
-            WorkerMstEntitiesSelectedCellsChanged = new DelegateCommand(WorkerMstEntitiesSelectedCellsChangedExecute);
-            WorkerMstEntitiesCurrentCellChanged = new DelegateCommand(WorkerMstEntitiesCurrentCellChangedExecute);
+            _workerMstRepository = factory.CreateWorkerMst();
+            _workerGroupMstRepository = factory.CreateWorkerGroupMst();
 
             //// Repositoryからデータ取得
-            UpdateWorkerMstEntities();
-            UpdateWorkerGroupMstEntities();
+            _workerMstCollection = new WorkerMstCollection(_workerMstRepository);
+            _workerMstCollection.LoadData();
+
+            _workerGroupMstSelectList = new WorkerGroupMstCollection(_workerGroupMstRepository);
+            _workerGroupMstSelectList.LoadData();
+
+            //// DBテーブルにレコードが存在しない場合は、空レコードを追加
+            if (_workerMstCollection.Count == 0)
+            {
+                _workerMstCollection.AddNewItem();
+            }
+
         }
 
         public string Title => "Sample002View";
@@ -90,19 +89,18 @@ namespace Template2.WPF.ViewModels
         #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        private ObservableCollection<Sample002ViewModelWorkerMst> _workerMstEntities
-            = new ObservableCollection<Sample002ViewModelWorkerMst>();
-        public ObservableCollection<Sample002ViewModelWorkerMst> WorkerMstEntities
+        private WorkerMstCollection _workerMstCollection;
+        public WorkerMstCollection WorkerMstCollection
         {
-            get { return _workerMstEntities; }
-            set { SetProperty(ref _workerMstEntities, value); }
+            get { return _workerMstCollection; }
+            set { SetProperty(ref _workerMstCollection, value); }
         }
 
-        private Sample002ViewModelWorkerMst _workerMstEntitiesSlectedItem;
-        public Sample002ViewModelWorkerMst WorkerMstEntitiesSlectedItem
+        private WorkerMstViewModelEntity _workerMstCollectionSlectedItem;
+        public WorkerMstViewModelEntity WorkerMstCollectionSlectedItem
         {
-            get { return _workerMstEntitiesSlectedItem; }
-            set { SetProperty(ref _workerMstEntitiesSlectedItem, value); }
+            get { return _workerMstCollectionSlectedItem; }
+            set { SetProperty(ref _workerMstCollectionSlectedItem, value); }
         }
 
         private string _workerCodeText;
@@ -112,13 +110,12 @@ namespace Template2.WPF.ViewModels
             set { SetProperty(ref _workerCodeText, value); }
         }
 
-        private ObservableCollection<WorkerGroupMstEntity> _workerGroupMstEntities
-            = new ObservableCollection<WorkerGroupMstEntity>();
+        private WorkerGroupMstCollection _workerGroupMstSelectList;
 
-        public ObservableCollection<WorkerGroupMstEntity> WorkerGroupMstEntities
+        public WorkerGroupMstCollection WorkerGroupMstSelectList
         {
-            get { return _workerGroupMstEntities; }
-            set { SetProperty(ref _workerGroupMstEntities, value); }
+            get { return _workerGroupMstSelectList; }
+            set { SetProperty(ref _workerGroupMstSelectList, value); }
         }
 
         private Visibility _workerNameVisibility = Visibility.Visible;
@@ -135,81 +132,86 @@ namespace Template2.WPF.ViewModels
         #region //// Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        public DelegateCommand AddRowButton { get; }
-        private void AddRowButtonExecute()
-        {
-            WorkerMstEntities.Add(new Sample002ViewModelWorkerMst(
-                    new WorkerMstEntity(String.Empty, String.Empty, String.Empty)));
-        }
-
-        public DelegateCommand DeleteRowButton { get; }
-        private void DeleteRowButtonExecute()
-        {
-            if (WorkerMstEntitiesSlectedItem == null)
+        public DelegateCommand AddRowButton =>
+            new DelegateCommand(() =>
             {
-                return;
-            }
+                WorkerMstCollection.AddNewItem();
+            });
 
-            WorkerMstEntities.Remove(WorkerMstEntitiesSlectedItem);
-        }
-
-        public DelegateCommand SaveButton { get; }
-        private void SaveButtonExecute()
-        {
-            if (_messageService.Question("保存しますか？") != System.Windows.MessageBoxResult.OK)
+        public DelegateCommand DeleteRowButton =>
+            new DelegateCommand(() =>
             {
-                return;
-            }
+                if (WorkerMstCollectionSlectedItem == null)
+                {
+                    return;
+                }
 
-            //// DBテーブルの中身を全て削除
-            foreach (var entity in _workerMstRepository.GetData())
+                WorkerMstCollection.DeleteItem(WorkerMstCollectionSlectedItem);
+
+            });
+
+        public DelegateCommand SaveButton =>
+            new DelegateCommand(() =>
             {
-                _workerMstRepository.Delete(entity);
-            }
+                if (_messageService.Question("保存しますか？") != MessageBoxResult.OK)
+                {
+                    return;
+                }
 
-            //// 画面に設定した内容をDBテーブルに保存
-            foreach (var viewModelEntity in WorkerMstEntities)
+                //// DBテーブルの中身を全て削除
+                foreach (var entity in _workerMstRepository.GetData())
+                {
+                    _workerMstRepository.Delete(entity);
+                }
+
+                //// 画面に設定した内容をDBテーブルに保存
+                foreach (var viewModelEntity in WorkerMstCollection)
+                {
+                    var entity = new WorkerMstEntity(
+                        viewModelEntity.Entity.WorkerCode.Value,
+                        viewModelEntity.Entity.WorkerName.Value,
+                        viewModelEntity.Entity.WorkerGroupCode.Value);
+                    _workerMstRepository.Save(entity);
+                }
+
+                _messageService.ShowDialog("保存しました。", "情報", MessageBoxButton.OK, MessageBoxImage.Information);
+            });
+
+        public DelegateCommand ChangeWorkerNameVisibilityButton =>
+            new DelegateCommand(() =>
             {
-                var entity = new WorkerMstEntity(
-                    viewModelEntity.Entity.WorkerCode.Value,
-                    viewModelEntity.Entity.WorkerName.Value,
-                    viewModelEntity.Entity.WorkerGroupCode.Value);
-                _workerMstRepository.Save(entity);
-            }
+                if (WorkerNameVisibility == Visibility.Visible)
+                {
+                    WorkerNameVisibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    WorkerNameVisibility = Visibility.Visible;
+                }
 
-            _messageService.ShowDialog("保存しました。", "情報", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
-        }
+            });
 
-        public DelegateCommand ChangeWorkerNameVisibilityButton { get; }
-        private void ChangeWorkerNameVisibilityButtonExecute()
-        {
-            if (WorkerNameVisibility == Visibility.Visible)
+        public DelegateCommand WorkerMstCollectionSelectedCellsChanged =>
+            new DelegateCommand(() =>
             {
-                WorkerNameVisibility = Visibility.Collapsed;
-            }
-            else
+                if (WorkerMstCollectionSlectedItem == null)
+                {
+                    return;
+                }
+
+                WorkerCodeText = WorkerMstCollectionSlectedItem.WorkerCode;
+            });
+
+        public DelegateCommand WorkerMstCollectionCurrentCellChanged =>
+            new DelegateCommand(() =>
             {
-                WorkerNameVisibility = Visibility.Visible;
-            }
-        }
+                if (WorkerMstCollectionSlectedItem == null)
+                {
+                    return;
+                }
 
-        public DelegateCommand WorkerMstEntitiesSelectedCellsChanged { get; }
-        private void WorkerMstEntitiesSelectedCellsChangedExecute()
-        {
-            if (WorkerMstEntitiesSlectedItem == null)
-            {
-                return;
-            }
-
-            WorkerCodeText = WorkerMstEntitiesSlectedItem.WorkerCode;
-        }
-
-        public DelegateCommand WorkerMstEntitiesCurrentCellChanged { get; }
-        private void WorkerMstEntitiesCurrentCellChangedExecute()
-        {
-            WorkerMstEntitiesSelectedCellsChangedExecute();
-        }
-
+                WorkerCodeText = WorkerMstCollectionSlectedItem.WorkerCode;
+            });
 
         #endregion
 
@@ -217,31 +219,6 @@ namespace Template2.WPF.ViewModels
         #region //// Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        private void UpdateWorkerMstEntities()
-        {
-            WorkerMstEntities.Clear();
-
-            foreach (var entity in _workerMstRepository.GetData())
-            {
-                WorkerMstEntities.Add(new Sample002ViewModelWorkerMst(entity));
-            }
-
-            //// DBテーブルにレコードが存在しない場合は、空レコードを追加
-            if (WorkerMstEntities.Count == 0)
-            {
-                AddRowButtonExecute();
-            }
-        }
-
-        private void UpdateWorkerGroupMstEntities()
-        {
-            WorkerGroupMstEntities.Clear();
-
-            foreach (var entity in _workerGroupMstRepository.GetData())
-            {
-                WorkerGroupMstEntities.Add(entity);
-            }
-        }
 
         #endregion
 

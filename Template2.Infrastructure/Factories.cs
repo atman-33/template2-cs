@@ -5,12 +5,27 @@ using Template2.Infrastructure.SQLite;
 
 namespace Template2.Infrastructure
 {
-    /// <summary>
-    /// Factories
-    /// </summary>
-    public static class Factories
+    public abstract class AbstractFactory
     {
-        public static void Open()
+        /// <summary>
+        /// Factoryを生成
+        /// </summary>
+        /// <returns></returns>
+        public static AbstractFactory Create()
+        {
+#if DEBUG
+            if (Shared.IsFake)
+            {
+                return new SQLiteFactory();
+            }
+#endif
+            return new OracleFactory();
+        }
+
+        /// <summary>
+        /// データ接続テスト
+        /// </summary>
+        public static void TestConnection()
         {
 #if DEBUG
             if (Shared.IsFake)
@@ -21,68 +36,78 @@ namespace Template2.Infrastructure
 #endif
             OracleOdpHelper.Open();
         }
-        public static ISampleMstRepository CreateSampleMst()
+
+        public abstract ISampleMstRepository CreateSampleMst();
+        public abstract IWorkerGroupMstRepository CreateWorkerGroupMst();
+        public abstract IWorkerMstRepository CreateWorkerMst();
+        public abstract IWorkingTimePlanMstRepository CreateWorkingTimePlanMst();
+        public abstract IPageMstRepository CreatePageMst();
+        public abstract ITaskMstRepository CreateTaskMst();
+    }
+
+    internal class SQLiteFactory : AbstractFactory
+    {
+        public override IPageMstRepository CreatePageMst()
         {
-#if DEBUG
-            if (Shared.IsFake)
-            {
-                return new SampleMstSQLite();
-            }
-#endif
-            return new SampleMstOracle();
-        }
-        public static IWorkerGroupMstRepository CreateWorkerGroupMst()
-        {
-#if DEBUG
-            if (Shared.IsFake)
-            {
-                return new WorkerGroupMstSQLite();
-            }
-#endif
-            return new WorkerGroupMstOracle();
+            return new PageMstSQLite();
         }
 
-        public static IWorkerMstRepository CreateWorkerMst()
+        public override ISampleMstRepository CreateSampleMst()
         {
-#if DEBUG
-            if (Shared.IsFake)
-            {
-                return new WorkerMstSQLite();
-            }
-#endif
-            return new WorkerMstOracle();
+            return new SampleMstSQLite();
         }
-        public static IWorkingTimePlanMstRepository CreateWorkingTimePlanMst()
+
+        public override ITaskMstRepository CreateTaskMst()
         {
-#if DEBUG
-            if (Shared.IsFake)
-            {
-                return new WorkingTimePlanMstSQLite();
-            }
-#endif
-            return new WorkingTimePlanMstOracle();
+            return new TaskMstSQLite();
         }
-        public static IPageMstRepository CreatePageMst()
+
+        public override IWorkerGroupMstRepository CreateWorkerGroupMst()
         {
-#if DEBUG
-            if (Shared.IsFake)
-            {
-                return new PageMstSQLite();
-            }
-#endif
+            return new WorkerGroupMstSQLite();
+        }
+
+        public override IWorkerMstRepository CreateWorkerMst()
+        {
+            return new WorkerMstSQLite();
+        }
+
+        public override IWorkingTimePlanMstRepository CreateWorkingTimePlanMst()
+        {
+            return new WorkingTimePlanMstSQLite();
+        }
+    }
+
+    internal class OracleFactory : AbstractFactory
+    {
+        public override IPageMstRepository CreatePageMst()
+        {
             return new PageMstOracle();
         }
 
-        public static ITaskMstRepository CreateTaskMst()
+        public override ISampleMstRepository CreateSampleMst()
         {
-#if DEBUG
-            if (Shared.IsFake)
-            {
-                return new TaskMstSQLite();
-            }
-#endif
+            return new SampleMstOracle();
+        }
+
+        public override ITaskMstRepository CreateTaskMst()
+        {
             return new TaskMstOracle();
         }
 
+        public override IWorkerGroupMstRepository CreateWorkerGroupMst()
+        {
+            return new WorkerGroupMstOracle();
+        }
+
+        public override IWorkerMstRepository CreateWorkerMst()
+        {
+            return new WorkerMstOracle();
+        }
+
+        public override IWorkingTimePlanMstRepository CreateWorkingTimePlanMst()
+        {
+            return new WorkingTimePlanMstOracle();
+        }
     }
 }

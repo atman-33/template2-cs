@@ -14,7 +14,7 @@ namespace Template2.Domain.Modules.Helpers
 
         public static void IsNullOrEmpty(object o, string message)
         {
-            if (o == null || Convert.ToString(o) == String.Empty)
+            if (o == null || Convert.ToString(o) == string.Empty)
             {
                 throw new InputException(message);
             }

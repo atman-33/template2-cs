@@ -37,7 +37,7 @@ namespace Template2.Domain.ValueObjects
 
             if (Value == null || Value == new DateTime(0))
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             return Value.ToString();

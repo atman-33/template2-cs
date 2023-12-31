@@ -1,17 +1,13 @@
 ﻿using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
-using Prism.Regions;
-using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Template2.Domain.Entities;
 using Template2.Domain.Modules.Helpers;
 using Template2.Domain.Repositories;
-using Template2.Infrastructure;
 using Template2.Infrastructure.RestApi;
-using Template2.WPF.Events;
 using Template2.WPF.Services;
+using Template2.WPF.ViewModelEntities;
 
 namespace Template2.WPF.ViewModels
 {
@@ -48,7 +44,7 @@ namespace Template2.WPF.ViewModels
             DeleteButton = new DelegateCommand(DeleteButtonExecute);
 
             //// Repositoryからデータ取得
-            UpdateWorkerGroupMstEntities();
+            LoadWorkerGroupMstEntities();
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
@@ -61,16 +57,16 @@ namespace Template2.WPF.ViewModels
         #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        private ObservableCollection<Sample001ViewModelWorkerGroupMst> _workerGroupMstEntities
-            = new ObservableCollection<Sample001ViewModelWorkerGroupMst>();
-        public ObservableCollection<Sample001ViewModelWorkerGroupMst> WorkerGroupMstEntities
+        private ObservableCollection<WorkerGroupMstViewModelEntity> _workerGroupMstEntities
+            = new ObservableCollection<WorkerGroupMstViewModelEntity>();
+        public ObservableCollection<WorkerGroupMstViewModelEntity> WorkerGroupMstEntities
         {
             get { return _workerGroupMstEntities; }
             set { SetProperty(ref _workerGroupMstEntities, value); }
         }
 
-        private Sample001ViewModelWorkerGroupMst _workerGroupMstEntitiesSlectedItem;
-        public Sample001ViewModelWorkerGroupMst WorkerGroupMstEntitiesSlectedItem
+        private WorkerGroupMstViewModelEntity _workerGroupMstEntitiesSlectedItem;
+        public WorkerGroupMstViewModelEntity WorkerGroupMstEntitiesSlectedItem
         {
             get { return _workerGroupMstEntitiesSlectedItem; }
             set { SetProperty(ref _workerGroupMstEntitiesSlectedItem, value); }
@@ -121,8 +117,8 @@ namespace Template2.WPF.ViewModels
         private void NewButtonExecute()
         {
             WorkerGroupCodeIsEnabled = true;
-            WorkerGroupCodeText = String.Empty;
-            WorkerGroupNameText = String.Empty;
+            WorkerGroupCodeText = string.Empty;
+            WorkerGroupNameText = string.Empty;
         }
 
         public DelegateCommand SaveButton { get; }
@@ -142,7 +138,7 @@ namespace Template2.WPF.ViewModels
 
             await Task.Run(() => _workerGroupMstRepository.SaveAsync(entity));
 
-            UpdateWorkerGroupMstEntities();
+            LoadWorkerGroupMstEntities();
         }
 
         public DelegateCommand DeleteButton { get; }
@@ -160,7 +156,7 @@ namespace Template2.WPF.ViewModels
 
             await Task.Run(() => _workerGroupMstRepository.DeleteAsync(entity));
 
-            UpdateWorkerGroupMstEntities();
+            LoadWorkerGroupMstEntities();
         }
 
         #endregion
@@ -170,13 +166,13 @@ namespace Template2.WPF.ViewModels
         #region //// Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        private async void UpdateWorkerGroupMstEntities()
+        private async void LoadWorkerGroupMstEntities()
         {
             WorkerGroupMstEntities.Clear();
 
             foreach (var entity in await _workerGroupMstRepository.GetDataAsync())
             {
-                WorkerGroupMstEntities.Add(new Sample001ViewModelWorkerGroupMst(entity));
+                WorkerGroupMstEntities.Add(new WorkerGroupMstViewModelEntity(entity));
             }
         }
 

@@ -38,12 +38,12 @@
                 Margin="5"
                 Cursor="Hand"
                 IsReadOnly="True"
-                ItemsSource="{Binding WorkerGroupMstEntities}"
-                SelectedItem="{Binding WorkerGroupMstEntitiesSlectedItem}">
+                ItemsSource="{Binding WorkerGroupMstCollection}"
+                SelectedItem="{Binding WorkerGroupMstCollectionSlectedItem}">
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectedCellsChanged">
-                        <prism:InvokeCommandAction Command="{Binding WorkerGroupMstEntitiesSelectedCellsChanged}" />
+                        <prism:InvokeCommandAction Command="{Binding WorkerGroupMstCollectionSelectedCellsChanged}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 

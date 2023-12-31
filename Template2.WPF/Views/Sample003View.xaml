@@ -92,7 +92,7 @@
             <DataGrid
                 Cursor="Hand"
                 IsReadOnly="True"
-                ItemsSource="{Binding WorkingTimePlanMstEntities}">
+                ItemsSource="{Binding WorkingTimePlanMstCollection}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding WorkerCode}" Header="作業者コード" />
                     <DataGridTextColumn Binding="{Binding Weekday}" Header="曜日番号" />

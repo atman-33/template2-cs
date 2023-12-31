@@ -5,11 +5,16 @@ VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Template2.WPF", "Template2.WPF\Template2.WPF.csproj", "{7B4CC2E9-23F1-48AF-B516-6AF8687D9E8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Template2.Infrastructure", "Template2.Infrastructure\Template2.Infrastructure.csproj", "{7E227148-463A-4577-AAAC-6262BE704C0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Template2.Infrastructure", "Template2.Infrastructure\Template2.Infrastructure.csproj", "{7E227148-463A-4577-AAAC-6262BE704C0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Template2.Domain", "Template2.Domain\Template2.Domain.csproj", "{88864688-13BD-4891-B1CF-F31A8ECE7324}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Template2.Domain", "Template2.Domain\Template2.Domain.csproj", "{88864688-13BD-4891-B1CF-F31A8ECE7324}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Template2Test.Tests", "Template2Test.Tests\Template2Test.Tests.csproj", "{7C0A4625-872F-4E2D-A15E-EE6889C33E9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Template2Test.Tests", "Template2Test.Tests\Template2Test.Tests.csproj", "{7C0A4625-872F-4E2D-A15E-EE6889C33E9F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1800DC79-998E-420A-B2DE-DF202E1C40B7}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
