@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# コード生成支援ツールの生成物
+tools/code-gen/@generated
