@@ -1,6 +1,5 @@
 ﻿using Prism.Commands;
 using Prism.Events;
-using System;
 using Template2.Domain.Modules.Helpers;
 using Template2.WPF.Services;
 

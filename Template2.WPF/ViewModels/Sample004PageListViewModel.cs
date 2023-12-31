@@ -2,8 +2,6 @@
 using Prism.Events;
 using Prism.Regions;
 using Prism.Services.Dialogs;
-using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using Template2.Domain.Entities;
 using Template2.Domain.Modules.Helpers;
@@ -31,7 +29,7 @@ namespace Template2.WPF.ViewModels
             IRegionManager regionManager,
             IDialogService dialogService,
             IEventAggregator eventAggregator)
-            : this(regionManager, dialogService, eventAggregator, new MessageService(), Factories.CreatePageMst())
+            : this(regionManager, dialogService, eventAggregator, new MessageService(), AbstractFactory.Create())
         {
         }
 
@@ -54,7 +52,7 @@ namespace Template2.WPF.ViewModels
             IDialogService dialogService,
             IEventAggregator eventAggregator,
             IMessageService messageService,
-            IPageMstRepository pageMstRepository)
+            AbstractFactory factory)
         {
             _regionManager = regionManager;
             _regionManager.RegisterViewWithRegion(_contentRegionName, nameof(Sample004PagePreviewView));
@@ -67,10 +65,10 @@ namespace Template2.WPF.ViewModels
             _messageService = messageService;
 
             //// Factories経由で作成したRepositoryを、プライベート変数に格納
-            _pageMstRepository = pageMstRepository;
+            _pageMstRepository = factory.CreatePageMst();
 
             //// Repositoryからデータ取得
-            _pageMstCollection = new PageMstCollection(pageMstRepository);
+            _pageMstCollection = new PageMstCollection(_pageMstRepository);
             _pageMstCollection.LoadData();
         }
 

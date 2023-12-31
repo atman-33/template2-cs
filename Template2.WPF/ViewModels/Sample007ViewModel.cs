@@ -25,7 +25,7 @@ namespace Template2.WPF.ViewModels
         private IWorkerMstRepository _workerMstRepository;
 
         public Sample007ViewModel(IDialogService dialogService, IEventAggregator eventAggregator)
-            : this(dialogService, eventAggregator, Factories.CreateWorkerMst())
+            : this(dialogService, eventAggregator, AbstractFactory.Create())
         {
         }
 
@@ -33,13 +33,13 @@ namespace Template2.WPF.ViewModels
         public Sample007ViewModel(
             IDialogService dialogService,
             IEventAggregator eventAggregator,
-            IWorkerMstRepository workerMstRepository)
+            AbstractFactory factory)
         {
             _dialogService = dialogService;
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル007（DataGrid自動更新）");
 
-            _workerMstRepository = workerMstRepository;
+            _workerMstRepository = factory.CreateWorkerMst();
 
             //// DelegateCommandメソッドを登録
             AutoUpdateButtonChecked = new DelegateCommand(AutoUpdateButtonCheckedExecute);

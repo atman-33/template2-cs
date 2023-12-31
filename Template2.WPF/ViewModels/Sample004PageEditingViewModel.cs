@@ -27,14 +27,14 @@ namespace Template2.WPF.ViewModels
         private Sample004PagePreviewViewModel _pagePreviewViewModel;
 
         public Sample004PageEditingViewModel(IRegionManager regionManager)
-            : this(regionManager, new MessageService(),Factories.CreatePageMst())
+            : this(regionManager, new MessageService(),AbstractFactory.Create())
         {
         }
 
         public Sample004PageEditingViewModel(
             IRegionManager regionManager,
             IMessageService messageService,
-            IPageMstRepository pageMstRepository)
+            AbstractFactory factory)
         {
             MainRegionManager = regionManager;  
             
@@ -44,7 +44,7 @@ namespace Template2.WPF.ViewModels
             _regionManager = regionManager;
             _regionManager.RegisterViewWithRegion(_contentRegionName, nameof(Sample004PagePreviewView));
 
-            _pageMstRepository = pageMstRepository;
+            _pageMstRepository = factory.CreatePageMst();
             _messageService = messageService;
 
             //// DelegateCommandメソッドを登録
@@ -61,7 +61,7 @@ namespace Template2.WPF.ViewModels
             ImagePageNoUpButton = new DelegateCommand(ImagePageNoUpButtonExecute);
 
             //// Factories経由で作成したRepositoryを、プライベート変数に格納
-            _pageMstRepository = Factories.CreatePageMst();
+            _pageMstRepository = factory.CreatePageMst();
 
             //// 新規の説明入力レコードを生成
             for (int i = 1; i <= 3; i++)

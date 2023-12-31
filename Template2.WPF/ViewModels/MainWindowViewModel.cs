@@ -288,7 +288,7 @@ namespace Template2.WPF.ViewModels
             try
             {
                 //// DB接続確認
-                Factories.Open();
+                AbstractFactory.TestConnection();
                 DBConnectionIsChecked = true;
                 LoadingBarVisibility = Visibility.Collapsed;
             }

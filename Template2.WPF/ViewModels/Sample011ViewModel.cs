@@ -9,23 +9,23 @@ namespace Template2.WPF.ViewModels
 {
     public class Sample011ViewModel : ViewModelBase
     {
-        private IWorkerGroupMstRepository _sampleMstRepository;
+        private IWorkerGroupMstRepository _workerGroupMstRepository;
 
         public Sample011ViewModel(IEventAggregator eventAggregator)
-            : this(eventAggregator, Factories.CreateWorkerGroupMst())
+            : this(eventAggregator, AbstractFactory.Create())
         {
         }
 
-        public Sample011ViewModel(IEventAggregator eventAggregator, IWorkerGroupMstRepository workerGroupMstRepository)
+        public Sample011ViewModel(IEventAggregator eventAggregator, AbstractFactory factory)
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル011（ドラッグ＆ドロップでDataGrid並び替え）");
 
             //// Factories経由で作成したRepositoryを、プライベート変数に格納
-            _sampleMstRepository = workerGroupMstRepository;
+            _workerGroupMstRepository = factory.CreateWorkerGroupMst();
 
             //// Repositoryからデータ取得
-            _workerGroupMstCollection = new WorkerGroupMstCollection(workerGroupMstRepository);
+            _workerGroupMstCollection = new WorkerGroupMstCollection(_workerGroupMstRepository);
             WorkerGroupMstCollection.LoadData();
         }
 

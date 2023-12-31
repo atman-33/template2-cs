@@ -22,16 +22,14 @@ namespace Template2.WPF.ViewModels
         public Sample002ViewModel(IEventAggregator eventAggregator)
             : this(eventAggregator, 
                   new MessageService(), 
-                  Factories.CreateWorkerMst(), 
-                  Factories.CreateWorkerGroupMst())
+                  AbstractFactory.Create())
         {
         }
 
         public Sample002ViewModel(
             IEventAggregator eventAggregator,
             IMessageService messageService,
-            IWorkerMstRepository workerMstRepository, 
-            IWorkerGroupMstRepository workerGroupMstRepository)
+            AbstractFactory factory)
         {
             _eventAggregator = eventAggregator;
             
@@ -41,14 +39,14 @@ namespace Template2.WPF.ViewModels
             _messageService = messageService;
 
             //// Factories経由で作成したRepositoryを、プライベート変数に格納
-            _workerMstRepository = workerMstRepository;
-            _workerGroupMstRepository = workerGroupMstRepository;
+            _workerMstRepository = factory.CreateWorkerMst();
+            _workerGroupMstRepository = factory.CreateWorkerGroupMst();
 
             //// Repositoryからデータ取得
-            _workerMstCollection = new WorkerMstCollection(workerMstRepository);
+            _workerMstCollection = new WorkerMstCollection(_workerMstRepository);
             _workerMstCollection.LoadData();
 
-            _workerGroupMstSelectList = new WorkerGroupMstCollection(workerGroupMstRepository);
+            _workerGroupMstSelectList = new WorkerGroupMstCollection(_workerGroupMstRepository);
             _workerGroupMstSelectList.LoadData();
 
             //// DBテーブルにレコードが存在しない場合は、空レコードを追加

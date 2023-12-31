@@ -33,16 +33,14 @@ namespace Template2.WPF.ViewModels
         public Sample003ViewModel(IEventAggregator eventAggregator)
             : this(eventAggregator, 
                   new MessageService(),
-                  Factories.CreateWorkingTimePlanMst(), 
-                  Factories.CreateWorkerMst())
+                  AbstractFactory.Create())
         {
         }
 
         public Sample003ViewModel(
             IEventAggregator eventAggregator,
             IMessageService messageService,
-            IWorkingTimePlanMstRepository workingTimePlanMstRepository,
-            IWorkerMstRepository workerMstRepository)
+            AbstractFactory factory)
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<MainWindowSetSubTitleEvent>().Publish("> サンプル003（テーブルをピボット / アンピボット変換）");
@@ -50,8 +48,8 @@ namespace Template2.WPF.ViewModels
             _messageService = messageService;
 
             //// Factories経由で作成したRepositoryを、プライベート変数に格納
-            _workingTimePlanMstRepository = workingTimePlanMstRepository;
-            _workerMstRepository = workerMstRepository;
+            _workingTimePlanMstRepository = factory.CreateWorkingTimePlanMst();
+            _workerMstRepository = factory.CreateWorkerMst();
 
             //// Repositoryからデータ取得
             UpdateWorkingTimePlanMstEntitiesDataView();
