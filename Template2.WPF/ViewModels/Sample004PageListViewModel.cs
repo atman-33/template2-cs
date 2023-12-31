@@ -9,8 +9,10 @@ using Template2.Domain.Entities;
 using Template2.Domain.Modules.Helpers;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
-using Template2.WPF.Events;
+using Template2.WPF.Collections;
+using Template2.WPF.Dto.Input;
 using Template2.WPF.Services;
+using Template2.WPF.ViewModelEntities;
 using Template2.WPF.Views;
 
 namespace Template2.WPF.ViewModels
@@ -25,17 +27,11 @@ namespace Template2.WPF.ViewModels
         /// </summary>
         private Sample004PagePreviewViewModel _pagePreviewViewModel;
 
-        /// <summary>
-        /// PageMstEntitiesのオリジン（未フィルターのコレクション）
-        /// </summary>
-        private ObservableCollection<Sample004PageListViewModelPageMst> _pageMstEntitiesOrigin
-            = new ObservableCollection<Sample004PageListViewModelPageMst>();
-
         public Sample004PageListViewModel(
-            IRegionManager regionManager, 
-            IDialogService dialogService, 
+            IRegionManager regionManager,
+            IDialogService dialogService,
             IEventAggregator eventAggregator)
-            : this(regionManager,dialogService,eventAggregator,new MessageService(), Factories.CreatePageMst())
+            : this(regionManager, dialogService, eventAggregator, new MessageService(), Factories.CreatePageMst())
         {
         }
 
@@ -73,15 +69,9 @@ namespace Template2.WPF.ViewModels
             //// Factories経由で作成したRepositoryを、プライベート変数に格納
             _pageMstRepository = pageMstRepository;
 
-            //// DelegateCommandメソッドを登録
-            NewButton = new DelegateCommand(NewButtonExecute);
-            ViewLoaded = new DelegateCommand(ViewLoadedExecute);
-            SearchingPageNameTextChanged = new DelegateCommand(SearchingPageNameTextChangedExecute);
-            PageMstEntitiesSelectedCellsChanged = new DelegateCommand(PageMstEntitiesSelectedCellsChangedExecute);
-            EditButton = new DelegateCommand(EditButtonExecute);
-
             //// Repositoryからデータ取得
-            UpdatePageMstEntities();
+            _pageMstCollection = new PageMstCollection(pageMstRepository);
+            _pageMstCollection.LoadData();
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
@@ -102,7 +92,7 @@ namespace Template2.WPF.ViewModels
         /// <summary>
         /// ページ名称検索ボックスのテキスト
         /// </summary>
-        private string _searchingPageNameText = String.Empty;
+        private string _searchingPageNameText = string.Empty;
         public string SearchingPageNameText
         {
             get { return _searchingPageNameText; }
@@ -112,22 +102,21 @@ namespace Template2.WPF.ViewModels
         /// <summary>
         /// 登録済みページ一覧を表示するDataGridのItemsSource
         /// </summary>
-        private ObservableCollection<Sample004PageListViewModelPageMst> _pageMstEntities
-            = new ObservableCollection<Sample004PageListViewModelPageMst>();
-        public ObservableCollection<Sample004PageListViewModelPageMst> PageMstEntities
+        private PageMstCollection _pageMstCollection;
+        public PageMstCollection PageMstCollection
         {
-            get { return _pageMstEntities; }
-            set { SetProperty(ref _pageMstEntities, value); }
+            get { return _pageMstCollection; }
+            set { SetProperty(ref _pageMstCollection, value); }
         }
 
         /// <summary>
         /// 登録済みページ一覧の選択アイテム
         /// </summary>
-        private Sample004PageListViewModelPageMst _pageMstEntitiesSlectedItem;
-        public Sample004PageListViewModelPageMst PageMstEntitiesSlectedItem
+        private PageMstViewModelEntity _pageMstCollectionSlectedItem;
+        public PageMstViewModelEntity PageMstCollectionSlectedItem
         {
-            get { return _pageMstEntitiesSlectedItem; }
-            set { SetProperty(ref _pageMstEntitiesSlectedItem, value); }
+            get { return _pageMstCollectionSlectedItem; }
+            set { SetProperty(ref _pageMstCollectionSlectedItem, value); }
         }
 
         #endregion
@@ -136,8 +125,6 @@ namespace Template2.WPF.ViewModels
         #region //// Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        public DelegateCommand ViewLoaded { get; }
-
         /// <summary>
         /// ContentRegionにViewを設定
         /// </summary>
@@ -145,72 +132,79 @@ namespace Template2.WPF.ViewModels
         /// 【補足】
         /// 1つのContentRegionに1つのViewが対応しているため、Views.FirstOrDefaultでOK
         /// </remarks>
-        private void ViewLoadedExecute()
-        {
-            //// 部分ViewのViewModelをプライベート変数に格納
-            var view = _regionManager.Regions[_contentRegionName].Views.FirstOrDefault() as Sample004PagePreviewView;
-            _pagePreviewViewModel = view.DataContext as Sample004PagePreviewViewModel;
-        }
+        public DelegateCommand ViewLoaded =>
+            new DelegateCommand(() =>
+            {
+                //// 部分ViewのViewModelをプライベート変数に格納
+                var view = _regionManager.Regions[_contentRegionName].Views.FirstOrDefault() as Sample004PagePreviewView;
+                _pagePreviewViewModel = view.DataContext as Sample004PagePreviewViewModel;
+
+            });
 
         /// <summary>
         /// ページ編集画面を表示（新規）
         /// </summary>
-        public DelegateCommand NewButton { get; }
+        public DelegateCommand NewButton =>
+            new DelegateCommand(() =>
+            {
+                var dto = new Sample004PageEditingViewModelInputDto(true, null);
 
-        private void NewButtonExecute()
-        {
-            var p = new DialogParameters();
-            p.Add(nameof(Sample004PageEditingViewModel.IsNewPage), true);
+                var p = new DialogParameters
+                {
+                    { nameof(Sample004PageEditingViewModelInputDto), dto }
+                };
 
-            _dialogService.ShowDialog(nameof(Sample004PageEditingView), p, Sample004PageEditingViewClose);
-        }
+                _dialogService.ShowDialog(nameof(Sample004PageEditingView), p, Sample004PageEditingViewClose);
+
+            });
 
         /// <summary>
         /// ページ名称検索テキストが変化した際の処理
         /// </summary>
-        public DelegateCommand SearchingPageNameTextChanged { get; }
-
-        private void SearchingPageNameTextChangedExecute()
-        {
-            if (SearchingPageNameText == null)
+        public DelegateCommand SearchingPageNameTextChanged =>
+            new DelegateCommand(() =>
             {
-                return;
-            }
+                if (SearchingPageNameText == null)
+                {
+                    return;
+                }
 
-            var enumerable = _pageMstEntitiesOrigin.Where(x => x.PageName.Contains(SearchingPageNameText));
-            PageMstEntities = new ObservableCollection<Sample004PageListViewModelPageMst>(enumerable);
-        }
+                PageMstCollection.FilterByPageName(SearchingPageNameText);
+            });
 
         /// <summary>
         /// ページ一覧のDataGridの選択セルが変化した際の処理
         /// </summary>
-        public DelegateCommand PageMstEntitiesSelectedCellsChanged { get; }
-
-        private void PageMstEntitiesSelectedCellsChangedExecute()
-        {
-            if (PageMstEntitiesSlectedItem == null)
+        public DelegateCommand PageMstCollectionSelectedCellsChanged =>
+            new DelegateCommand(() =>
             {
-                return;
-            }
+                if (PageMstCollectionSlectedItem == null)
+                {
+                    return;
+                }
 
-            //// プレビュー画面を更新
-            PreviewPage();
-        }
+                //// プレビュー画面を更新
+                PreviewPage();
 
-        public DelegateCommand EditButton { get; }
+            });
 
-        private void EditButtonExecute()
-        {
-            Guard.IsNull(PageMstEntitiesSlectedItem, "編集するページを選択してください。");
-
-            var p = new DialogParameters
+        public DelegateCommand EditButton =>
+            new DelegateCommand(() =>
             {
-                { nameof(Sample004PageEditingViewModel.IsNewPage), false },
-                { nameof(PageMstEntity), PageMstEntitiesSlectedItem.Entity }
-            };
+                Guard.IsNull(PageMstCollectionSlectedItem, "編集するページを選択してください。");
 
-            _dialogService.ShowDialog(nameof(Sample004PageEditingView), p, Sample004PageEditingViewClose);
-        }
+                var dto = new Sample004PageEditingViewModelInputDto(
+                    false,
+                    PageMstCollectionSlectedItem.Entity);
+
+                var p = new DialogParameters
+                {
+                    { nameof(Sample004PageEditingViewModelInputDto), dto },
+                };
+
+                _dialogService.ShowDialog(nameof(Sample004PageEditingView), p, Sample004PageEditingViewClose);
+
+            });
 
         private void Sample004PageEditingViewClose(IDialogResult dialogResult)
         {
@@ -218,14 +212,12 @@ namespace Template2.WPF.ViewModels
             if (dialogResult.Result == ButtonResult.OK)
             {
                 //// 編集後のデータを追加もしくは更新
-                var handedEntity = dialogResult.Parameters.GetValue<PageMstEntity>(nameof(PageMstEntity));
+                var dto = dialogResult.Parameters.GetValue<Sample004PageListViewModelInputDto>(nameof(Sample004PageListViewModelInputDto));
+                var handedEntity = dto.PageMstEntityToSave;
+                PageMstCollection.MergeWithoutSave(handedEntity);
+                PageMstCollectionSlectedItem = PageMstCollection.FirstOrDefault(x => x.Entity.PageId.Value == handedEntity.PageId.Value);
 
-                UpdatePageMstEntitiesOrigin();
-
-                //// 更新したOriginから取得したエンティティで更新
-                var entity = _pageMstEntitiesOrigin.FirstOrDefault(x => x.Entity.PageId.Value == handedEntity.PageId.Value);
-                Sample004PageListViewModelPageMst.MergeViewModelEntity(ref _pageMstEntities, entity.Entity);
-                PageMstEntitiesSlectedItem = entity;
+                //// プレビュー更新
                 PreviewPage();
             }
 
@@ -233,12 +225,12 @@ namespace Template2.WPF.ViewModels
             if (dialogResult.Result == ButtonResult.No)
             {
                 //// 編集後のデータを追加もしくは更新
-                var handedEntity = dialogResult.Parameters.GetValue<PageMstEntity>(nameof(PageMstEntity));
+                var dto = dialogResult.Parameters.GetValue<Sample004PageListViewModelInputDto>(nameof(Sample004PageListViewModelInputDto));
+                var handedEntity = dto.PageMstEntityToDelete;
+                PageMstCollection.RemoveWithoutSave(handedEntity);
+                PageMstCollectionSlectedItem = null;
 
-                UpdatePageMstEntitiesOrigin();
-
-                Sample004PageListViewModelPageMst.RemoveViewModelEntity(ref _pageMstEntities, handedEntity);
-                PageMstEntitiesSlectedItem = null;
+                //// プレビュー更新
                 PreviewPage();
             }
         }
@@ -248,40 +240,18 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        private void UpdatePageMstEntities()
-        {
-            _pageMstEntities.Clear();
-
-            foreach (var entity in _pageMstRepository.GetData())
-            {
-                _pageMstEntities.Add(new Sample004PageListViewModelPageMst(entity));
-            }
-
-            //// Originに退避
-            _pageMstEntitiesOrigin = _pageMstEntities;
-        }
-
-        private void UpdatePageMstEntitiesOrigin()
-        {
-            _pageMstEntitiesOrigin.Clear();
-
-            foreach (var entity in _pageMstRepository.GetData())
-            {
-                _pageMstEntitiesOrigin.Add(new Sample004PageListViewModelPageMst(entity));
-            }
-        }
 
         private void PreviewPage()
         {
             PageMstEntity entity;
 
-            if (PageMstEntitiesSlectedItem == null)
+            if (PageMstCollectionSlectedItem == null)
             {
                 entity = null;
             }
             else
             {
-                entity = PageMstEntitiesSlectedItem.Entity;
+                entity = PageMstCollectionSlectedItem.Entity;
             }
 
             //// プレビュー用エンティティを格納

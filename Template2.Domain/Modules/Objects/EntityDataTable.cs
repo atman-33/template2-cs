@@ -35,8 +35,8 @@ namespace Template2.Domain.Modules.Objects
 
         public DataTable DataTable { get { return _dataTable; } }
 
-        public string IdHeader { get; private set; } = String.Empty;
-        public string IdNameHeader { get; private set; } = String.Empty;
+        public string IdHeader { get; private set; } = string.Empty;
+        public string IdNameHeader { get; private set; } = string.Empty;
 
         /// <summary>
         /// DataView（DataGrid表示用）

@@ -48,7 +48,7 @@ FROM
                         Convert.ToString(reader["worker_code"]),
                         Convert.ToInt32(reader["weekday"]),
                         reader["working_time"] != DBNull.Value ? Convert.ToSingle(reader["working_time"]) : null,
-                        reader["worker_name"] != DBNull.Value ? Convert.ToString(reader["worker_name"]) : String.Empty
+                        reader["worker_name"] != DBNull.Value ? Convert.ToString(reader["worker_name"]) : string.Empty
                         );
                 });
         }

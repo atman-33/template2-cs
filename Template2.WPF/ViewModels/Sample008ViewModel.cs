@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using Template2.Domain.Entities;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure.Csv;
-using Template2.WPF.Events;
+using Template2.WPF.Services;
 
 namespace Template2.WPF.ViewModels
 {
@@ -44,7 +44,7 @@ namespace Template2.WPF.ViewModels
         #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        private string _csvFilePathText = String.Empty;
+        private string _csvFilePathText = string.Empty;
         public string CsvFilePathText
         {
             get { return _csvFilePathText; }

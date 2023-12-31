@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Template2.WPF.ExtendedBindings
+namespace Template2.WPF.Services
 {
     /// <summary>
     /// ViewModelのバインディングソースの代理として働くクラスです。

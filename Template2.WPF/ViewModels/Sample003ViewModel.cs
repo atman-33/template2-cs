@@ -12,7 +12,6 @@ using Template2.Domain.Modules.Objects;
 using Template2.Domain.Repositories;
 using Template2.Domain.ValueObjects;
 using Template2.Infrastructure;
-using Template2.WPF.Events;
 using Template2.WPF.Services;
 
 namespace Template2.WPF.ViewModels
@@ -54,14 +53,6 @@ namespace Template2.WPF.ViewModels
             _workingTimePlanMstRepository = workingTimePlanMstRepository;
             _workerMstRepository = workerMstRepository;
 
-            //// DelegateCommandメソッドを登録
-            UnpivotTableButton = new DelegateCommand(UnpivotTableButtonExecute);
-            SaveButton = new DelegateCommand(SaveButtonExecute);
-            WorkingTimePlanMstEntitiesDataViewAutoGeneratingColumn = new DelegateCommand<DataGridAutoGeneratingColumnEventArgs>
-                (WorkingTimePlanMstEntitiesDataViewAutoGeneratingColumnExecute);
-            WorkingTimePlanMstEntitiesDataViewCellEditEnding = new DelegateCommand<DataGridCellEditEndingEventArgs>
-                (WorkingTimePlanMstEntitiesDataViewCellEditEndingExecute);
-
             //// Repositoryからデータ取得
             UpdateWorkingTimePlanMstEntitiesDataView();
         }
@@ -89,12 +80,12 @@ namespace Template2.WPF.ViewModels
             set { SetProperty(ref _workingTimePlanMstEntitiesDataView, value); }
         }
 
-        private ObservableCollection<WorkingTimePlanMstEntity> _workingTimePlanMstEntities
+        private ObservableCollection<WorkingTimePlanMstEntity> _workingTimePlanMstCollection
             = new ObservableCollection<WorkingTimePlanMstEntity>();
-        public ObservableCollection<WorkingTimePlanMstEntity> WorkingTimePlanMstEntities
+        public ObservableCollection<WorkingTimePlanMstEntity> WorkingTimePlanMstCollection
         {
-            get { return _workingTimePlanMstEntities; }
-            set { SetProperty(ref _workingTimePlanMstEntities, value); }
+            get { return _workingTimePlanMstCollection; }
+            set { SetProperty(ref _workingTimePlanMstCollection, value); }
         }
 
         #endregion
@@ -106,40 +97,39 @@ namespace Template2.WPF.ViewModels
         /// <summary>
         /// DataGridを生成する際の処理。IDカラムを非表示するために実装
         /// </summary>
-        public DelegateCommand<DataGridAutoGeneratingColumnEventArgs> WorkingTimePlanMstEntitiesDataViewAutoGeneratingColumn { get; }
-
-        private void WorkingTimePlanMstEntitiesDataViewAutoGeneratingColumnExecute(DataGridAutoGeneratingColumnEventArgs e)
-        {
-            Debug.WriteLine(e.PropertyName);
-
-            if (e.PropertyName == _workingTimePlanMstEntitiesDataTable.IdHeader)
+        public DelegateCommand<DataGridAutoGeneratingColumnEventArgs> WorkingTimePlanMstEntitiesDataViewAutoGeneratingColumn =>
+            new DelegateCommand<DataGridAutoGeneratingColumnEventArgs>((e) =>
             {
-                e.Column.Visibility = System.Windows.Visibility.Collapsed;
-            }
+                Debug.WriteLine(e.PropertyName);
 
-            //// ヘッダーを定数値として扱えばswitch文でも対応可能
-            //switch (e.PropertyName)
-            //{
-            //    case "SampleId":
-            //        //e.Column.Visibility = Visibility.Collapsed;
-            //        break;
+                if (e.PropertyName == _workingTimePlanMstEntitiesDataTable.IdHeader)
+                {
+                    e.Column.Visibility = System.Windows.Visibility.Collapsed;
+                }
 
-            //    case "SampleText":
-            //        e.Column.Header = "サンプルテキスト";
-            //        break;
+                //// ヘッダーを定数値として扱えばswitch文でも対応可能
+                //switch (e.PropertyName)
+                //{
+                //    case "SampleId":
+                //        //e.Column.Visibility = Visibility.Collapsed;
+                //        break;
 
-            //    case "SampleValue":
-            //        e.Column.Header = "サンプル値";
-            //        break;
+                //    case "SampleText":
+                //        e.Column.Header = "サンプルテキスト";
+                //        break;
 
-            //    case "SampleDate":
-            //        e.Column.Header = "サンプル日付";
-            //        break;
+                //    case "SampleValue":
+                //        e.Column.Header = "サンプル値";
+                //        break;
 
-            //    default:
-            //        break;
-            //}
-        }
+                //    case "SampleDate":
+                //        e.Column.Header = "サンプル日付";
+                //        break;
+
+                //    default:
+                //        break;
+                //}
+            });
 
         /// <summary>
         /// テーブル編集後にDataTableの値を更新して行の合計を更新。
@@ -147,60 +137,58 @@ namespace Template2.WPF.ViewModels
         /// 通常、行のフォーカスを変更しないとDataTableは更新されないため、TABでカラムのフォーカスを変更してもDataTableは変わらない。
         /// そのため、今回のようにCellEditEndingイベントで取得したEditingElementを、DataTableに格納すれば更新可能となる。
         /// </summary>
-        public DelegateCommand<DataGridCellEditEndingEventArgs> WorkingTimePlanMstEntitiesDataViewCellEditEnding { get; }
+        public DelegateCommand<DataGridCellEditEndingEventArgs> WorkingTimePlanMstEntitiesDataViewCellEditEnding =>
+            new DelegateCommand<DataGridCellEditEndingEventArgs>((e) =>
+            {
+                //// 編集されたセルの列と行を取得する
+                int columnIndex = e.Column.DisplayIndex;
+                int rowIndex = e.Row.GetIndex();
 
-        private void WorkingTimePlanMstEntitiesDataViewCellEditEndingExecute(DataGridCellEditEndingEventArgs e)
-        {
-            //// 編集されたセルの列と行を取得する
-            int columnIndex = e.Column.DisplayIndex;
-            int rowIndex = e.Row.GetIndex();
+                //// 編集されたセルの値を取得する
+                var editedCellValue = ((TextBox)e.EditingElement).Text;
 
-            //// 編集されたセルの値を取得する
-            var editedCellValue = ((TextBox)e.EditingElement).Text;
+                //// DataTableの該当するセルの値を更新する
+                DataTable dataTable = _workingTimePlanMstEntitiesDataTable.DataTable;
+                dataTable.Rows[rowIndex][columnIndex] = editedCellValue;
 
-            //// DataTableの該当するセルの値を更新する
-            DataTable dataTable = _workingTimePlanMstEntitiesDataTable.DataTable;
-            dataTable.Rows[rowIndex][columnIndex] = editedCellValue;
+                UpdatedRowTotalNumLabel = Convert.ToString(_workingTimePlanMstEntitiesDataTable.SumRowData(rowIndex));
 
-            UpdatedRowTotalNumLabel = Convert.ToString(_workingTimePlanMstEntitiesDataTable.SumRowData(rowIndex));
-        }
+            });
 
         /// <summary>
         /// テーブルをアンピボット変換
         /// </summary>
-        public DelegateCommand UnpivotTableButton { get; }
+        public DelegateCommand UnpivotTableButton =>
+            new DelegateCommand(() =>
+            {
+                _workingTimePlanMstEntitiesDataTable.CanConvertFloat("float数値の入力に誤りがあります。");
 
-        private void UnpivotTableButtonExecute()
-        {
-            _workingTimePlanMstEntitiesDataTable.CanConvertFloat("float数値の入力に誤りがあります。");
-
-            WorkingTimePlanMstEntities = _workingTimePlanMstEntitiesDataTable.ToEntities(
-                (id, keyValuePair, columnValueObject) =>
-                {
-                    return new WorkingTimePlanMstEntity(id, columnValueObject.Value , Convert.ToSingle(keyValuePair.Value));
-                }
-                );
-        }
+                WorkingTimePlanMstCollection = _workingTimePlanMstEntitiesDataTable.ToEntities(
+                    (id, keyValuePair, columnValueObject) =>
+                    {
+                        return new WorkingTimePlanMstEntity(id, columnValueObject.Value, Convert.ToSingle(keyValuePair.Value));
+                    }
+                    );
+            });
 
         /// <summary>
         /// テーブルのデータを保存
         /// </summary>
-        public DelegateCommand SaveButton { get; }
-
-        private void SaveButtonExecute()
-        {
-            if (_messageService.Question("保存しますか？") != System.Windows.MessageBoxResult.OK)
+        public DelegateCommand SaveButton =>
+            new DelegateCommand(() =>
             {
-                return;
-            }
+                if (_messageService.Question("保存しますか？") != System.Windows.MessageBoxResult.OK)
+                {
+                    return;
+                }
 
-            foreach (var entity in WorkingTimePlanMstEntities)
-            {
-                _workingTimePlanMstRepository.Save(entity);
-            }
+                foreach (var entity in WorkingTimePlanMstCollection)
+                {
+                    _workingTimePlanMstRepository.Save(entity);
+                }
 
-            _messageService.ShowDialog("保存しました。", "情報", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
-        }
+                _messageService.ShowDialog("保存しました。", "情報", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+            });
 
         #endregion
 
@@ -220,14 +208,16 @@ namespace Template2.WPF.ViewModels
             _workingTimePlanMstEntitiesDataTable.SetIdNameHeader("作業者名称", true);
 
             //// 3. アイテム項目ヘッダーを設定
-            var dictionary = new Dictionary<string, Weekday>();
-            dictionary.Add(Weekday.Sunday.DisplayValue, Weekday.Sunday);
-            dictionary.Add(Weekday.Monday.DisplayValue, Weekday.Monday);
-            dictionary.Add(Weekday.Tuesday.DisplayValue, Weekday.Tuesday);
-            dictionary.Add(Weekday.Wednesday.DisplayValue, Weekday.Wednesday);
-            dictionary.Add(Weekday.Thursday.DisplayValue, Weekday.Thursday);
-            dictionary.Add(Weekday.Friday.DisplayValue, Weekday.Friday);
-            dictionary.Add(Weekday.Saturday.DisplayValue, Weekday.Saturday);
+            var dictionary = new Dictionary<string, Weekday>
+            {
+                { Weekday.Sunday.DisplayValue, Weekday.Sunday },
+                { Weekday.Monday.DisplayValue, Weekday.Monday },
+                { Weekday.Tuesday.DisplayValue, Weekday.Tuesday },
+                { Weekday.Wednesday.DisplayValue, Weekday.Wednesday },
+                { Weekday.Thursday.DisplayValue, Weekday.Thursday },
+                { Weekday.Friday.DisplayValue, Weekday.Friday },
+                { Weekday.Saturday.DisplayValue, Weekday.Saturday }
+            };
 
             _workingTimePlanMstEntitiesDataTable.SetItemHeaders(dictionary);
 

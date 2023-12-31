@@ -2,11 +2,9 @@
 using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
-using Template2.Domain.Entities;
 using Template2.Domain.Modules.Objects.Composites;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
-using Template2.WPF.Events;
 using Template2.WPF.Services;
 
 namespace Template2.WPF.ViewModels
@@ -98,7 +96,7 @@ namespace Template2.WPF.ViewModels
             {
                 //// ComponentがWorkerGroupの場合
                 WorkerGroupCodeText = WorkerGroupTreeViewSelectedItem.Code;
-                WorkerCodeText = String.Empty;
+                WorkerCodeText = string.Empty;
             }
             else
             {

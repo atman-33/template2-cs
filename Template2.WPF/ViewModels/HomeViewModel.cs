@@ -1,6 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Events;
-using Template2.WPF.Events;
+using Template2.WPF.Services;
 
 namespace Template2.WPF.ViewModels
 {

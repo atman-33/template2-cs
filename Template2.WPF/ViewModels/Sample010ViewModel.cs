@@ -2,7 +2,7 @@
 using Prism.Events;
 using System;
 using Template2.Domain.Modules.Helpers;
-using Template2.WPF.Events;
+using Template2.WPF.Services;
 
 namespace Template2.WPF.ViewModels
 {
@@ -60,7 +60,7 @@ namespace Template2.WPF.ViewModels
 
         private void PythonExecuteButtonExecute()
         {
-            PythonResultText = String.Empty;
+            PythonResultText = string.Empty;
 
             foreach (string line in PythonHelper.PythonCall(PythonFilePathText, PythonArgumentText))
             {

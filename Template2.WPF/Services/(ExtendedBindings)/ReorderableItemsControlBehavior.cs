@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Template2.WPF.ExtendedBindings
+namespace Template2.WPF.Services
 {
     /// <summary>
     /// ItemsControl に対するドラッグ＆ドロップによる並べ替え動作をおこなうビヘイビアを表します。

@@ -5,7 +5,6 @@ using Prism.Services.Dialogs;
 using System.Reflection;
 using Template2.Domain.Entities;
 using Template2.Domain.Repositories;
-using Template2.WPF.Events;
 using Template2.WPF.Services;
 using Template2.WPF.ViewModels;
 

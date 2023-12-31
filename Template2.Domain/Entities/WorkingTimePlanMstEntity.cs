@@ -9,7 +9,7 @@ namespace Template2.Domain.Entities
             string workerCode,
             int weekday,
             float? workingTime)
-            : this(workerCode, weekday, workingTime, String.Empty)
+            : this(workerCode, weekday, workingTime, string.Empty)
         {
         }
 

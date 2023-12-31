@@ -109,12 +109,12 @@
                 VerticalAlignment="Top"
                 Cursor="Hand"
                 IsReadOnly="True"
-                ItemsSource="{Binding PageMstEntities}"
-                SelectedItem="{Binding PageMstEntitiesSlectedItem}">
+                ItemsSource="{Binding PageMstCollection}"
+                SelectedItem="{Binding PageMstCollectionSlectedItem}">
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectedCellsChanged">
-                        <prism:InvokeCommandAction Command="{Binding PageMstEntitiesSelectedCellsChanged}" />
+                        <prism:InvokeCommandAction Command="{Binding PageMstCollectionSelectedCellsChanged}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 

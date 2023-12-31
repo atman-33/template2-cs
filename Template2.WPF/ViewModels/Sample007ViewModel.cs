@@ -9,7 +9,7 @@ using Template2.Domain.Entities;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
 using Template2.WPF.BackgroundWorkers;
-using Template2.WPF.Events;
+using Template2.WPF.Services;
 using Template2.WPF.Views;
 
 namespace Template2.WPF.ViewModels

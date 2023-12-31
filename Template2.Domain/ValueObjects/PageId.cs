@@ -32,7 +32,7 @@ namespace Template2.Domain.ValueObjects
         {
             if (Value as int? == null)
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             return Value.ToString();

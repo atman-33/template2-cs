@@ -27,7 +27,7 @@
         {
             if (Value == null)
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             return Value.ToString();

@@ -2,7 +2,7 @@
 using Prism.Events;
 using Prism.Services.Dialogs;
 using System.Reflection;
-using Template2.WPF.Events;
+using Template2.WPF.Services;
 using Template2.WPF.ViewModels;
 
 namespace Template2Test.Tests.ViewModelTests

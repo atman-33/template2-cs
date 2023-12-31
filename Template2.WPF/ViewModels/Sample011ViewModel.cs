@@ -1,8 +1,9 @@
 ﻿using Prism.Events;
-using System.Collections.ObjectModel;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
-using Template2.WPF.Events;
+using Template2.WPF.Collections;
+using Template2.WPF.Services;
+using Template2.WPF.ViewModelEntities;
 
 namespace Template2.WPF.ViewModels
 {
@@ -24,7 +25,8 @@ namespace Template2.WPF.ViewModels
             _sampleMstRepository = workerGroupMstRepository;
 
             //// Repositoryからデータ取得
-            UpdateWorkerGroupMstEntities();
+            _workerGroupMstCollection = new WorkerGroupMstCollection(workerGroupMstRepository);
+            WorkerGroupMstCollection.LoadData();
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
@@ -36,12 +38,11 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        private ObservableCollection<Sample011ViewModelWorkerGroupMst> _workerGroupMstEntities
-            = new ObservableCollection<Sample011ViewModelWorkerGroupMst>();
-        public ObservableCollection<Sample011ViewModelWorkerGroupMst> WorkerGroupMstEntities
+        private WorkerGroupMstCollection _workerGroupMstCollection;
+        public WorkerGroupMstCollection WorkerGroupMstCollection
         {
-            get { return _workerGroupMstEntities; }
-            set { SetProperty(ref _workerGroupMstEntities, value); }
+            get { return _workerGroupMstCollection; }
+            set { SetProperty(ref _workerGroupMstCollection, value); }
         }
 
         #endregion
@@ -61,15 +62,7 @@ namespace Template2.WPF.ViewModels
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
         #region //// Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
-        private void UpdateWorkerGroupMstEntities()
-        {
-            WorkerGroupMstEntities.Clear();
 
-            foreach (var entity in _sampleMstRepository.GetData())
-            {
-                WorkerGroupMstEntities.Add(new Sample011ViewModelWorkerGroupMst(entity));
-            }
-        }
 
         #endregion
     }

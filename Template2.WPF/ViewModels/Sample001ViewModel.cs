@@ -1,15 +1,12 @@
 ﻿using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
-using Prism.Regions;
-using System;
-using System.Collections.ObjectModel;
 using Template2.Domain.Entities;
 using Template2.Domain.Modules.Helpers;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
-using Template2.WPF.Events;
+using Template2.WPF.Collections;
 using Template2.WPF.Services;
+using Template2.WPF.ViewModelEntities;
 
 namespace Template2.WPF.ViewModels
 {
@@ -22,7 +19,7 @@ namespace Template2.WPF.ViewModels
         /// コンストラクタ
         /// </summary>
         public Sample001ViewModel(IEventAggregator eventAggregator)
-            : this(eventAggregator ,new MessageService() ,Factories.CreateWorkerGroupMst())
+            : this(eventAggregator, new MessageService(), Factories.CreateWorkerGroupMst())
         {
         }
 
@@ -39,14 +36,9 @@ namespace Template2.WPF.ViewModels
             //// Factories経由で作成したRepositoryを、プライベート変数に格納
             _workerGroupMstRepository = workerGroupMstRepository;
 
-            //// DelegateCommandメソッドを登録
-            WorkerGroupMstEntitiesSelectedCellsChanged = new DelegateCommand(WorkerGroupMstEntitiesSelectedCellsChangedExecute);
-            NewButton = new DelegateCommand(NewButtonExecute);
-            SaveButton = new DelegateCommand(SaveButtonExecute);
-            DeleteButton = new DelegateCommand(DeleteButtonExecute);
-
             //// Repositoryからデータ取得
-            UpdateWorkerGroupMstEntities();
+            _workerGroupMstCollection = new WorkerGroupMstCollection(workerGroupMstRepository);
+            _workerGroupMstCollection.LoadData();
         }
 
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
@@ -59,19 +51,18 @@ namespace Template2.WPF.ViewModels
         #region //// Property Data Binding
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        private ObservableCollection<Sample001ViewModelWorkerGroupMst> _workerGroupMstEntities
-            = new ObservableCollection<Sample001ViewModelWorkerGroupMst>();
-        public ObservableCollection<Sample001ViewModelWorkerGroupMst> WorkerGroupMstEntities
+        private WorkerGroupMstCollection _workerGroupMstCollection;
+        public WorkerGroupMstCollection WorkerGroupMstCollection
         {
-            get { return _workerGroupMstEntities; }
-            set { SetProperty(ref _workerGroupMstEntities, value); }
+            get { return _workerGroupMstCollection; }
+            set { SetProperty(ref _workerGroupMstCollection, value); }
         }
 
-        private Sample001ViewModelWorkerGroupMst _workerGroupMstEntitiesSlectedItem;
-        public Sample001ViewModelWorkerGroupMst WorkerGroupMstEntitiesSlectedItem
+        private WorkerGroupMstViewModelEntity _workerGroupMstCollectionSlectedItem;
+        public WorkerGroupMstViewModelEntity WorkerGroupMstCollectionSlectedItem
         {
-            get { return _workerGroupMstEntitiesSlectedItem; }
-            set { SetProperty(ref _workerGroupMstEntitiesSlectedItem, value); }
+            get { return _workerGroupMstCollectionSlectedItem; }
+            set { SetProperty(ref _workerGroupMstCollectionSlectedItem, value); }
         }
 
         private string _workerGroupCodeText;
@@ -101,69 +92,62 @@ namespace Template2.WPF.ViewModels
         #region //// Event Binding (DelegateCommand)
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        public DelegateCommand WorkerGroupMstEntitiesSelectedCellsChanged { get; }
-        private void WorkerGroupMstEntitiesSelectedCellsChangedExecute()
-        {
-            if (WorkerGroupMstEntitiesSlectedItem == null)
+        public DelegateCommand WorkerGroupMstCollectionSelectedCellsChanged =>
+            new DelegateCommand(() =>
             {
-                return;
-            }
+                if (WorkerGroupMstCollectionSlectedItem == null)
+                {
+                    return;
+                }
 
-            WorkerGroupCodeText = WorkerGroupMstEntitiesSlectedItem.WorkerGroupCode;
-            WorkerGroupNameText = WorkerGroupMstEntitiesSlectedItem.WorkerGroupName;
+                WorkerGroupCodeText = WorkerGroupMstCollectionSlectedItem.WorkerGroupCode;
+                WorkerGroupNameText = WorkerGroupMstCollectionSlectedItem.WorkerGroupName;
 
-            WorkerGroupCodeIsEnabled = false;
-        }
+                WorkerGroupCodeIsEnabled = false;
 
-        public DelegateCommand NewButton { get; }
-        private void NewButtonExecute()
-        {
-            WorkerGroupCodeIsEnabled = true;
-            WorkerGroupCodeText = String.Empty;
-            WorkerGroupNameText = String.Empty;
+            });
 
-            OnEdit();
-        }
-
-        public DelegateCommand SaveButton { get; }
-        private void SaveButtonExecute()
-        {
-            Guard.IsNullOrEmpty(WorkerGroupNameText, "サンプル名称を入力してください。");
-
-            if (_messageService.Question("保存しますか？") != System.Windows.MessageBoxResult.OK)
+        public DelegateCommand NewButton =>
+            new DelegateCommand(() =>
             {
-                return;
-            }
+                WorkerGroupCodeIsEnabled = true;
+                WorkerGroupCodeText = string.Empty;
+                WorkerGroupNameText = string.Empty;
 
-            var entity = new WorkerGroupMstEntity(
-                WorkerGroupCodeText,
-                WorkerGroupNameText
-                );
+                OnEdit();
+            });
 
-            _workerGroupMstRepository.Save(entity);
-
-            UpdateWorkerGroupMstEntities();
-
-            OnEditCompleted();
-        }
-
-        public DelegateCommand DeleteButton { get; }
-        private void DeleteButtonExecute()
-        {
-            if (_messageService.Question("「" + WorkerGroupNameText + "」を削除しますか？") != System.Windows.MessageBoxResult.OK)
+        public DelegateCommand SaveButton =>
+            new DelegateCommand(() =>
             {
-                return;
-            }
+                Guard.IsNullOrEmpty(WorkerGroupNameText, "サンプル名称を入力してください。");
 
-            var entity = new WorkerGroupMstEntity(
-                WorkerGroupCodeText,
-                WorkerGroupNameText
-                );
+                if (_messageService.Question("保存しますか？") != System.Windows.MessageBoxResult.OK)
+                {
+                    return;
+                }
 
-            _workerGroupMstRepository.Delete(entity);
+                var entity = new WorkerGroupMstEntity(
+                    WorkerGroupCodeText,
+                    WorkerGroupNameText
+                    );
 
-            UpdateWorkerGroupMstEntities();
-        }
+
+                WorkerGroupMstCollection.UpsertItem(entity);
+                OnEditCompleted();
+            });
+
+
+        public DelegateCommand DeleteButton =>
+            new DelegateCommand(() =>
+            {
+                if (_messageService.Question("「" + WorkerGroupNameText + "」を削除しますか？") != System.Windows.MessageBoxResult.OK)
+                {
+                    return;
+                }
+
+                WorkerGroupMstCollection.DeleteItem(WorkerGroupMstCollectionSlectedItem);
+            });
 
         #endregion
 
@@ -172,15 +156,6 @@ namespace Template2.WPF.ViewModels
         #region //// Others
         //// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 
-        private void UpdateWorkerGroupMstEntities()
-        {
-            WorkerGroupMstEntities.Clear();
-
-            foreach (var entity in _workerGroupMstRepository.GetData())
-            {
-                WorkerGroupMstEntities.Add(new Sample001ViewModelWorkerGroupMst(entity));
-            }
-        }
 
         #endregion
     }

@@ -10,6 +10,7 @@ using Template2.Domain.Entities;
 using Template2.Domain.Modules.Helpers;
 using Template2.Domain.Repositories;
 using Template2.Infrastructure;
+using Template2.WPF.Dto.Input;
 using Template2.WPF.Services;
 using Template2.WPF.Views;
 
@@ -65,7 +66,7 @@ namespace Template2.WPF.ViewModels
             //// 新規の説明入力レコードを生成
             for (int i = 1; i <= 3; i++)
             {
-                NoteEntities.Add(new NoteEntity(String.Empty));
+                NoteEntities.Add(new NoteEntity(string.Empty));
             }
         }
 
@@ -95,8 +96,10 @@ namespace Template2.WPF.ViewModels
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
+            var dto = parameters.GetValue<Sample004PageEditingViewModelInputDto>(nameof(Sample004PageEditingViewModelInputDto));
+
             //// 新規ページかどうか
-            IsNewPage = parameters.GetValue<bool>(nameof(IsNewPage));
+            IsNewPage = dto.IsNewPage;
 
             if (IsNewPage)
             {
@@ -104,7 +107,7 @@ namespace Template2.WPF.ViewModels
             }
             else
             {
-                var entity = parameters.GetValue<PageMstEntity>(nameof(PageMstEntity));
+                var entity = dto.PageMstEntityToEdit;
 
                 //// 編集対象のエンティティ情報を初期値に設定
                 PageIdText = entity.PageId.Value.ToString();
@@ -326,14 +329,13 @@ namespace Template2.WPF.ViewModels
             }
 
             var entity = CreateEntity();
-
             _pageMstRepository.Save(entity);
 
-            //// 保存完了のメッセージは表示させない
-            // _messageService.ShowDialog("保存しました", "情報", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
-
-            var p = new DialogParameters();
-            p.Add(nameof(PageMstEntity), entity);
+            var dto = new Sample004PageListViewModelInputDto(entity, null);
+            var p = new DialogParameters
+            {
+                { nameof(Sample004PageListViewModelInputDto), dto }
+            };
 
             RequestClose?.Invoke(new DialogResult(ButtonResult.OK, p));
         }
@@ -352,12 +354,12 @@ namespace Template2.WPF.ViewModels
             }
 
             var entity = CreateEntity();
-
             _pageMstRepository.Delete(entity);
 
+            var dto = new Sample004PageListViewModelInputDto(null, entity);
             var p = new DialogParameters
             {
-                { nameof(PageMstEntity), entity }
+                { nameof(Sample004PageListViewModelInputDto), dto }
             };
 
             RequestClose?.Invoke(new DialogResult(ButtonResult.No, p));

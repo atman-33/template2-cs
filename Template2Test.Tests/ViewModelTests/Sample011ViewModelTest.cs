@@ -1,14 +1,9 @@
 ﻿using Moq;
 using Prism.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Template2.Domain.Entities;
 using Template2.Domain.Repositories;
-using Template2.WPF.Events;
+using Template2.WPF.Services;
 using Template2.WPF.ViewModels;
 
 namespace Template2Test.Tests.ViewModelTests

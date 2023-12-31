@@ -1,11 +1,11 @@
 ﻿using Template2.Domain.Entities;
 using Template2.Domain.ValueObjects;
 
-namespace Template2.WPF.ViewModels
+namespace Template2.WPF.ViewModelEntities
 {
-    public class Sample002ViewModelWorkerMst
+    public class WorkerMstViewModelEntity
     {
-        public Sample002ViewModelWorkerMst(WorkerMstEntity entity)
+        public WorkerMstViewModelEntity(WorkerMstEntity entity)
         {
             Entity = entity;
         }
