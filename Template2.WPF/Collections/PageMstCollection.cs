@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Data;
 using Template2.Domain.Entities;
 using Template2.Domain.Repositories;
 using Template2.WPF.ViewModelEntities;
@@ -10,6 +11,11 @@ namespace Template2.WPF.Collections
     public class PageMstCollection : ObservableCollection<PageMstViewModelEntity>
     {
         private IPageMstRepository _pageMstRepository;
+
+        /// <summary>
+        /// 非同期用ロックオブジェクト
+        /// </summary>
+        private readonly object _lock = new object();
 
         /// <summary>
         /// コレクションの全データ（コレクションのフィルター処理で利用）
@@ -23,6 +29,7 @@ namespace Template2.WPF.Collections
         public PageMstCollection(IPageMstRepository pageMstRepository)
         {
             _pageMstRepository = pageMstRepository;
+            BindingOperations.EnableCollectionSynchronization(this, _lock);
         }
 
         /// <summary>
@@ -30,18 +37,19 @@ namespace Template2.WPF.Collections
         /// </summary>
         public void LoadData()
         {
-            Clear();
-            var entities = _pageMstRepository.GetData();
-            foreach (var entity in entities)
+            var temp = new Collection<PageMstViewModelEntity>();
+            foreach (var entity in _pageMstRepository.GetData())
             {
-                Add(new PageMstViewModelEntity(entity));
+                temp.Add(new PageMstViewModelEntity(entity));
             }
 
-            //// Originalデータを退避
-            PageMstViewModelEntity[] allData;
-            allData = new PageMstViewModelEntity[entities.Count];
-            CopyTo(allData, 0);
-            _original = new Collection<PageMstViewModelEntity>(allData);
+            _original = temp;
+
+            lock(_lock)
+            {
+                this.Clear();
+                this.AddRange(temp);
+            }
         }
 
         /// <summary>
@@ -74,7 +82,11 @@ namespace Template2.WPF.Collections
         {
 
             _pageMstRepository.Delete(viewModelEntity.Entity);
-            Remove(viewModelEntity);
+            
+            lock(_lock)
+            {
+                this.Remove(viewModelEntity);
+            }
         }
 
         /// <summary>
@@ -85,8 +97,12 @@ namespace Template2.WPF.Collections
         {
             var pages = _original.Where(x => x.PageName.Contains(pageName));
 
-            Clear();
-            this.AddRange(pages);
+            lock (_lock)
+            {
+                Clear();
+                this.AddRange(pages);
+
+            }
         }
 
         /// <summary>
