@@ -154,17 +154,11 @@ namespace Template2.WPF.Collections
         private void UpdateOriginal()
         {
             var temp = new Collection<PageMstViewModelEntity>();
-            var entities = _pageMstRepository.GetData();
-            foreach (var entity in entities)
+            foreach (var entity in _pageMstRepository.GetData())
             {
                 temp.Add(new PageMstViewModelEntity(entity));
             }
-
-            //// Originalデータを退避
-            PageMstViewModelEntity[] allData;
-            allData = new PageMstViewModelEntity[entities.Count];
-            temp.CopyTo(allData, 0);
-            _original = new Collection<PageMstViewModelEntity>(allData);
+            _original = temp;
         }
     }
 }
